@@ -14,3 +14,6 @@ def company_details(request, id):
     ratings = Rating.objects.all().filter(company_id=id).order_by('date', 'category_id')
 
     return render(request, 'company_details.html', {'company': company, 'ratings': ratings})
+
+def advanced_search(request):
+    return render(request, 'advanced_search.html')

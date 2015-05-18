@@ -7,7 +7,11 @@
         <form method="POST">
             <input name="company_name" id="id_search_company" placeholder="Enter a company name" />
             {% csrf_token %}
+            <button type="submit" class="save btn btn-default">Search</button>
+            <a href={% url "query.views.advanced_search" %}>Advanced search</a>
         </form>
+
+        <br>
         <table id="company_info_table">
             {% for company in companies %}
                 <tr>
