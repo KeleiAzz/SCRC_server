@@ -7,7 +7,7 @@
         <table id="company_info_table">
             {% for company in companies %}
                 <tr>
-                    <td>{{ company.id }}: {{ company.name }}</td>
+                    <td><a href={% url 'query.views.company_details' company.id %}>{{ company.name }}</a></td>
                 </tr>
             {% endfor %}
         </table>
