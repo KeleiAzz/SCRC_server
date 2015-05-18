@@ -12,3 +12,9 @@ class Company(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=30)
 
+class Rating(models.Model):
+    company = models.ForeignKey(Company)
+    category = models.ForeignKey(Category)
+    date = models.DateField(default=None)
+    score = models.FloatField(default=0)
+    expire_date = models.DateField(default=None)

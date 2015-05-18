@@ -12,5 +12,28 @@
                     <tr><td>Industry group: {{ company.industry_group }}</td></tr>
                     <tr><td>Industry subgroup: {{ company.industry_subgroup }}</td></tr>
         </table>
+        <br>
+        <table id="company_ratings">
+            <tr>Ratings:</tr>
+            <tr>
+                <td>Year</td>
+                <td>SM</td>
+                <td>SS</td>
+                <td>CM</td>
+                <td>SRM</td>
+                <td>LHR</td>
+                <td>ES</td>
+            </tr>
+            {% for rating in ratings %}
+                {% if forloop.counter|add:5|divisibleby:6 %}
+                    <tr></tr>
+                    <td>{{ rating.date.year }}</td>
+                {% endif %}
+                <td>{{ rating.score }}</td>
+            {% endfor %}
+        </table>
+        <p>
+
+        </p>
     </body>
 </html>

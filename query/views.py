@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from query.models import Company
+from query.models import Company, Rating
 # Create your views here.
 
 def home_page(request):
@@ -11,4 +11,6 @@ def home_page(request):
 
 def company_details(request, id):
     company = Company.objects.get(id=id)
-    return render(request, 'company_details.html', {'company': company})
+    ratings = Rating.objects.all().filter(company_id=id).order_by('date', 'category_id')
+
+    return render(request, 'company_details.html', {'company': company, 'ratings': ratings})
