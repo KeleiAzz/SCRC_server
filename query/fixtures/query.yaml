@@ -1,0 +1,242 @@
+[
+{
+    "fields": {
+        "industry_subgroup": "Computers-Integrated Sys",
+        "bloomberg_ticker": "DDD US Equity",
+        "name": "3D Systems Corp",
+        "industry_group": "Computers",
+        "website": "www.3dsystems.com",
+        "ticker": "DDD"
+    },
+    "model": "query.company",
+    "pk": 1
+},
+{
+    "fields": {
+        "industry_subgroup": "Diversified Manufact Op",
+        "bloomberg_ticker": "MMM US Equity",
+        "name": "3M",
+        "industry_group": "Miscellaneous Manufactur",
+        "website": "www.mmm.com",
+        "ticker": "MMM"
+    },
+    "model": "query.company",
+    "pk": 2
+},
+{
+    "fields": {
+        "industry_subgroup": "Diversified Manufact Op",
+        "bloomberg_ticker": "AOS US Equity",
+        "name": "A.O. Smith Corp.",
+        "industry_group": "Miscellaneous Manufactur",
+        "website": "www.aosmith.com",
+        "ticker": "AOS"
+    },
+    "model": "query.company",
+    "pk": 3
+},
+{
+    "fields": {
+        "industry_subgroup": "Rental Auto/Equipment",
+        "bloomberg_ticker": "AAN US Equity",
+        "name": "Aarons Inc",
+        "industry_group": "Commercial Services",
+        "website": "www.aaronrents.com",
+        "ticker": "AAN"
+    },
+    "model": "query.company",
+    "pk": 4
+},
+{
+    "fields": {
+        "industry_subgroup": "Medical-Drugs",
+        "bloomberg_ticker": "ABT US Equity",
+        "name": "Abbott Laboratories",
+        "industry_group": "Pharmaceuticals",
+        "website": "www.abbott.com",
+        "ticker": "ABT"
+    },
+    "model": "query.company",
+    "pk": 5
+},
+{
+    "fields": {
+        "industry_subgroup": "Medical-Drugs",
+        "bloomberg_ticker": "ABBV US Equity",
+        "name": "ABBVIE Inc",
+        "industry_group": "Pharmaceuticals",
+        "website": "www.abbvie.com",
+        "ticker": "ABBV"
+    },
+    "model": "query.company",
+    "pk": 6
+},
+{
+    "fields": {
+        "industry_subgroup": "Retail-Apparel/Shoe",
+        "bloomberg_ticker": "ANF US Equity",
+        "name": "Abercombie & Fitch",
+        "industry_group": "Retail",
+        "website": "www.abercrombie.com",
+        "ticker": "ANF"
+    },
+    "model": "query.company",
+    "pk": 7
+},
+{
+    "fields": {
+        "industry_subgroup": "Internet Connectiv Svcs",
+        "bloomberg_ticker": "ABVT US Equity",
+        "name": "AboveNet Inc.",
+        "industry_group": "Internet",
+        "website": "#N/A N/A",
+        "ticker": "ABVT"
+    },
+    "model": "query.company",
+    "pk": 8
+},
+{
+    "fields": {
+        "industry_subgroup": "Computer Services",
+        "bloomberg_ticker": "ACN US Equity",
+        "name": "Accenture Ltd",
+        "industry_group": "Computers",
+        "website": "www.accenture.com",
+        "ticker": "ACN"
+    },
+    "model": "query.company",
+    "pk": 9
+},
+{
+    "fields": {
+        "industry_subgroup": "Investment Companies",
+        "bloomberg_ticker": "382735Z US Equity",
+        "name": "Access Industries Holdings Inc.",
+        "industry_group": "Investment Companies",
+        "website": "www.accessindustries.com",
+        "ticker": "N/A"
+    },
+    "model": "query.company",
+    "pk": 10
+},
+{
+    "fields": {
+        "industry_subgroup": "Multi-line Insurance",
+        "bloomberg_ticker": "ACE US Equity",
+        "name": "ACE Limited",
+        "industry_group": "Insurance",
+        "website": "www.acelimited.com",
+        "ticker": "ACE"
+    },
+    "model": "query.company",
+    "pk": 11
+},
+{
+    "fields": {
+        "industry_subgroup": "Transactional Software",
+        "bloomberg_ticker": "ACIW US Equity",
+        "name": "ACI Worldwide Inc.",
+        "industry_group": "Software",
+        "website": "www.tsainc.com",
+        "ticker": "ACIW"
+    },
+    "model": "query.company",
+    "pk": 12
+},
+{
+    "fields": {
+        "industry_subgroup": "Medical-Biomedical/Gene",
+        "bloomberg_ticker": "ACOR US Equity",
+        "name": "Acorda Therapeutics",
+        "industry_group": "Biotechnology",
+        "website": "www.acorda.com",
+        "ticker": "ACOR"
+    },
+    "model": "query.company",
+    "pk": 13
+},
+{
+    "fields": {
+        "industry_subgroup": "Medical-Generic Drugs",
+        "bloomberg_ticker": "ACT US Equity",
+        "name": "Actavis Inc.",
+        "industry_group": "Pharmaceuticals",
+        "website": "www.actavis.com",
+        "ticker": "ACT"
+    },
+    "model": "query.company",
+    "pk": 14
+},
+{
+    "fields": {
+        "industry_subgroup": "Entertainment Software",
+        "bloomberg_ticker": "ATVI US Equity",
+        "name": "Activision Inc.",
+        "industry_group": "Software",
+        "website": "www.activision.com",
+        "ticker": "ATVI"
+    },
+    "model": "query.company",
+    "pk": 15
+},
+{
+    "fields": {
+        "industry_subgroup": "Diversified Manufact Op",
+        "bloomberg_ticker": "ATU US Equity",
+        "name": "Actuant Corp.",
+        "industry_group": "Miscellaneous Manufactur",
+        "website": "www.actuant.com",
+        "ticker": "ATU"
+    },
+    "model": "query.company",
+    "pk": 16
+},
+{
+    "fields": {
+        "industry_subgroup": "Lighting Products&Sys",
+        "bloomberg_ticker": "AYI US Equity",
+        "name": "Acuity Brands Inc.",
+        "industry_group": "Electrical Compo&Equip",
+        "website": "www.acuitybrands.com",
+        "ticker": "AYI"
+    },
+    "model": "query.company",
+    "pk": 17
+},
+{
+    "fields": {
+        "industry_subgroup": "Data Processing/Mgmt",
+        "bloomberg_ticker": "ACXM US Equity",
+        "name": "Acxiom Corp.",
+        "industry_group": "Software",
+        "website": "www.acxiom.com",
+        "ticker": "ACXM"
+    },
+    "model": "query.company",
+    "pk": 18
+},
+{
+    "fields": {
+        "industry_subgroup": "Athletic Footwear",
+        "bloomberg_ticker": "ADDYY US Equity",
+        "name": "Adidas",
+        "industry_group": "Apparel",
+        "website": "www.adidas-group.com",
+        "ticker": "ADDYY"
+    },
+    "model": "query.company",
+    "pk": 19
+},
+{
+    "fields": {
+        "industry_subgroup": "Electronic Forms",
+        "bloomberg_ticker": "ADBE US Equity",
+        "name": "Adobe Systems Inc",
+        "industry_group": "Software",
+        "website": "www.adobe.com",
+        "ticker": "ADBE"
+    },
+    "model": "query.company",
+    "pk": 20
+}
+]
