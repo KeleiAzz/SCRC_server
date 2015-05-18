@@ -3,7 +3,10 @@ from query.models import Company
 # Create your views here.
 
 def home_page(request):
-    companies = Company.objects.all()
+    if request.method == "POST":
+        companies = Company.objects.all().filter(name__icontains=request.POST['company_name'])
+    else:
+        companies = Company.objects.all()
     return render(request, 'home.html', {'companies': companies})
 
 def company_details(request, id):
