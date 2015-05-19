@@ -32,7 +32,36 @@ def basic_search(request):
 
 def advanced_search(request):
     form = MultipleChoiceForm(request)
-    return render(request, 'advanced_search.html', {'form': form})
+    if 'btn1' in request.POST:
+        form = MultipleChoiceForm(request)
+        if request.POST.get('selected', 0) != 0:
+            selected = request.POST.get('selected').split('#')
+            selected = list(set(selected))
+            # selected_company = [i for i in selected]
+
+        return render(request, 'advanced_search.html', {'form': form,
+                                                        'choice_field': request.POST.getlist('choice_field', 0),
+                                                        'selected_company_names': '#'.join(selected),
+                                                        'selected_company': selected,})
+
+    if 'btn2' in request.POST:
+        if request.POST.get('selected', 0) != 0:
+            selected = request.POST.get('selected').split('#')
+            selected_company = [i for i in selected]
+
+        if request.method == 'POST':
+            selected_company += [Company.objects.get(id=i).name for i in request.POST.getlist('choice_field')]
+            selected_company = list(set(selected_company))
+            selected_company_names = '#'.join(selected_company)
+
+            return render(request, 'advanced_search.html', {'form': form,
+                                                            'selected_company': selected_company,
+                                                            'selected_company_names': selected_company_names,})
+
+    # if request.method == 'POST' and request.POST.getlist('choice_field', 0) == 0 :
+    #     companies = Company.objects.filter(name__icontains=request.POST['company_name'])
+    #     return redirect('/', {'companies': companies})
+    return render(request, 'advanced_search.html', {'form': form, 'choice_field': request.POST.getlist('choice_field', 0) })
 
 # class MultipleChoiceView(FormView):
 #     template_name = 'advanced_search.html'
