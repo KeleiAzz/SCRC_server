@@ -4,7 +4,7 @@
     </head>
     <body>
         <h1>Company list</h1>
-        <form method="POST" action="/basic_search/">
+        <form method="POST">
             {% csrf_token %}
             <input name="company_name" id="id_search_company" placeholder="Enter a company name" />
             <input type="radio" name="choice" id="choice_1" value="1" />
