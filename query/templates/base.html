@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <title>SCRC query system</title>
+    </head>
+    <body>
+        <h1>Company list</h1>
+        <form method="POST">
+            <input name="company_name" id="id_search_company" placeholder="Enter a company name" />
+            {% csrf_token %}
+            <button type="submit" class="save btn btn-default">Search</button>
+        </form>
+    </body>
+    <br>
+    <footer>
+        <a href={% url "query.views.home_page" %}> Home </a>
+    </footer>
+</html>

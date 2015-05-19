@@ -1,20 +1,13 @@
 from django.shortcuts import render, redirect
 from query.models import Company, Rating
 from django.db.models import Q
+
+from django.views.generic.edit import FormView
+from query.forms import MultipleChoiceForm
 # Create your views here.
 
 def home_page(request):
-    if request.method == "POST":
-        choice = request.POST.get('choice', 0)
-        if choice == '2':
-            companies = Company.objects.filter(Q(bloomberg_ticker__icontains=request.POST['company_name']) |
-                                               Q(ticker__icontains=request.POST['company_name']))
-            return render(request, 'home.html', {'companies': companies})
-        if choice == '1' or choice == 0:
-            companies = Company.objects.filter(name__icontains=request.POST['company_name'])
-
-    else:
-        companies = Company.objects.all()
+    companies = Company.objects.all()
     return render(request, 'home.html', {'companies': companies})
 
 def company_details(request, id):
@@ -38,4 +31,10 @@ def basic_search(request):
     return render(request, 'basic_search.html', {'companies': companies})
 
 def advanced_search(request):
-    return render(request, 'advanced_search.html')
+    form = MultipleChoiceForm(request)
+    return render(request, 'advanced_search.html', {'form': form})
+
+# class MultipleChoiceView(FormView):
+#     template_name = 'advanced_search.html'
+#     form_class = MultipleChoiceForm
+#     success_url = '/advanced_search/'
