@@ -1,17 +1,25 @@
+<!DOCTYPE html>
+{% load staticfiles %}
 <html>
     <head>
-        <title>SCRC query system</title>
+        <title>SCRC query</title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{% static 'css/query.css' %}">
     </head>
     <body>
-        <h1>Company list</h1>
-        <form method="POST">
-            <input name="company_name" id="id_search_company" placeholder="Enter a company name" />
-            {% csrf_token %}
-            <button type="submit" class="save btn btn-default">Search</button>
-        </form>
-    </body>
-    <br>
-    <footer>
-        <a href={% url "query.views.home_page" %}> Home </a>
-    </footer>
+    <div class="page-header">
+{#        <a href="{% url 'query.views.home_page' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>#}
+        <h1><a href="/">SCRC query</a></h1>
+    </div>
+    <div class="content container">
+        <div class="row">
+            <div class="col-md-8">
+            {% block content %}
+            {% endblock %}
+            </div>
+        </div>
+    </div>
+</body>
 </html>

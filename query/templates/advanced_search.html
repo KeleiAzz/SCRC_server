@@ -1,9 +1,12 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block content %}
 <html>
     <head>
         <title>SCRC query system</title>
     </head>
     <body>
-        <h1>Company list</h1>
+        <h1>Multiple search</h1>
         <form method="POST" action="/advanced_search/">
             {% csrf_token %}
             <input name="company_name" id="id_search_company" placeholder="Enter a company name" />
@@ -18,16 +21,33 @@
             <br>
             <button type="submit" class="btn btn-default" name="btn2">Add</button>
             <br>
-            <table>
-                {% for company in selected_company %}
+            <table class="table table-condensed">
+                {% for company, value in selected_details.items %}
                     <tr>
-                        <td>{{ company }}</td>
+                        <td><a href={% url 'query.views.company_details' company %}>{{ company }}</a></td>
                     </tr>
+{#                    <tr>Ratings:</tr>#}
+                    <tr>
+                        <td>Year</td>
+                        <td>SM</td>
+                        <td>SS</td>
+                        <td>CM</td>
+                        <td>SRM</td>
+                        <td>LHR</td>
+                        <td>ES</td>
+                    </tr>
+                    {% for rating in value %}
+                        {% if forloop.counter|add:5|divisibleby:6 %}
+                            <tr></tr>
+                            <td>{{ rating.date.year }}</td>
+                        {% endif %}
+                        <td>{{ rating.score }}</td>
+                    {% endfor %}
                 {% endfor %}
             </table>
 
-{#            {{ selected_company_names }}#}
-            <input name="selected" value="{{ selected_company_names }}" hidden="true"/>
+{#            {{ selected_company_id }}#}
+            <input name="selected" value="{{ selected_company_id }}" hidden="true"/>
 {#            <button type="submit" class="save btn btn-default">Search</button>#}
         </form>
 
@@ -42,3 +62,4 @@
         <a href={% url "query.views.home_page" %}> Home </a>
     </footer>
 </html>
+{% endblock content %}

@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block content %}
 <html>
     <head>
         <title>SCRC query system</title>
@@ -8,30 +11,34 @@
 {#                    <tr><td>{{ company.name }}</td></tr>#}
                     <tr><td>Ticker: {{ company.ticker }}</td></tr>
                     <tr><td>Bloomberg ticker: {{ company.bloomberg_ticker }}</td></tr>
-                    <tr><td>Website: <a href=company.website> {{ company.website }} </a></td></tr>
+                    <tr><td>Website: <a href="{{ company.website }}" > {{ company.website }} </a></td></tr>
                     <tr><td>Industry group: {{ company.industry_group }}</td></tr>
                     <tr><td>Industry subgroup: {{ company.industry_subgroup }}</td></tr>
         </table>
         <br>
-        <table id="company_ratings">
+        <div class="row">
+        <div class="col-md-5 col-md-offset-0">
+        <table id="company_ratings" class="table table-condensed">
             <tr>Ratings:</tr>
             <tr>
                 <td>Year</td>
-                <td>SM</td>
-                <td>SS</td>
-                <td>CM</td>
-                <td>SRM</td>
-                <td>LHR</td>
-                <td>ES</td>
+                <td>SM </td>
+                <td>SS </td>
+                <td>CM </td>
+                <td>SRM </td>
+                <td>LHR </td>
+                <td>ES </td>
             </tr>
             {% for rating in ratings %}
                 {% if forloop.counter|add:5|divisibleby:6 %}
                     <tr></tr>
                     <td>{{ rating.date.year }}</td>
                 {% endif %}
-                <td>{{ rating.score }}</td>
+                <td>{{ rating.score }} </td>
             {% endfor %}
         </table>
+        </div>
+        </div>
         <p>
 
         </p>
@@ -41,3 +48,4 @@
         <a href={% url "query.views.home_page" %}> Home </a>
     </footer>
 </html>
+{% endblock content %}

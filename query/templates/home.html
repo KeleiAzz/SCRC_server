@@ -1,9 +1,12 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block content %}
 <html>
     <head>
         <title>SCRC query system</title>
     </head>
     <body>
-        <h1>Company list</h1>
+{#        <h1>Company list</h1>#}
         <form method="POST" action="/basic_search/">
             {% csrf_token %}
             <input name="company_name" id="id_search_company" placeholder="Enter a company name" />
@@ -30,3 +33,4 @@
         <a href={% url "query.views.home_page" %}> Home </a>
     </footer>
 </html>
+{% endblock content %}
