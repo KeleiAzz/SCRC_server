@@ -15,3 +15,4 @@ class MultipleChoiceForm(forms.Form):
             Company_CHOICES = [[x.id, x.name] for x in Company.objects.all()]
 
         self.fields['choice_field'] = forms.MultipleChoiceField(choices=Company_CHOICES, widget=forms.SelectMultiple())
+
