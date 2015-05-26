@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from query.models import Company, Rating
+from query.models import Company, Rating, Evidence
 from django.db.models import Q
 
 from django.views.generic.edit import FormView
@@ -82,6 +82,56 @@ def advanced_search(request):
     #     return redirect('/', {'companies': companies})
     return render(request, 'advanced_search.html', {'form': form, 'choice_field': request.POST.getlist('choice_field', 0) })
 
+def evidence_list(request):
+    def get_score(level):
+        if level == "HIGH":
+            return 1.414
+        if level == "MEDIUM":
+            return 1
+        if level == "LOW":
+            return 0.707
+
+    if request.method == 'POST':
+        evidences = Evidence.objects.filter(country__icontains=request.POST['country_name'])
+        country = request.POST['country_name'].capitalize()
+    else:
+        evidences = Evidence.objects.all()
+    for e in evidences:
+        for field in e._meta.get_all_field_names():
+            if len(field) < 4 and getattr(e, field) == -99:
+                setattr(e, field, 'NA')
+            elif len(field) < 4  and getattr(e, field) != -99:
+                score = getattr(e, field) * get_score(e.credibility) * get_score(e.relevance)
+                setattr(e, field, round(score, 3))
+
+    hint = ["Enactment of local environmental compliance including water and waste disposal indicates negative "
+            "supply chain impact",
+            "Enactment of local regulation of chemical substance indicates negative supply chain impact",
+            "Enactment of international regulation of chemical substance indicates negative supply chain impact",
+            "Poor local water quality indicates negative supply chain impact",
+            "Enactment of local restrictions related to building and fire safety indicates negative supply chain "
+            "impact", "Local severance legislation issues indicates negative supply chain impact",
+            "Local unrest over social welfare and other wage-related benefits indicates negative supply chain impact",
+            "Local unrest over minimum wage issue indicates negative supply chain impact",
+            "Lack of local power grid stability indicates negative supply chain impact",
+            "Low local nutrition quality indicates negative supply chain impact",
+            "Local talent shortage indicates negative supply chain impact",
+            "Local child labor issues indicates negative supply chain impact",
+            "Local HIV positive worker discrimination indicates negative supply chain impact",
+            "Local migrant worker rights violation indicates negative supply chain impact",
+            "Contractor implementation of information systems causing delay indicates negative supply chain impact",
+            "Order variability indicates negative supply chain impact",
+            "Poor contractor's financial health indicates negative supply chain impact",
+            "Lack of product security indicates negative supply chain impact ",
+            "Lack of transparency among supply chain members indicates negative supply chain impact",
+            "Local political tension indicates negative supply chain impact",
+            "International economic slowdown indicates negative supply chain impact",
+            "Countrys geopolitical issues resulting in instability indicates negative supply chain impact",
+            "Local flooding, typhoon or other weather issues indicates negative supply chain impact"]
+    if request.method == 'POST':
+        return render(request, 'evidence.html', {'evidences': evidences, 'hint': hint, 'country': country})
+    else:
+        return render(request, 'evidence.html', {'evidences': evidences, 'hint': hint})
 # class MultipleChoiceView(FormView):
 #     template_name = 'advanced_search.html'
 #     form_class = MultipleChoiceForm

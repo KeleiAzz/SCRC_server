@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function(){
+    $('#table1 td.y_n').each(function(){
+        if ($(this).text() == 'NA') {
+            $(this).css('color', '#F0F0F5');
+        }
+        else{
+            $(this).css('color', '#0000FF');
+        }
+    });
+
+    $('#table2 td.y_n').each(function(){
+        if ($(this).text() == 'HIGH') {
+            $(this).css('color','#3FA53E');
+        }
+        if ($(this).text() == 'MEDIUM') {
+            $(this).css('color','#FDB430');
+        }
+        if ($(this).text() == 'LOW') {
+            $(this).css('color','#880046');
+        }
+    });
+});
+
+
+</script>
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1></h1>
+    <form method="POST" action="/evidence_list/">
+        {% csrf_token %}
+        <input name="country_name" id="id_search_country" placeholder="Enter a country name" />
+        <button type="submit" class="btn btn-default" name="btn1">Search</button>
+    </form>
+    <h2>{{ country }}</h2>
+    <div class="row">
+        <div class="col-md-12">
+        <table id="table1" class="table">
+            <tr style="background-color: rgb(148, 25, 31)">
+                <td> </td>
+                <td><span title="{{ hint.0 }}"><a style="color: white">H1</a></span></td>
+                <td><span title="{{ hint.1 }}"><a style="color: white">H2</a></span></td>
+                <td><span title="{{ hint.2 }}"><a style="color: white">H3</a></span></td>
+                <td><span title="{{ hint.3 }}"><a style="color: white">H4</a></span></td>
+                <td><span title="{{ hint.4 }}"><a style="color: white">H5</a></span></td>
+                <td><span title="{{ hint.5 }}"><a style="color: white">H6</a></span></td>
+                <td><span title="{{ hint.6 }}"><a style="color: white">H7</a></span></td>
+                <td><span title="{{ hint.7 }}"><a style="color: white">H8</a></span></td>
+                <td><span title="{{ hint.8 }}"><a style="color: white">H9</a></span></td>
+                <td><span title="{{ hint.9 }}"><a style="color: white">H10</a></span></td>
+                <td><span title="{{ hint.10 }}"><a style="color: white">H11</a></span></td>
+                <td><span title="{{ hint.11 }}"><a style="color: white">H12</a></span></td>
+                <td><span title="{{ hint.12 }}"><a style="color: white">H13</a></span></td>
+                <td><span title="{{ hint.13 }}"><a style="color: white">H14</a></span></td>
+                <td><span title="{{ hint.14 }}"><a style="color: white">H15</a></span></td>
+                <td><span title="{{ hint.15 }}"><a style="color: white">H16</a></span></td>
+                <td><span title="{{ hint.16 }}"><a style="color: white">H17</a></span></td>
+                <td><span title="{{ hint.17 }}"><a style="color: white">H18</a></span></td>
+                <td><span title="{{ hint.18 }}"><a style="color: white">H19</a></span></td>
+                <td><span title="{{ hint.19 }}"><a style="color: white">H20</a></span></td>
+                <td><span title="{{ hint.20 }}"><a style="color: white">H21</a></span></td>
+                <td><span title="{{ hint.21 }}"><a style="color: white">H22</a></span></td>
+                <td><span title="{{ hint.22 }}"><a style="color: white">H23</a></span></td>
+            </tr>
+        {% for e in evidences %}
+            <tr>
+                <td>Evidence{{ forloop.counter }}</td>
+                <td class="y_n">{{ e.h1 }}</td>
+                <td class="y_n">{{ e.h2 }}</td>
+                <td class="y_n">{{ e.h3 }}</td>
+                <td class="y_n">{{ e.h4 }}</td>
+                <td class="y_n">{{ e.h5 }}</td>
+                <td class="y_n">{{ e.h6 }}</td>
+                <td class="y_n">{{ e.h7 }}</td>
+                <td class="y_n">{{ e.h8 }}</td>
+                <td class="y_n">{{ e.h9 }}</td>
+                <td class="y_n">{{ e.h10 }}</td>
+                <td class="y_n">{{ e.h11 }}</td>
+                <td class="y_n">{{ e.h12 }}</td>
+                <td class="y_n">{{ e.h13 }}</td>
+                <td class="y_n">{{ e.h14 }}</td>
+                <td class="y_n">{{ e.h15 }}</td>
+                <td class="y_n">{{ e.h16 }}</td>
+                <td class="y_n">{{ e.h17 }}</td>
+                <td class="y_n">{{ e.h18 }}</td>
+                <td class="y_n">{{ e.h19 }}</td>
+                <td class="y_n">{{ e.h20 }}</td>
+                <td class="y_n">{{ e.h21 }}</td>
+                <td class="y_n">{{ e.h22 }}</td>
+                <td class="y_n">{{ e.h23 }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    </div>
+    <div class="Table_title">
+    <table class="table" style="width: 100%">
+        <div class="row">
+            <div class="col-md-12">
+                <tr>
+                    <th style="width: 6%"> </th>
+                    <th style="width: 10%">Evidence</th>
+                    <th style="width: 60%">Summary</th>
+                    <th style="width: 5%">Type</th>
+                    <th style="width: 5%">Credibility</th>
+                    <th style="width: 5%">Relevance</th>
+                </tr>
+            </div>
+        </div>
+    </table>
+    </div>
+
+    <div class="FixedHeightContainer">
+        <div class="Content">
+            <table id="table2" class="table table-striped">
+                <div class="row">
+                    <div class="col-md-12">
+
+                         {% for e in evidences %}
+                            <tr>
+                                <td>Evidence{{ forloop.counter }}</td>
+                                <td>{{ e.name }}</td>
+                                <td>{{ e.note }} <a href="{{ e.link }}">source</a></td>
+                                <td>{{ e.type }}</td>
+                                <td class="y_n">{{ e.credibility }}</td>
+                                <td class="y_n">{{ e.relevance }}</td>
+                            </tr>
+                        {% endfor %}
+                    </div>
+                </div>
+            </table>
+        </div>
+    </div>
+
+
+
+{% endblock %}
