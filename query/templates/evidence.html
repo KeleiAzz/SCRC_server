@@ -33,12 +33,23 @@ $(document).ready(function(){
 {% block content %}
     <h1></h1>
     <form method="POST" action="/evidence_list/">
+{#        {{ form.as_table }}#}
         {% csrf_token %}
-        <input name="country_name" id="id_search_country" placeholder="Enter a country name" />
+        <br>
+        <input name="country_name" id="id_search_country" placeholder="Search by country name" />
         <button type="submit" class="btn btn-default" name="btn1">Search</button>
+        <br>
+        <input name="indicator_name" id="id_search_country" placeholder="Search by indicator" />
+        <button type="submit" class="btn btn-default" name="btn2">Search</button>
+        <br>
+        <input name="category_name" id="id_search_country" placeholder="Search by risk category" />
+        <button type="submit" class="btn btn-default" name="btn3">Search</button>
+        <br>
+        <input name="industry_name" id="id_search_country" placeholder="Search by industry" />
+        <button type="submit" class="btn btn-default" name="btn4">Search</button>
     </form>
     <h2>{{ country }}</h2>
-    <div class="row">
+{#    <div class="row">#}
         <div class="col-md-12">
         <table id="table1" class="table">
             <tr style="background-color: rgb(148, 25, 31)">
@@ -49,6 +60,9 @@ $(document).ready(function(){
                 {% endfor %}
             </tr>
         {% for e in evidences %}
+            <tr>
+
+            </tr>
             <tr>
                 <td>Evidence{{ forloop.counter }}</td>
                 <td class="y_n">{{ e.h1 }}</td>

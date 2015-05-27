@@ -3,7 +3,7 @@ from query.models import Company, Rating, Evidence
 from django.db.models import Q
 
 from django.views.generic.edit import FormView
-from query.forms import MultipleChoiceForm
+from query.forms import MultipleChoiceForm, CountryChoiceForm
 # Create your views here.
 
 def home_page(request):
@@ -90,7 +90,7 @@ def evidence_list(request):
             return 1
         if level == "LOW":
             return 0.707
-
+    form = CountryChoiceForm
     if request.method == 'POST':
         evidences = Evidence.objects.filter(country__icontains=request.POST['country_name'])
         country = request.POST['country_name'].capitalize()
@@ -129,9 +129,9 @@ def evidence_list(request):
             "Countrys geopolitical issues resulting in instability indicates negative supply chain impact",
             "Local flooding, typhoon or other weather issues indicates negative supply chain impact"]
     if request.method == 'POST':
-        return render(request, 'evidence.html', {'evidences': evidences, 'hint': hint, 'country': country})
+        return render(request, 'evidence.html', {'evidences': evidences, 'hint': hint, 'country': country, 'form': form})
     else:
-        return render(request, 'evidence.html', {'evidences': evidences, 'hint': hint})
+        return render(request, 'evidence.html', {'evidences': evidences, 'hint': hint, 'form': form})
 # class MultipleChoiceView(FormView):
 #     template_name = 'advanced_search.html'
 #     form_class = MultipleChoiceForm
