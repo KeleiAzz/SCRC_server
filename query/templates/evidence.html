@@ -43,29 +43,10 @@ $(document).ready(function(){
         <table id="table1" class="table">
             <tr style="background-color: rgb(148, 25, 31)">
                 <td> </td>
-                <td><span title="{{ hint.0 }}"><a style="color: white">H1</a></span></td>
-                <td><span title="{{ hint.1 }}"><a style="color: white">H2</a></span></td>
-                <td><span title="{{ hint.2 }}"><a style="color: white">H3</a></span></td>
-                <td><span title="{{ hint.3 }}"><a style="color: white">H4</a></span></td>
-                <td><span title="{{ hint.4 }}"><a style="color: white">H5</a></span></td>
-                <td><span title="{{ hint.5 }}"><a style="color: white">H6</a></span></td>
-                <td><span title="{{ hint.6 }}"><a style="color: white">H7</a></span></td>
-                <td><span title="{{ hint.7 }}"><a style="color: white">H8</a></span></td>
-                <td><span title="{{ hint.8 }}"><a style="color: white">H9</a></span></td>
-                <td><span title="{{ hint.9 }}"><a style="color: white">H10</a></span></td>
-                <td><span title="{{ hint.10 }}"><a style="color: white">H11</a></span></td>
-                <td><span title="{{ hint.11 }}"><a style="color: white">H12</a></span></td>
-                <td><span title="{{ hint.12 }}"><a style="color: white">H13</a></span></td>
-                <td><span title="{{ hint.13 }}"><a style="color: white">H14</a></span></td>
-                <td><span title="{{ hint.14 }}"><a style="color: white">H15</a></span></td>
-                <td><span title="{{ hint.15 }}"><a style="color: white">H16</a></span></td>
-                <td><span title="{{ hint.16 }}"><a style="color: white">H17</a></span></td>
-                <td><span title="{{ hint.17 }}"><a style="color: white">H18</a></span></td>
-                <td><span title="{{ hint.18 }}"><a style="color: white">H19</a></span></td>
-                <td><span title="{{ hint.19 }}"><a style="color: white">H20</a></span></td>
-                <td><span title="{{ hint.20 }}"><a style="color: white">H21</a></span></td>
-                <td><span title="{{ hint.21 }}"><a style="color: white">H22</a></span></td>
-                <td><span title="{{ hint.22 }}"><a style="color: white">H23</a></span></td>
+                {% for i in hint %}
+{#                    {% x = forloop.counter %}#}
+                    <td><span title="{{ i }}"><a style="color: white">H{{ forloop.counter }}</a></span></td>
+                {% endfor %}
             </tr>
         {% for e in evidences %}
             <tr>
