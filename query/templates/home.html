@@ -7,26 +7,28 @@
     </head>
     <body>
 {#        <h1>Company list</h1>#}
-        <form method="POST" action="/basic_search/">
-            {% csrf_token %}
-            <input name="company_name" id="id_search_company" placeholder="Enter a company name" />
-            <input type="radio" name="choice" id="choice_1" value="1" />
-            <label for="choice_1">By name</label>
-            <input type="radio" name="choice" id="choice_2" value="2" />
-            <label for="choice_2">By ticker</label>
-            <br>
-            <button type="submit" class="btn btn-default">Search</button>
-        </form>
-        <a href={% url "query.views.advanced_search" %}>Advanced search</a>
-        <br>
-        <br>
-        <table id="company_info_table">
-            {% for company in companies %}
-                <tr>
-                    <td><a href={% url 'query.views.company_details' company.id %}>{{ company.name }}</a></td>
-                </tr>
-            {% endfor %}
-        </table>
+        <h2><a href={% url "query.views.basic_search"%}>SCRC rating</a></h2>
+        <h2><a href={% url "query.views.evidence_list"%}>Risk Structure Analysis</a></h2>
+{#        <form method="POST" action="/basic_search/">#}
+{#            {% csrf_token %}#}
+{#            <input name="company_name" id="id_search_company" placeholder="Enter a company name" />#}
+{#            <input type="radio" name="choice" id="choice_1" value="1" />#}
+{#            <label for="choice_1">By name</label>#}
+{#            <input type="radio" name="choice" id="choice_2" value="2" />#}
+{#            <label for="choice_2">By ticker</label>#}
+{#            <br>#}
+{#            <button type="submit" class="btn btn-default">Search</button>#}
+{#        </form>#}
+{#        <a href={% url "query.views.advanced_search" %}>Advanced search</a>#}
+{#        <br>#}
+{#        <br>#}
+{#        <table id="company_info_table">#}
+{#            {% for company in companies %}#}
+{#                <tr>#}
+{#                    <td><a href={% url 'query.views.company_details' company.id %}>{{ company.name }}</a></td>#}
+{#                </tr>#}
+{#            {% endfor %}#}
+{#        </table>#}
     </body>
     <br>
     <footer>
