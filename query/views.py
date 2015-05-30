@@ -83,6 +83,7 @@ def advanced_search(request):
     return render(request, 'advanced_search.html', {'form': form, 'choice_field': request.POST.getlist('choice_field', 0) })
 
 def evidence_list(request):
+
     def get_score(level):
         if level == "HIGH":
             return 1.414
