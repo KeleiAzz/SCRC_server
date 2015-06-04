@@ -43,28 +43,43 @@ class Evidence(models.Model):
         ('P', 'Probability'),
     )
     category = models.CharField(max_length=5, choices=CATEGORY_CHOICES)
-    credibility = models.ForeignKey(Score, limit_choices_to={'sub_category': 'Credibility'}, related_name='+')
-    revelance = models.ForeignKey(Score, limit_choices_to={'sub_category': 'Revelance'}, related_name='+')
-    h1 = models.ForeignKey(Score, limit_choices_to={'sub_category': None}, related_name='+')
-    h2 = models.ForeignKey(Score, limit_choices_to={'sub_category': None}, related_name='+')
-    h3 = models.ForeignKey(Score, limit_choices_to={'sub_category': None}, related_name='+')
-    h4 = models.ForeignKey(Score, limit_choices_to={'sub_category': None}, related_name='+')
-    h5 = models.ForeignKey(Score, limit_choices_to={'sub_category': None}, related_name='+')
-    h6 = models.ForeignKey(Score, limit_choices_to={'sub_category': None}, related_name='+')
-    h7 = models.ForeignKey(Score, limit_choices_to={'sub_category': None}, related_name='+')
-    h8 = models.ForeignKey(Score, limit_choices_to={'sub_category': None}, related_name='+')
-    h9 = models.ForeignKey(Score, limit_choices_to={'sub_category': None}, related_name='+')
-    h10 = models.ForeignKey(Score, limit_choices_to={'sub_category': None}, related_name='+')
-    h11 = models.ForeignKey(Score, limit_choices_to={'sub_category': None}, related_name='+')
-    h12 = models.ForeignKey(Score, limit_choices_to={'sub_category': None}, related_name='+')
-    h13 = models.ForeignKey(Score, limit_choices_to={'sub_category': None}, related_name='+')
-    h14 = models.ForeignKey(Score, limit_choices_to={'sub_category': None}, related_name='+')
-    h15 = models.ForeignKey(Score, limit_choices_to={'sub_category': None}, related_name='+')
-    h16 = models.ForeignKey(Score, limit_choices_to={'sub_category': None}, related_name='+')
-    h17 = models.ForeignKey(Score, limit_choices_to={'sub_category': None}, related_name='+')
-    h18 = models.ForeignKey(Score, limit_choices_to={'sub_category': None}, related_name='+')
-    h19 = models.ForeignKey(Score, limit_choices_to={'sub_category': None}, related_name='+')
-    h20 = models.ForeignKey(Score, limit_choices_to={'sub_category': None}, related_name='+')
-    h21 = models.ForeignKey(Score, limit_choices_to={'sub_category': None}, related_name='+')
-    h22 = models.ForeignKey(Score, limit_choices_to={'sub_category': None}, related_name='+')
-    h23 = models.ForeignKey(Score, limit_choices_to={'sub_category': None}, related_name='+')
+    LETTER_CHOICES = (
+        ('I I', 'I I'),
+        ('I', 'I'),
+        ('NA', 'NA'),
+        ('N', 'N'),
+        ('C', 'C'),
+        ('C C', 'C C'),
+    )
+    RATE_CHOICES = (
+        ('High', 'High'),
+        ('Medium', 'Medium'),
+        ('Low', 'Low'),
+    )
+    credibility = models.CharField(max_length=10, choices=RATE_CHOICES)
+    revelance = models.CharField(max_length=10, choices=RATE_CHOICES)
+    h1 = models.CharField(max_length=5, choices=LETTER_CHOICES)
+    h2 = models.CharField(max_length=5, choices=LETTER_CHOICES)
+    h3 = models.CharField(max_length=5, choices=LETTER_CHOICES)
+    h4 = models.CharField(max_length=5, choices=LETTER_CHOICES)
+    h5 = models.CharField(max_length=5, choices=LETTER_CHOICES)
+    h6 = models.CharField(max_length=5, choices=LETTER_CHOICES)
+    h7 = models.CharField(max_length=5, choices=LETTER_CHOICES)
+    h8 = models.CharField(max_length=5, choices=LETTER_CHOICES)
+    h9 = models.CharField(max_length=5, choices=LETTER_CHOICES)
+    h10 = models.CharField(max_length=5, choices=LETTER_CHOICES)
+    h11 = models.CharField(max_length=5, choices=LETTER_CHOICES)
+    h12 = models.CharField(max_length=5, choices=LETTER_CHOICES)
+    h13 = models.CharField(max_length=5, choices=LETTER_CHOICES)
+    h14 = models.CharField(max_length=5, choices=LETTER_CHOICES)
+    h15 = models.CharField(max_length=5, choices=LETTER_CHOICES)
+    h16 = models.CharField(max_length=5, choices=LETTER_CHOICES)
+    h17 = models.CharField(max_length=5, choices=LETTER_CHOICES)
+    h18 = models.CharField(max_length=5, choices=LETTER_CHOICES)
+    h19 = models.CharField(max_length=5, choices=LETTER_CHOICES)
+    h20 = models.CharField(max_length=5, choices=LETTER_CHOICES)
+    h21 = models.CharField(max_length=5, choices=LETTER_CHOICES)
+    h22 = models.CharField(max_length=5, choices=LETTER_CHOICES)
+    h23 = models.CharField(max_length=5, choices=LETTER_CHOICES)
+
+
