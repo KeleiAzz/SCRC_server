@@ -22,10 +22,11 @@ class Score(models.Model):
     )
     category = models.CharField(max_length=5, choices=CATEGORY_CHOICES)
     definition = models.TextField(default='')
-    sub_category = models.CharField(max_length=15, choices=(
+    sub_category = models.CharField(max_length=15, blank=True, null=True, choices=(
         ('Credibility', 'Credibility'),
         ('Revelance', 'Revelance',)
     ))
+
     def get_absolute_url(self):
         return reverse('score_edit', kwargs={'pk': self.pk})
 
