@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.core.urlresolvers import reverse
 # Create your models here.
 
 class Score(models.Model):
@@ -26,4 +26,6 @@ class Score(models.Model):
         ('Credibility', 'Credibility'),
         ('Revelance', 'Revelance',)
     ))
+    def get_absolute_url(self):
+        return reverse('score_edit', kwargs={'pk': self.pk})
 

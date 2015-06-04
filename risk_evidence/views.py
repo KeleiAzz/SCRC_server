@@ -20,21 +20,22 @@ def score_list(request):
     scores = Score.objects.all()
     return render(request, 'score_list.html', {'scores': scores, 'form': ScoreForm})
 
-def add_score(request):
+def score_add(request):
 
     if request.method == 'POST':
         form = ScoreForm(request.POST)
         form.save()
         scores = Score.objects.all()
-        return render(request, 'score_list.html', {'scores': scores})
+        return redirect('score_list')
     scores = Score.objects.all()
-    return render(request, 'add_score.html', {'scores': scores, 'form': ScoreForm})
+    return render(request, 'score_add.html', {'scores': scores, 'form': ScoreForm})
 
-def edit_score(request, score_id):
+def score_edit(request, score_id):
     scores = Score.objects.all()
     instance = get_object_or_404(Score, id=score_id)
     form = ScoreForm(request.POST or None, instance=instance)
     if form.is_valid():
         form.save()
-        return redirect('next_view')
-    return render(request, 'edit_score.html', {'scores': scores,'form': form, "score_id": instance.id})
+        return redirect('score_list')
+    return render(request, 'score_edit.html', {'scores': scores,'form': form, "score_id": instance.id})
+

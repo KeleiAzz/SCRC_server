@@ -14,7 +14,7 @@
         <tbody>
             {% for score in scores %}
                 <tr>
-                    <td>{{ score.letter_scale }}</td>
+                    <td><a href={% url 'edit_score' score.id %}>{{ score.letter_scale }}</a></td>
                     <td>{{ score.num_scale }}</td>
                     <td>{{ score.definition }}</td>
                 </tr>
@@ -22,7 +22,7 @@
         </tbody>
     </table>
 
-    <form method="POST" action="/risk_evidence/score/edit/{{ score.id }}">
+    <form method="POST">
         {{ form.as_p }}
         {% csrf_token %}
         {% if form.errors %}
