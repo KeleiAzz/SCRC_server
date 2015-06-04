@@ -46,6 +46,7 @@ body {
     overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
     background-color: #f5f5f5;
     border-right: 1px solid #eee;
+
   }
 }
 
@@ -102,4 +103,31 @@ body {
 .placeholder img {
   display: inline-block;
   border-radius: 50%;
+}
+
+.FixedHeightContainer
+{
+    /*float: inherit;*/
+    height: 550px;
+    /*width:1280px;*/
+    padding:3px;
+    /*background:#f00;*/
+
+}
+.Content
+{
+    height:500px;
+    overflow:auto;
+    background:#fff;
+    font-size: xx-large;
+}
+
+.Table_title {
+    /*width: 1280px;*/
+    /*background-color: rgb(148, 25, 31);*/
+    color: aliceblue;
+}
+
+table {
+    font-size: small;
 }
