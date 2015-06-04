@@ -1,27 +1,6 @@
-{% extends 'dashboard.html' %}
+{% extends 'score_list.html' %}
 
-{% block page_head %}Setting{% endblock %}
-
-{% block test %}
-    <table id="score_list" class="table table-striped">
-        <thead>
-            <tr>
-                <th>Letter Scale</th>
-                <th>Number Scale</th>
-                <th>Definition</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for score in scores %}
-                <tr>
-                    <td><a href={% url 'edit_score' score.id %}>{{ score.letter_scale }}</a></td>
-                    <td>{{ score.num_scale }}</td>
-                    <td>{{ score.definition }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
+{% block page_action %}
     <form method="POST">
         {{ form.as_p }}
         {% csrf_token %}
@@ -32,5 +11,42 @@
         {% endif %}
         <input type="submit" value="Update" />
     </form>
-
 {% endblock %}
+
+
+{#{% extends 'dashboard.html' %}#}
+{##}
+{#{% block page_head %}Setting{% endblock %}#}
+{##}
+{#{% block test %}#}
+{#    <table id="score_list" class="table table-striped">#}
+{#        <thead>#}
+{#            <tr>#}
+{#                <th>Letter Scale</th>#}
+{#                <th>Number Scale</th>#}
+{#                <th>Definition</th>#}
+{#            </tr>#}
+{#        </thead>#}
+{#        <tbody>#}
+{#            {% for score in scores %}#}
+{#                <tr>#}
+{#                    <td><a href={% url 'edit_score' score.id %}>{{ score.letter_scale }}</a></td>#}
+{#                    <td>{{ score.num_scale }}</td>#}
+{#                    <td>{{ score.definition }}</td>#}
+{#                </tr>#}
+{#            {% endfor %}#}
+{#        </tbody>#}
+{#    </table>#}
+{##}
+{#    <form method="POST">#}
+{#        {{ form.as_p }}#}
+{#        {% csrf_token %}#}
+{#        {% if form.errors %}#}
+{#            <div class="form-group has-error">#}
+{#                <span class="help-block">{{ form.text.errors }}</span>#}
+{#            </div>#}
+{#        {% endif %}#}
+{#        <input type="submit" value="Update" />#}
+{#    </form>#}
+{##}
+{#{% endblock %}#}

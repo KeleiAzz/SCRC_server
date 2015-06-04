@@ -4,34 +4,51 @@
 
 {% block test %}
     <table id="score_list" class="table table-striped">
+        <h2>Supply Chain Impact</h2>
         <thead>
             <tr>
                 <th>Letter Scale</th>
                 <th>Number Scale</th>
                 <th>Definition</th>
+                <th>Category</th>
             </tr>
         </thead>
         <tbody>
-            {% for score in scores %}
+            {% for score in scores1 %}
                 <tr>
                     <td><a href={% url 'edit_score' score.id %}>{{ score.letter_scale }}</a></td>
                     <td>{{ score.num_scale }}</td>
                     <td>{{ score.definition }}</td>
+                    <td>{{ score.sub_category }}</td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
 
+    <table id="score_list" class="table table-striped">
+        <h2>Probability</h2>
+        <thead>
+            <tr>
+                <th>Letter Scale</th>
+                <th>Number Scale</th>
+                <th>Definition</th>
+                <th>Category</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for score in scores2 %}
+                <tr>
+                    <td><a href={% url 'edit_score' score.id %}>{{ score.letter_scale }}</a></td>
+                    <td>{{ score.num_scale }}</td>
+                    <td>{{ score.definition }}</td>
+                    <td>{{ score.sub_category }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% block page_action %}
+    {% endblock %}
     <a href={% url "risk_evidence.views.score_add" %}>Add score</a>
-{#    <form method="POST" action="/risk_evidence/score/add">#}
-{#        {{ form.as_p }}#}
-{#        {% csrf_token %}#}
-{#        {% if form.errors %}#}
-{#            <div class="form-group has-error">#}
-{#                <span class="help-block">{{ form.text.errors }}</span>#}
-{#            </div>#}
-{#        {% endif %}#}
-{#        <input type="submit" value="Create" />#}
-{#    </form>#}
 
 {% endblock %}
