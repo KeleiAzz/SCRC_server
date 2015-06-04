@@ -1,0 +1,96 @@
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.js"></script>
+<script type="text/javascript" src="/static/risk_evidence.js"></script>
+
+{% extends 'dashboard.html' %}
+{% block page_head %}Supply Chain Impact{% endblock %}
+
+{% block test %}
+
+    <form method="POST" action="/risk_evidence/evidence/list/">
+        {% csrf_token %}
+        <br>
+        <input name="country_name" class="form-control" id="id_search_country" placeholder="Search by country name" />
+        <button type="submit" class="btn btn-default" name="btn1">Search</button>
+        <br>
+    </form>
+    <h2>{{ country }}</h2>
+        <div class="col-md-12 ">
+        <table id="table1" class="table">
+            <tr style="background-color: #428bca">
+                <td> </td>
+                {% for i in hint %}
+                    <td><span title="{{ i }}"><a style="color: white">H{{ forloop.counter }}</a></span></td>
+                {% endfor %}
+            </tr>
+        {% for e in evidences %}
+            <tr>
+
+            </tr>
+            <tr>
+                <td>Evidence{{ forloop.counter }}</td>
+                <td class="y_n">{{ e.h1 }}</td>
+                <td class="y_n">{{ e.h2 }}</td>
+                <td class="y_n">{{ e.h3 }}</td>
+                <td class="y_n">{{ e.h4 }}</td>
+                <td class="y_n">{{ e.h5 }}</td>
+                <td class="y_n">{{ e.h6 }}</td>
+                <td class="y_n">{{ e.h7 }}</td>
+                <td class="y_n">{{ e.h8 }}</td>
+                <td class="y_n">{{ e.h9 }}</td>
+                <td class="y_n">{{ e.h10 }}</td>
+                <td class="y_n">{{ e.h11 }}</td>
+                <td class="y_n">{{ e.h12 }}</td>
+                <td class="y_n">{{ e.h13 }}</td>
+                <td class="y_n">{{ e.h14 }}</td>
+                <td class="y_n">{{ e.h15 }}</td>
+                <td class="y_n">{{ e.h16 }}</td>
+                <td class="y_n">{{ e.h17 }}</td>
+                <td class="y_n">{{ e.h18 }}</td>
+                <td class="y_n">{{ e.h19 }}</td>
+                <td class="y_n">{{ e.h20 }}</td>
+                <td class="y_n">{{ e.h21 }}</td>
+                <td class="y_n">{{ e.h22 }}</td>
+                <td class="y_n">{{ e.h23 }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+
+    <div class="Table_title">
+    <table class="table" style="width: 100%">
+            <div class="col-md-12">
+                <tr>
+                    <th style="width: 8%"> </th>
+                    <th style="width: 10%">Evidence</th>
+                    <th style="width: 60%">Summary</th>
+                    <th style="width: 5%">Type</th>
+                    <th style="width: 5%">Credibility</th>
+                    <th style="width: 5%">Relevance</th>
+                </tr>
+            </div>
+    </table>
+    </div>
+
+    <div class="FixedHeightContainer">
+        <div class="Content">
+            <table id="table2" class="table table-striped">
+                    <div class="col-md-12">
+
+                         {% for e in evidences %}
+                            <tr>
+                                <td>Evidence{{ forloop.counter }}</td>
+                                <td>{{ e.name }}</td>
+                                <td>{{ e.note }} <a href="{{ e.link }}">source</a></td>
+                                <td>{{ e.type }}</td>
+                                <td class="y_n">{{ e.credibility }}</td>
+                                <td class="y_n">{{ e.revelance }}</td>
+                            </tr>
+                        {% endfor %}
+                    </div>
+            </table>
+        </div>
+    </div>
+
+
+
+{% endblock %}
