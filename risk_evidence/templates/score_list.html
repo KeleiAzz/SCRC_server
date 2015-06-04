@@ -1,0 +1,26 @@
+{% extends 'dashboard.html' %}
+
+{% block page_head %}Setting{% endblock %}
+
+{% block test %}
+    <table id="score_list" class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>#</th>
+                <th>#</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for score in scores %}
+                <tr>
+                    <td>{{ score.letter_scale }}</td>
+                    <td>{{ score.num_scale }}</td>
+                    <td>{{ score.definition }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}
