@@ -125,9 +125,9 @@ body {
 .Table_title {
     /*width: 1280px;*/
     /*background-color: rgb(148, 25, 31);*/
-    color: aliceblue;
+    /*color: aliceblue;*/
 }
 
 table {
-    font-size: small;
+    font-size: x-small;
 }
