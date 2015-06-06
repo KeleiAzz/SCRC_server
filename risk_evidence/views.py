@@ -44,28 +44,38 @@ def score_edit(request, score_id):
         return redirect('score_list')
     return render(request, 'score_edit.html', {'scores1': scores1, 'scores2': scores2, 'form': form, "score_id": instance.id})
 
-def evidence_list(request):
+def sci_list(request):
+    credibility = {}
+    credibility['High'] = Score.objects.get(letter_scale='High', category='SCI', sub_category='Credibility').num_scale
+    credibility['Medium'] = Score.objects.get(letter_scale='Medium', category='SCI', sub_category='Credibility').num_scale
+    credibility['Low'] = Score.objects.get(letter_scale='Low', category='SCI', sub_category='Credibility').num_scale
 
-    def get_score(level):
-        if level == "HIGH":
-            return 1.414
-        if level == "MEDIUM":
-            return 1
-        if level == "LOW":
-            return 0.707
-    # form = CountryChoiceForm
+    revelance = {}
+    revelance['High'] = Score.objects.get(letter_scale='High', category='SCI', sub_category='Revelance').num_scale
+    revelance['Medium'] = Score.objects.get(letter_scale='Medium', category='SCI', sub_category='Revelance').num_scale
+    revelance['Low'] = Score.objects.get(letter_scale='Low', category='SCI', sub_category='Revelance').num_scale
+
+    letter_scale = {}
+    letter_scale['I I'] = Score.objects.get(letter_scale='I I', category='SCI').num_scale
+    letter_scale['I'] = Score.objects.get(letter_scale='I', category='SCI').num_scale
+    letter_scale['NA'] = Score.objects.get(letter_scale='NA', category='SCI').num_scale
+    letter_scale['N'] = Score.objects.get(letter_scale='N', category='SCI').num_scale
+    letter_scale['C'] = Score.objects.get(letter_scale='C', category='SCI').num_scale
+    letter_scale['C C'] = Score.objects.get(letter_scale='C C', category='SCI').num_scale
+
     if request.method == 'POST':
         evidences = Evidence.objects.filter(country__icontains=request.POST['country_name'], category='SCI')
         country = request.POST['country_name'].capitalize()
     else:
         evidences = Evidence.objects.all()
-    # for e in evidences:
-    #     for field in e._meta.get_all_field_names():
-    #         if len(field) < 4 and getattr(e, field) == -99:
-    #             setattr(e, field, 'NA')
-    #         elif len(field) < 4  and getattr(e, field) != -99:
-    #             score = getattr(e, field) * get_score(e.credibility) * get_score(e.relevance)
-    #             setattr(e, field, round(score, 3))
+
+    for e in evidences:
+        for field in e._meta.get_all_field_names():
+            if len(field) < 4 and getattr(e, field) == 'NA':
+                pass
+            elif 'h' in field and len(field) < 4  and getattr(e, field) != 'NA':
+                score = letter_scale[getattr(e, field)] * credibility[e.credibility] * revelance[e.revelance]
+                setattr(e, field, round(score, 3))
 
     hint = ["Enactment of local environmental compliance including water and waste disposal indicates negative "
             "supply chain impact",
@@ -96,3 +106,64 @@ def evidence_list(request):
     else:
         return render(request, 'evidence_list.html', {'evidences': evidences, 'hint': hint})
 
+def probability_list(request):
+    credibility = {}
+    credibility['High'] = Score.objects.get(letter_scale='High', category='P', sub_category='Credibility').num_scale
+    credibility['Medium'] = Score.objects.get(letter_scale='Medium', category='P', sub_category='Credibility').num_scale
+    credibility['Low'] = Score.objects.get(letter_scale='Low', category='P', sub_category='Credibility').num_scale
+
+    revelance = {}
+    revelance['High'] = Score.objects.get(letter_scale='High', category='P', sub_category='Revelance').num_scale
+    revelance['Medium'] = Score.objects.get(letter_scale='Medium', category='P', sub_category='Revelance').num_scale
+    revelance['Low'] = Score.objects.get(letter_scale='Low', category='P', sub_category='Revelance').num_scale
+
+    letter_scale = {}
+    letter_scale['I I'] = Score.objects.get(letter_scale='I I', category='P').num_scale
+    letter_scale['I'] = Score.objects.get(letter_scale='I', category='P').num_scale
+    letter_scale['NA'] = Score.objects.get(letter_scale='NA', category='P').num_scale
+    letter_scale['N'] = Score.objects.get(letter_scale='N', category='P').num_scale
+    letter_scale['C'] = Score.objects.get(letter_scale='C', category='P').num_scale
+    letter_scale['C C'] = Score.objects.get(letter_scale='C C', category='P').num_scale
+
+    if request.method == 'POST':
+        evidences = Evidence.objects.filter(country__icontains=request.POST['country_name'], category='P')
+        country = request.POST['country_name'].capitalize()
+    else:
+        evidences = Evidence.objects.all()
+
+    for e in evidences:
+        for field in e._meta.get_all_field_names():
+            if len(field) < 4 and getattr(e, field) == 'NA':
+                pass
+            elif 'h' in field and len(field) < 4  and getattr(e, field) != 'NA':
+                score = letter_scale[getattr(e, field)] * credibility[e.credibility] * revelance[e.revelance]
+                setattr(e, field, round(score, 3))
+
+    hint = ["Enactment of local environmental compliance including water and waste disposal indicates negative "
+            "supply chain impact",
+            "Enactment of local regulation of chemical substance indicates negative supply chain impact",
+            "Enactment of international regulation of chemical substance indicates negative supply chain impact",
+            "Poor local water quality indicates negative supply chain impact",
+            "Enactment of local restrictions related to building and fire safety indicates negative supply chain "
+            "impact", "Local severance legislation issues indicates negative supply chain impact",
+            "Local unrest over social welfare and other wage-related benefits indicates negative supply chain impact",
+            "Local unrest over minimum wage issue indicates negative supply chain impact",
+            "Lack of local power grid stability indicates negative supply chain impact",
+            "Low local nutrition quality indicates negative supply chain impact",
+            "Local talent shortage indicates negative supply chain impact",
+            "Local child labor issues indicates negative supply chain impact",
+            "Local HIV positive worker discrimination indicates negative supply chain impact",
+            "Local migrant worker rights violation indicates negative supply chain impact",
+            "Contractor implementation of information systems causing delay indicates negative supply chain impact",
+            "Order variability indicates negative supply chain impact",
+            "Poor contractor's financial health indicates negative supply chain impact",
+            "Lack of product security indicates negative supply chain impact ",
+            "Lack of transparency among supply chain members indicates negative supply chain impact",
+            "Local political tension indicates negative supply chain impact",
+            "International economic slowdown indicates negative supply chain impact",
+            "Countrys geopolitical issues resulting in instability indicates negative supply chain impact",
+            "Local flooding, typhoon or other weather issues indicates negative supply chain impact"]
+    if request.method == 'POST':
+        return render(request, 'probability_list.html', {'evidences': evidences, 'hint': hint, 'country': country})
+    else:
+        return render(request, 'probability_list.html', { 'hint': hint})
