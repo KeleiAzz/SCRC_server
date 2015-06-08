@@ -1,0 +1,20 @@
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.js"></script>
+<script type="text/javascript" src="/static/risk_evidence.js"></script>
+
+{% extends 'dashboard.html' %}
+{% block title %}Add evidence{% endblock %}
+{% block page_head %}Add Evidence{% endblock %}
+
+{% block test %}
+    <form method="POST" action="/risk_evidence/supply_chain_impact/add/">
+        {% csrf_token %}
+        {{ form.as_table }}
+{#        <table>#}
+{#            <tr><th>Name:</th><td><input type="text" name="name" /></td></tr>#}
+{#            <tr><th>Note:</th><td><input type="text" name="note" /></td></tr>#}
+{#            <tr><th>Link:</th><td><input type="text" name="link" /></td></tr>#}
+{#        </table>#}
+        <input type="submit" value="Create" />
+    </form>
+
+{% endblock %}

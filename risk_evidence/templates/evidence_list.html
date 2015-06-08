@@ -82,14 +82,14 @@
                                 <td>{{ e.note }} <a href="{{ e.link }}">source</a></td>
                                 <td>{{ e.type }}</td>
                                 <td class="y_n">{{ e.credibility }}</td>
-                                <td class="y_n">{{ e.revelance }}</td>
+                                <td class="y_n">{{ e.relevance }}</td>
                             </tr>
                         {% endfor %}
                     </div>
             </table>
         </div>
     </div>
-
+    <a href={% url "risk_evidence.views.evidence_add" %}>Add Evidence</a>
 
 
 {% endblock %}

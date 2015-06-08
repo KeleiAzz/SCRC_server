@@ -3,6 +3,8 @@
 {% block page_head %}Number scales setting{% endblock %}
 
 {% block test %}
+    {% block page_action %}
+    {% endblock %}
     <table id="score_list" class="table table-striped">
         <h2>Supply Chain Impact</h2>
         <col width="12%">
@@ -55,8 +57,8 @@
         </tbody>
     </table>
 
-    {% block page_action %}
-    {% endblock %}
+{#    {% block page_action %}#}
+{#    {% endblock %}#}
     <a href={% url "risk_evidence.views.score_add" %}>Add score</a>
 
 {% endblock %}
