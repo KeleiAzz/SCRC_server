@@ -1,0 +1,55 @@
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.js"></script>
+<script type="text/javascript" src="/static/risk_evidence.js"></script>
+
+{% extends 'dashboard.html' %}
+{% block title %}Overview{% endblock %}
+{#{% block page_head %}Supply Chain Impact{% endblock %}#}
+
+{% block test %}
+    <h2>Supply Chain Impact</h2>
+    <div class="row">
+        <div class="col-md-12 ">
+        <table id="table1" class="table table-striped">
+            <tr style="background-color: #ca382b">
+                <td> </td>
+                {% for i in h %}
+                    <td>H{{ forloop.counter }}</td>
+                {% endfor %}
+            </tr>
+        {% for country, value in sci_overview.items %}
+            <tr>
+            <td>{{ country }}</td>
+            {% for v in value %}
+                <td>{{ v }}</td>
+            {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    </div>
+
+    <h2>Probability</h2>
+    <div class="row">
+        <div class="col-md-12 ">
+        <table id="table1" class="table table-striped">
+            <tr style="background-color: #ca382b">
+                <td> </td>
+                {% for i in h %}
+                    <td>H{{ forloop.counter }}</td>
+                {% endfor %}
+            </tr>
+        {% for country, value in p_overview.items %}
+            <tr>
+            <td>{{ country }}</td>
+            {% for v in value %}
+                <td>{{ v }}</td>
+            {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    </div>
+
+
+
+{% endblock %}

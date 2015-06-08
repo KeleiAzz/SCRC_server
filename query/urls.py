@@ -12,6 +12,4 @@ urlpatterns = patterns('',
     url(r'^basic_search/', 'query.views.basic_search', name='basic_search'),
     url(r'^evidence_list/', 'query.views.evidence_list', name='evidence_list'),
 
-
-
 )

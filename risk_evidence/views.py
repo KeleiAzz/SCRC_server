@@ -181,10 +181,90 @@ def probability_list(request):
 def evidence_add(request):
     if request.method == 'POST':
         form = EvidenceForm(request.POST)
-        form.save()
-        if request.POST.get('category') == 'SCI':
-            return redirect('sci_list')
-        else:
-            return redirect('probability_list')
+        if form.is_valid():
+            form.save()
+            if request.POST.get('category') == 'SCI':
+                return redirect('sci_list')
+            else:
+                return redirect('probability_list')
+
     form = EvidenceForm()
     return render(request, 'evidence_add.html', {'form': form})
+
+def overview(request):
+    # For supply chain impact
+    credibility = {}
+    credibility['High'] = Score.objects.get(letter_scale='High', category='SCI', sub_category='Credibility').num_scale
+    credibility['Medium'] = Score.objects.get(letter_scale='Medium', category='SCI', sub_category='Credibility').num_scale
+    credibility['Low'] = Score.objects.get(letter_scale='Low', category='SCI', sub_category='Credibility').num_scale
+
+    relevance = {}
+    relevance['High'] = Score.objects.get(letter_scale='High', category='SCI', sub_category='Relevance').num_scale
+    relevance['Medium'] = Score.objects.get(letter_scale='Medium', category='SCI', sub_category='Relevance').num_scale
+    relevance['Low'] = Score.objects.get(letter_scale='Low', category='SCI', sub_category='Relevance').num_scale
+
+    letter_scale = {}
+    letter_scale['I I'] = Score.objects.get(letter_scale='I I', category='SCI').num_scale
+    letter_scale['I'] = Score.objects.get(letter_scale='I', category='SCI').num_scale
+    letter_scale['NA'] = Score.objects.get(letter_scale='NA', category='SCI').num_scale
+    letter_scale['N'] = Score.objects.get(letter_scale='N', category='SCI').num_scale
+    letter_scale['C'] = Score.objects.get(letter_scale='C', category='SCI').num_scale
+    letter_scale['C C'] = Score.objects.get(letter_scale='C C', category='SCI').num_scale
+
+    country_list = [x[0] for x in Evidence.objects.values_list('country').distinct()]
+    # country_list.sort()
+    hypothesis = []
+    for i in range(1, 24, 1):
+        hypothesis.append('h' + str(i))
+    sci_overview = {}
+
+    for country in country_list:
+        sci_overview[country] = []
+        for h in hypothesis:
+            evidences = Evidence.objects.filter(country_id=country, category='SCI')
+            score = 0
+            for e in evidences:
+                if getattr(e, h) == 'NA':
+                    pass
+                else:
+                    score += letter_scale[getattr(e, h)] * credibility[e.credibility] * relevance[e.relevance]
+            sci_overview[country].append(round(score,3))
+
+    # For probability
+    credibility = {}
+    credibility['High'] = Score.objects.get(letter_scale='High', category='P', sub_category='Credibility').num_scale
+    credibility['Medium'] = Score.objects.get(letter_scale='Medium', category='P', sub_category='Credibility').num_scale
+    credibility['Low'] = Score.objects.get(letter_scale='Low', category='P', sub_category='Credibility').num_scale
+
+    relevance = {}
+    relevance['High'] = Score.objects.get(letter_scale='High', category='P', sub_category='Relevance').num_scale
+    relevance['Medium'] = Score.objects.get(letter_scale='Medium', category='P', sub_category='Relevance').num_scale
+    relevance['Low'] = Score.objects.get(letter_scale='Low', category='P', sub_category='Relevance').num_scale
+
+    letter_scale = {}
+    letter_scale['I I'] = Score.objects.get(letter_scale='I I', category='P').num_scale
+    letter_scale['I'] = Score.objects.get(letter_scale='I', category='P').num_scale
+    letter_scale['NA'] = Score.objects.get(letter_scale='NA', category='P').num_scale
+    letter_scale['N'] = Score.objects.get(letter_scale='N', category='P').num_scale
+    letter_scale['C'] = Score.objects.get(letter_scale='C', category='P').num_scale
+    letter_scale['C C'] = Score.objects.get(letter_scale='C C', category='P').num_scale
+
+    probability_overview = {}
+
+    for country in country_list:
+        probability_overview[country] = []
+        for h in hypothesis:
+            evidences = Evidence.objects.filter(country_id=country, category='P')
+            score = 0
+            for e in evidences:
+                if getattr(e, h) == 'NA':
+                    pass
+                else:
+                    score += letter_scale[getattr(e, h)] * credibility[e.credibility] * relevance[e.relevance]
+            probability_overview[country].append(score)
+        for i in range(len(probability_overview[country])):
+            probability_overview[country][i] = round(probability_overview[country][i]/(10 * credibility['High'] * relevance['High'] * letter_scale['C C']), 3)
+
+    return render(request, 'overview.html', {'sci_overview': sci_overview, 'h': hypothesis, 'p_overview': probability_overview})
+
+
