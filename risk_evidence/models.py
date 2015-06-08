@@ -30,13 +30,61 @@ class Score(models.Model):
     def get_absolute_url(self):
         return reverse('score_edit', kwargs={'pk': self.pk})
 
+class Country(models.Model):
+    COUNTRY_CHOICES = (
+        ('ARGENTINA', 'ARGENTINA'),
+        ('AUSTRALIA', 'AUSTRALIA'),
+        ('BANGLADESH', 'BANGLADESH'),
+        ('BOSNIA', 'BOSNIA'),
+        ('BRAZIL', 'BRAZIL'),
+        ('BULGARIA', 'BULGARIA'),
+        ('CAMBODIA', 'CAMBODIA'),
+        ('CANADA', 'CANADA'),
+        ('CHINA', 'CHINA'),
+        ('ECUADOR', 'ECUADOR'),
+        ('EGYPT', 'EGYPT'),
+        ('EL SALVADOR', 'EL SALVADOR'),
+        ('GEORGIA', 'GEORGIA'),
+        ('GUATEMALA', 'GUATEMALA'),
+        ('HONDURAS', 'HONDURAS'),
+        ('HONG KONG (CHINA)', 'HONG KONG (CHINA)'),
+        ('INDIA', 'INDIA'),
+        ('INDONESIA', 'INDONESIA'),
+        ('ISRAEL', 'ISRAEL'),
+        ('ITALY', 'ITALY'),
+        ('JAPAN', 'JAPAN'),
+        ('JORDAN', 'JORDAN'),
+        ('MACAU (CHINA)', 'MACAU (CHINA)'),
+        ('MALAYSIA', 'MALAYSIA'),
+        ('MEXICO', 'MEXICO'),
+        ('MOLDOVA', 'MOLDOVA'),
+        ('NETHERLANDS', 'NETHERLANDS'),
+        ('NICARAGUA', 'NICARAGUA'),
+        ('PAKISTAN', 'PAKISTAN'),
+        ('PARAGUAY', 'PARAGUAY'),
+        ('PERU', 'PERU'),
+        ('PHILIPPINES', 'PHILIPPINES'),
+        ('POLAND', 'POLAND'),
+        ('PORTUGAL', 'PORTUGAL'),
+        ('SOUTH AFRICA', 'SOUTH AFRICA'),
+        ('SOUTH KOREA', 'SOUTH KOREA'),
+        ('SPAIN', 'SPAIN'),
+        ('SRI LANKA', 'SRI LANKA'),
+        ('TAIWAN', 'TAIWAN'),
+        ('THAILAND', 'THAILAND'),
+        ('TURKEY', 'TURKEY'),
+        ('UNITED KINGDOM', 'UNITED KINGDOM'),
+        ('USA', 'USA'),
+        ('VIETNAM', 'VIETNAM'),
+    )
+    name = models.CharField(unique=True, max_length=50, choices=COUNTRY_CHOICES)
 
 
 class Evidence(models.Model):
     name = models.TextField(default='')
     note = models.TextField(default='')
     link = models.TextField(default='')
-    country = models.CharField(max_length=50)
+    country = models.ForeignKey(Country)
     type = models.CharField(max_length=30)
     CATEGORY_CHOICES = (
         ('SCI', 'Supply Chain Impact'),
@@ -83,5 +131,3 @@ class Evidence(models.Model):
     h23 = models.CharField(max_length=5, choices=LETTER_CHOICES)
 
 
-class Country(models.Model):
-    name = models.CharField(primary_key=True, max_length=50)
