@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic.edit import CreateView, UpdateView
 from models import Score, Evidence
-from forms import ScoreForm
+from forms import ScoreForm, CountryChoiceForm
 # Create your views here.
 
 
@@ -45,6 +45,7 @@ def score_edit(request, score_id):
     return render(request, 'score_edit.html', {'scores1': scores1, 'scores2': scores2, 'form': form, "score_id": instance.id})
 
 def sci_list(request):
+
     credibility = {}
     credibility['High'] = Score.objects.get(letter_scale='High', category='SCI', sub_category='Credibility').num_scale
     credibility['Medium'] = Score.objects.get(letter_scale='Medium', category='SCI', sub_category='Credibility').num_scale
@@ -64,8 +65,9 @@ def sci_list(request):
     letter_scale['C C'] = Score.objects.get(letter_scale='C C', category='SCI').num_scale
 
     if request.method == 'POST':
-        evidences = Evidence.objects.filter(country__icontains=request.POST['country_name'], category='SCI')
-        country = request.POST['country_name'].capitalize()
+        evidences = Evidence.objects.filter(country_id=request.POST['Select Country'], category='SCI')
+        country = request.POST['Select Country']
+        country = country
     else:
         evidences = Evidence.objects.all()
 
@@ -102,9 +104,14 @@ def sci_list(request):
             "Countrys geopolitical issues resulting in instability indicates negative supply chain impact",
             "Local flooding, typhoon or other weather issues indicates negative supply chain impact"]
     if request.method == 'POST':
-        return render(request, 'evidence_list.html', {'evidences': evidences, 'hint': hint, 'country': country})
+        country_form = CountryChoiceForm
+        return render(request, 'evidence_list.html', {'evidences': evidences, 'hint': hint, 'country': country, 'country_form': country_form})
     else:
-        return render(request, 'evidence_list.html', {'evidences': evidences, 'hint': hint})
+        country_form = CountryChoiceForm
+        return render(request, 'evidence_list.html', {
+            # 'evidences': evidences,
+            'hint': hint,
+            'country_form': country_form})
 
 def probability_list(request):
     credibility = {}
@@ -126,8 +133,8 @@ def probability_list(request):
     letter_scale['C C'] = Score.objects.get(letter_scale='C C', category='P').num_scale
 
     if request.method == 'POST':
-        evidences = Evidence.objects.filter(country__icontains=request.POST['country_name'], category='P')
-        country = request.POST['country_name'].capitalize()
+        evidences = Evidence.objects.filter(country_id=request.POST['Select Country'], category='P')
+        country = request.POST['Select Country'].capitalize()
     else:
         evidences = Evidence.objects.all()
 
@@ -164,6 +171,9 @@ def probability_list(request):
             "Countrys geopolitical issues resulting in instability indicates negative supply chain impact",
             "Local flooding, typhoon or other weather issues indicates negative supply chain impact"]
     if request.method == 'POST':
-        return render(request, 'probability_list.html', {'evidences': evidences, 'hint': hint, 'country': country})
+        country_form = CountryChoiceForm
+        return render(request, 'probability_list.html', {'evidences': evidences, 'hint': hint, 'country': country,
+                                                         'country_form': country_form})
     else:
-        return render(request, 'probability_list.html', { 'hint': hint})
+        country_form = CountryChoiceForm
+        return render(request, 'probability_list.html', { 'hint': hint,'country_form': country_form})
