@@ -24,7 +24,7 @@ class Score(models.Model):
     definition = models.TextField(default='')
     sub_category = models.CharField(max_length=15, blank=True, null=True, choices=(
         ('Credibility', 'Credibility'),
-        ('Revelance', 'Revelance',)
+        ('Relevance', 'Relevance',)
     ))
 
     def get_absolute_url(self):
@@ -57,7 +57,7 @@ class Evidence(models.Model):
         ('Low', 'Low'),
     )
     credibility = models.CharField(max_length=10, choices=RATE_CHOICES)
-    revelance = models.CharField(max_length=10, choices=RATE_CHOICES)
+    relevance = models.CharField(max_length=10, choices=RATE_CHOICES)
     h1 = models.CharField(max_length=5, choices=LETTER_CHOICES)
     h2 = models.CharField(max_length=5, choices=LETTER_CHOICES)
     h3 = models.CharField(max_length=5, choices=LETTER_CHOICES)
@@ -83,3 +83,5 @@ class Evidence(models.Model):
     h23 = models.CharField(max_length=5, choices=LETTER_CHOICES)
 
 
+class Country(models.Model):
+    name = models.CharField(primary_key=True, max_length=50)

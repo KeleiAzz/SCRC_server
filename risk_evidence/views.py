@@ -50,10 +50,10 @@ def sci_list(request):
     credibility['Medium'] = Score.objects.get(letter_scale='Medium', category='SCI', sub_category='Credibility').num_scale
     credibility['Low'] = Score.objects.get(letter_scale='Low', category='SCI', sub_category='Credibility').num_scale
 
-    revelance = {}
-    revelance['High'] = Score.objects.get(letter_scale='High', category='SCI', sub_category='Revelance').num_scale
-    revelance['Medium'] = Score.objects.get(letter_scale='Medium', category='SCI', sub_category='Revelance').num_scale
-    revelance['Low'] = Score.objects.get(letter_scale='Low', category='SCI', sub_category='Revelance').num_scale
+    relevance = {}
+    relevance['High'] = Score.objects.get(letter_scale='High', category='SCI', sub_category='Relevance').num_scale
+    relevance['Medium'] = Score.objects.get(letter_scale='Medium', category='SCI', sub_category='Relevance').num_scale
+    relevance['Low'] = Score.objects.get(letter_scale='Low', category='SCI', sub_category='Relevance').num_scale
 
     letter_scale = {}
     letter_scale['I I'] = Score.objects.get(letter_scale='I I', category='SCI').num_scale
@@ -74,7 +74,7 @@ def sci_list(request):
             if len(field) < 4 and getattr(e, field) == 'NA':
                 pass
             elif 'h' in field and len(field) < 4  and getattr(e, field) != 'NA':
-                score = letter_scale[getattr(e, field)] * credibility[e.credibility] * revelance[e.revelance]
+                score = letter_scale[getattr(e, field)] * credibility[e.credibility] * relevance[e.relevance]
                 setattr(e, field, round(score, 3))
 
     hint = ["Enactment of local environmental compliance including water and waste disposal indicates negative "
@@ -112,10 +112,10 @@ def probability_list(request):
     credibility['Medium'] = Score.objects.get(letter_scale='Medium', category='P', sub_category='Credibility').num_scale
     credibility['Low'] = Score.objects.get(letter_scale='Low', category='P', sub_category='Credibility').num_scale
 
-    revelance = {}
-    revelance['High'] = Score.objects.get(letter_scale='High', category='P', sub_category='Revelance').num_scale
-    revelance['Medium'] = Score.objects.get(letter_scale='Medium', category='P', sub_category='Revelance').num_scale
-    revelance['Low'] = Score.objects.get(letter_scale='Low', category='P', sub_category='Revelance').num_scale
+    relevance = {}
+    relevance['High'] = Score.objects.get(letter_scale='High', category='P', sub_category='Relevance').num_scale
+    relevance['Medium'] = Score.objects.get(letter_scale='Medium', category='P', sub_category='Relevance').num_scale
+    relevance['Low'] = Score.objects.get(letter_scale='Low', category='P', sub_category='Relevance').num_scale
 
     letter_scale = {}
     letter_scale['I I'] = Score.objects.get(letter_scale='I I', category='P').num_scale
@@ -136,7 +136,7 @@ def probability_list(request):
             if len(field) < 4 and getattr(e, field) == 'NA':
                 pass
             elif 'h' in field and len(field) < 4  and getattr(e, field) != 'NA':
-                score = letter_scale[getattr(e, field)] * credibility[e.credibility] * revelance[e.revelance]
+                score = letter_scale[getattr(e, field)] * credibility[e.credibility] * relevance[e.relevance]
                 setattr(e, field, round(score, 3))
 
     hint = ["Enactment of local environmental compliance including water and waste disposal indicates negative "
