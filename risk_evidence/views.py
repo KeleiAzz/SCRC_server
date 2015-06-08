@@ -4,6 +4,30 @@ from models import Score, Evidence
 from forms import ScoreForm, CountryChoiceForm, EvidenceForm
 # Create your views here.
 
+HINT = ["Enactment of local environmental compliance including water and waste disposal indicates negative "
+        "supply chain impact",
+        "Enactment of local regulation of chemical substance indicates negative supply chain impact",
+        "Enactment of international regulation of chemical substance indicates negative supply chain impact",
+        "Poor local water quality indicates negative supply chain impact",
+        "Enactment of local restrictions related to building and fire safety indicates negative supply chain "
+        "impact", "Local severance legislation issues indicates negative supply chain impact",
+        "Local unrest over social welfare and other wage-related benefits indicates negative supply chain impact",
+        "Local unrest over minimum wage issue indicates negative supply chain impact",
+        "Lack of local power grid stability indicates negative supply chain impact",
+        "Low local nutrition quality indicates negative supply chain impact",
+        "Local talent shortage indicates negative supply chain impact",
+        "Local child labor issues indicates negative supply chain impact",
+        "Local HIV positive worker discrimination indicates negative supply chain impact",
+        "Local migrant worker rights violation indicates negative supply chain impact",
+        "Contractor implementation of information systems causing delay indicates negative supply chain impact",
+        "Order variability indicates negative supply chain impact",
+        "Poor contractor's financial health indicates negative supply chain impact",
+        "Lack of product security indicates negative supply chain impact ",
+        "Lack of transparency among supply chain members indicates negative supply chain impact",
+        "Local political tension indicates negative supply chain impact",
+        "International economic slowdown indicates negative supply chain impact",
+        "Countrys geopolitical issues resulting in instability indicates negative supply chain impact",
+        "Local flooding, typhoon or other weather issues indicates negative supply chain impact"]
 
 # class ScoreCreate(UpdateView):
 #     model = Score
@@ -79,38 +103,15 @@ def sci_list(request):
                 score = letter_scale[getattr(e, field)] * credibility[e.credibility] * relevance[e.relevance]
                 setattr(e, field, round(score, 3))
 
-    hint = ["Enactment of local environmental compliance including water and waste disposal indicates negative "
-            "supply chain impact",
-            "Enactment of local regulation of chemical substance indicates negative supply chain impact",
-            "Enactment of international regulation of chemical substance indicates negative supply chain impact",
-            "Poor local water quality indicates negative supply chain impact",
-            "Enactment of local restrictions related to building and fire safety indicates negative supply chain "
-            "impact", "Local severance legislation issues indicates negative supply chain impact",
-            "Local unrest over social welfare and other wage-related benefits indicates negative supply chain impact",
-            "Local unrest over minimum wage issue indicates negative supply chain impact",
-            "Lack of local power grid stability indicates negative supply chain impact",
-            "Low local nutrition quality indicates negative supply chain impact",
-            "Local talent shortage indicates negative supply chain impact",
-            "Local child labor issues indicates negative supply chain impact",
-            "Local HIV positive worker discrimination indicates negative supply chain impact",
-            "Local migrant worker rights violation indicates negative supply chain impact",
-            "Contractor implementation of information systems causing delay indicates negative supply chain impact",
-            "Order variability indicates negative supply chain impact",
-            "Poor contractor's financial health indicates negative supply chain impact",
-            "Lack of product security indicates negative supply chain impact ",
-            "Lack of transparency among supply chain members indicates negative supply chain impact",
-            "Local political tension indicates negative supply chain impact",
-            "International economic slowdown indicates negative supply chain impact",
-            "Countrys geopolitical issues resulting in instability indicates negative supply chain impact",
-            "Local flooding, typhoon or other weather issues indicates negative supply chain impact"]
+
     if request.method == 'POST':
         country_form = CountryChoiceForm
-        return render(request, 'evidence_list.html', {'evidences': evidences, 'hint': hint, 'country': country, 'country_form': country_form})
+        return render(request, 'evidence_list.html', {'evidences': evidences, 'hint': HINT, 'country': country, 'country_form': country_form})
     else:
         country_form = CountryChoiceForm
         return render(request, 'evidence_list.html', {
             # 'evidences': evidences,
-            'hint': hint,
+            'hint': HINT,
             'country_form': country_form})
 
 def probability_list(request):
@@ -172,11 +173,11 @@ def probability_list(request):
             "Local flooding, typhoon or other weather issues indicates negative supply chain impact"]
     if request.method == 'POST':
         country_form = CountryChoiceForm
-        return render(request, 'probability_list.html', {'evidences': evidences, 'hint': hint, 'country': country,
+        return render(request, 'probability_list.html', {'evidences': evidences, 'hint': HINT, 'country': country,
                                                          'country_form': country_form})
     else:
         country_form = CountryChoiceForm
-        return render(request, 'probability_list.html', { 'hint': hint,'country_form': country_form})
+        return render(request, 'probability_list.html', { 'hint': HINT,'country_form': country_form})
 
 def evidence_add(request):
     if request.method == 'POST':
@@ -265,6 +266,6 @@ def overview(request):
         for i in range(len(probability_overview[country])):
             probability_overview[country][i] = round(probability_overview[country][i]/(10 * credibility['High'] * relevance['High'] * letter_scale['C C']), 3)
 
-    return render(request, 'overview.html', {'sci_overview': sci_overview, 'h': hypothesis, 'p_overview': probability_overview})
+    return render(request, 'overview.html', {'sci_overview': sci_overview, 'hint': HINT, 'p_overview': probability_overview})
 
 

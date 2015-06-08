@@ -12,8 +12,8 @@
         <table id="table1" class="table table-striped">
             <tr style="background-color: #ca382b">
                 <td> </td>
-                {% for i in h %}
-                    <td>H{{ forloop.counter }}</td>
+                {% for i in hint %}
+                    <td><span title="{{ i }}"><a style="color: white">H{{ forloop.counter }}</a></span></td>
                 {% endfor %}
             </tr>
         {% for country, value in sci_overview.items %}
@@ -34,8 +34,8 @@
         <table id="table1" class="table table-striped">
             <tr style="background-color: #ca382b">
                 <td> </td>
-                {% for i in h %}
-                    <td>H{{ forloop.counter }}</td>
+                {% for i in hint %}
+                    <td><span title="{{ i }}"><a style="color: white">H{{ forloop.counter }}</a></span></td>
                 {% endfor %}
             </tr>
         {% for country, value in p_overview.items %}
@@ -49,7 +49,5 @@
     </table>
     </div>
     </div>
-
-
 
 {% endblock %}
