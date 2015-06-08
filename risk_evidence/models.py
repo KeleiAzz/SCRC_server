@@ -133,3 +133,10 @@ class Evidence(models.Model):
     h23 = models.CharField(max_length=5, choices=LETTER_CHOICES)
 
 
+class Hypothesis(models.Model):
+    text = models.TextField(default='')
+    CATEGORY_CHOICES = (
+        ('SCI', 'Supply Chain Impact'),
+        ('P', 'Probability'),
+    )
+    category = models.CharField(max_length=5, choices=CATEGORY_CHOICES)
