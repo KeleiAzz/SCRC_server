@@ -20,7 +20,7 @@ jQuery(document).ready(function(){
         }
     });
 
-    $('#table2 td.y_n').each(function(){
+    $('#table3 td.y_n').each(function(){
         if ($(this).text() == 'High') {
             $(this).css('color','#3FA53E');
         }
