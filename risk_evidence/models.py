@@ -78,6 +78,8 @@ class Country(models.Model):
         ('VIETNAM', 'VIETNAM'),
     )
     name = models.CharField(unique=True, max_length=50, choices=COUNTRY_CHOICES)
+    def __str__(self):
+        return self.name
 
 
 class Evidence(models.Model):

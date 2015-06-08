@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic.edit import CreateView, UpdateView
 from models import Score, Evidence
-from forms import ScoreForm, CountryChoiceForm
+from forms import ScoreForm, CountryChoiceForm, EvidenceForm
 # Create your views here.
 
 
@@ -177,3 +177,14 @@ def probability_list(request):
     else:
         country_form = CountryChoiceForm
         return render(request, 'probability_list.html', { 'hint': hint,'country_form': country_form})
+
+def evidence_add(request):
+    if request.method == 'POST':
+        form = EvidenceForm(request.POST)
+        form.save()
+        if request.POST.get('category') == 'SCI':
+            return redirect('sci_list')
+        else:
+            return redirect('probability_list')
+    form = EvidenceForm()
+    return render(request, 'evidence_add.html', {'form': form})

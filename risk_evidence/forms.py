@@ -34,4 +34,72 @@ class CountryChoiceForm(forms.Form):
         country_choices = [[x[0], x[0]] for x in Evidence.objects.values_list('country').distinct()]
         # country_choices = list(set(country_choices))
         # country_choices = ['a', 'b', 'c']
-        self.fields['Select Country'] = forms.MultipleChoiceField(choices=country_choices, widget=forms.SelectMultiple())
+        self.fields['Select Country'] = forms.ChoiceField(choices=country_choices)
+
+
+class EvidenceForm(forms.models.ModelForm):
+
+    class Meta:
+        model = Evidence
+        fields = (
+            'name',
+            'note',
+            'link',
+            'type',
+            'country',
+            'category',
+            'credibility',
+            'relevance',
+            'h1',
+            'h2',
+            'h3',
+            'h4',
+            'h5',
+            'h6',
+            'h7',
+            'h8',
+            'h9',
+            'h10',
+            'h11',
+            'h12',
+            'h13',
+            'h14',
+            'h15',
+            'h16',
+            'h17',
+            'h18',
+            'h19',
+            'h20',
+            'h21',
+            'h22',
+            'h23',
+        )
+        widgets = {
+            'name': forms.fields.TextInput(attrs={
+                'class': 'form-control',
+            }),
+            'note': forms.fields.TextInput(attrs={
+                'class': 'form-control',
+            }),
+            'link': forms.fields.TextInput(attrs={
+                'class': 'form-control',
+            }),
+            'type': forms.fields.TextInput(attrs={
+                'class': 'form-control',
+            }),
+            'country': forms.fields.Select(attrs={
+                'class': 'select',
+            }),
+            'category': forms.fields.Select(attrs={
+                'class': 'select',
+            }),
+            'credibility': forms.fields.Select(attrs={
+                'class': 'select',
+            }),
+            'relevance': forms.fields.Select(attrs={
+                'class': 'select',
+            }),
+        }
+
+    def save(self):
+        return forms.models.ModelForm.save(self)
