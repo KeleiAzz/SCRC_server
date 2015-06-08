@@ -76,28 +76,28 @@ class EvidenceForm(forms.models.ModelForm):
         )
         widgets = {
             'name': forms.fields.TextInput(attrs={
-                'class': 'form-control',
+                'class': 'form-control2',
             }),
             'note': forms.fields.TextInput(attrs={
-                'class': 'form-control',
+                'class': 'form-control2',
             }),
             'link': forms.fields.TextInput(attrs={
-                'class': 'form-control',
+                'class': 'form-control2',
             }),
             'type': forms.fields.TextInput(attrs={
-                'class': 'form-control',
+                'class': 'form-control2',
             }),
             'country': forms.fields.Select(attrs={
-                'class': 'select',
+                'class': 'form-control3',
             }),
             'category': forms.fields.Select(attrs={
-                'class': 'select',
+                'class': 'form-control3',
             }),
             'credibility': forms.fields.Select(attrs={
-                'class': 'select',
+                'class': 'form-control3',
             }),
             'relevance': forms.fields.Select(attrs={
-                'class': 'select',
+                'class': 'form-control3',
             }),
         }
 
