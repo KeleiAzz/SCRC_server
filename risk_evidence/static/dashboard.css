@@ -64,7 +64,7 @@ body {
 .nav-sidebar > .active > a:hover,
 .nav-sidebar > .active > a:focus {
   color: #fff;
-  background-color: #428bca;
+  background-color: #CA382B;
 }
 
 
@@ -130,6 +130,8 @@ body {
 
 table#table1 {
     font-size: x-small;
+}
 
-
+table#table2 {
+    font-size: small;
 }
