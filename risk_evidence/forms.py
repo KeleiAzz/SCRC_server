@@ -42,9 +42,9 @@ class EvidenceForm(forms.models.ModelForm):
     class Meta:
         model = Evidence
         fields = (
-            'name',
-            'note',
-            'link',
+            'evidence',
+            'summary',
+            'source',
             'type',
             'country',
             'category',
@@ -75,13 +75,13 @@ class EvidenceForm(forms.models.ModelForm):
             'h23',
         )
         widgets = {
-            'name': forms.fields.TextInput(attrs={
+            'evidence': forms.fields.TextInput(attrs={
                 'class': 'form-control2',
             }),
-            'note': forms.fields.TextInput(attrs={
+            'summary': forms.fields.TextInput(attrs={
                 'class': 'form-control2',
             }),
-            'link': forms.fields.TextInput(attrs={
+            'source': forms.fields.TextInput(attrs={
                 'class': 'form-control2',
             }),
             'type': forms.fields.TextInput(attrs={

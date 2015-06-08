@@ -83,9 +83,9 @@ class Country(models.Model):
 
 
 class Evidence(models.Model):
-    name = models.TextField(default='')
-    note = models.TextField(default='')
-    link = models.TextField(default='')
+    evidence = models.TextField(default='')
+    summary = models.TextField(default='')
+    source = models.TextField(default='')
     country = models.ForeignKey(Country, to_field='name', default=None)
     type = models.CharField(max_length=30)
     CATEGORY_CHOICES = (
