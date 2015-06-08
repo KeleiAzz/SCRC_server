@@ -110,7 +110,7 @@ body {
     /*float: inherit;*/
     height: 550px;
     /*width:1280px;*/
-    padding: 15px;
+    padding: 0px;
     /*background:#f00;*/
 
 }
@@ -127,16 +127,18 @@ body {
     /*background-color: rgb(148, 25, 31);*/
     /*color: aliceblue;*/
     color: rgba(195, 187, 112, 0.75);
-    padding: 15px;
+    padding: 0px;
+    height: 40px;
 }
 
 table#table1 {
     font-size: x-small;
-    padding: 15px;
+    padding: 0px;
 }
 table#table2 {
     color: #f3fef3;
     font-size: small;
+    height: 39px;
 }
 
 
