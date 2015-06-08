@@ -128,6 +128,8 @@ body {
     /*color: aliceblue;*/
 }
 
-table {
+table#table1 {
     font-size: x-small;
+
+
 }
