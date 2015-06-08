@@ -84,7 +84,7 @@ class Evidence(models.Model):
     name = models.TextField(default='')
     note = models.TextField(default='')
     link = models.TextField(default='')
-    country = models.ForeignKey(Country)
+    country = models.ForeignKey(Country, to_field='name', default=None)
     type = models.CharField(max_length=30)
     CATEGORY_CHOICES = (
         ('SCI', 'Supply Chain Impact'),
