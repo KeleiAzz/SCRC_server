@@ -135,6 +135,7 @@ class Evidence(models.Model):
 
 class Hypothesis(models.Model):
     text = models.TextField(default='')
+    name = models.CharField(max_length=5,default='')
     CATEGORY_CHOICES = (
         ('SCI', 'Supply Chain Impact'),
         ('P', 'Probability'),
