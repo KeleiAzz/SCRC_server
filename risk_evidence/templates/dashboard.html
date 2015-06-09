@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load staticfiles %}
+
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -8,15 +9,15 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
+{#    <link rel="icon" href="../../favicon.ico">#}
 
     <title>{% block title %}{% endblock %}</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="{% static 'dashboard.css'%}" rel="stylesheet">
+    <link href="/static/dashboard.css" rel="stylesheet">
 
 
   </head>
@@ -52,7 +53,7 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="/risk_evidence/overview/">Overview<span class="sr-only">(current)</span></a></li>
+            <li><a href="/risk_evidence/overview/">Overview<span class="sr-only">(current)</span></a></li>
             <li><a href="/risk_evidence/supply_chain_impact/list/">Supply Chain Impact</a></li>
             <li><a href="/risk_evidence/probability/list/">Probability</a></li>
               <li><a href="#">Visual Maps(Under Construction)</a></li>
@@ -71,12 +72,17 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="../../dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
     <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-    <script src="../../assets/js/vendor/holder.js"></script>
+{#    <script src="../../assets/js/vendor/holder.js"></script>#}
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+{#    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>#}
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.js"></script>
-    <script type="text/javascript" src="../static/risk_evidence.js"></script>
+    <script type="text/javascript" src="/static/risk_evidence.js"></script>
+{#    <script type="text/javascript">#}
+{#    jQuery('a').click(function(){#}
+{#        jQuery(this).toggleClass('active');#}
+{#    });#}
+{#    </script>#}
   </body>
 </html>
