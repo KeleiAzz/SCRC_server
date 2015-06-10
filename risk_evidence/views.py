@@ -227,20 +227,26 @@ def overview(request):
     letter_scale['C C'] = Score.objects.get(letter_scale='C C', category='P').num_scale
 
     probability_overview = {}
-
+    evidences_count = {}
     for country in country_list:
         probability_overview[country] = []
+        evidences_count[country] = []
         for h in hypothesis:
+            evidences_count[country].append(0)
             evidences = Evidence.objects.filter(country_id=country, category='P')
             score = 0
             for e in evidences:
-                if getattr(e, h) == 'NA':
-                    pass
-                else:
+                if getattr(e, h) == 'C C' or getattr(e, h) == 'C':
                     score += letter_scale[getattr(e, h)] * credibility[e.credibility] * relevance[e.relevance]
+                if getattr(e, h) != 'NA':
+                    evidences_count[country][-1] += 1
             probability_overview[country].append(score)
+            if evidences_count[country][-1] == 0:
+                evidences_count[country][-1] = 1
+
         for i in range(len(probability_overview[country])):
-            probability_overview[country][i] = round(probability_overview[country][i]/(10 * credibility['High'] * relevance['High'] * letter_scale['C C']), 3)
+
+            probability_overview[country][i] = round(probability_overview[country][i]/(evidences_count[country][i] * credibility['High'] * relevance['High'] * letter_scale['C C']), 3)
 
     return render(request, 'overview.html', {'sci_overview': sci_overview, 'hint': HINT, 'p_overview': probability_overview})
 
