@@ -38,6 +38,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'query',
     'risk_evidence',
+    'djangobower',
+    'django_nvd3',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -48,6 +50,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'djangobower',
 )
 
 ROOT_URLCONF = 'SCRC_server.urls'
@@ -88,10 +91,35 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, '../static')
-
+# STATIC_ROOT = BASE_DIR.parent.child('static')
 # STATICFILES_DIRS = (
 #     os.path.join(BASE_DIR, "static"),
 # )
 # TEMPLATE_DIRS = (
 #     os.path.join(BASE_DIR,  'templates'),
 # )
+
+# STATICFILES_FINDERS = (
+#     'djangobower.finders.BowerFinder',
+# )
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'djangobower.finders.BowerFinder',
+)
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+)
+
+
+BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'components')
+
+BOWER_PATH = '/usr/local/bin/bower'
+
+BOWER_INSTALLED_APPS = (
+    'jquery',
+    'underscore',
+    'd3',
+    'nvd3',
+)
