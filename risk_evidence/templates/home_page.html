@@ -1,55 +1,185 @@
-{% extends 'dashboard.html' %}
-{% block title %}Probability{% endblock %}
-{% block page_head %}Probability{% endblock %}
+<!DOCTYPE html>
+<html>
+<head>
+        {% load nvd3_tags %}
+    <meta charset="utf-8">
+    <link href="/static/nvd3/build/nv.d3.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+    <script src="/static/nvd3/build/nv.d3.js"></script>
 
-{% block test %}
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript">
-            google.load('visualization', '1.1', {packages: ['scatter']});
-      google.setOnLoadCallback(drawChart);
+    <style>
+        text {
+            font: 12px sans-serif;
+        }
+        svg {
+            display: block;
+        }
+        html, body, #test1, svg {
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
 
-      function drawChart () {
+<div id="test1" class='with-3d-shadow with-transitions'>
+    <svg></svg>
+</div>
 
-        var data = new google.visualization.DataTable();
-        data.addColumn('number', 'Hours Studied');
-        data.addColumn('number', 'Final');
+<script type="text/javascript">
 
-        data.addRows([
-          [0, 67], [1, 88], [2, 77],
-          [3, 93], [4, 85], [5, 91],
-          [6, 71], [7, 78], [8, 93],
-          [9, 80], [10, 82],[0, 75],
-          [5, 80], [3, 90], [1, 72],
-          [5, 75], [6, 68], [7, 98],
-          [3, 82], [9, 94], [2, 79],
-          [2, 95], [2, 86], [3, 67],
-          [4, 60], [2, 80], [6, 92],
-          [2, 81], [8, 79], [9, 83],
-          [3, 75], [1, 80], [3, 71],
-          [3, 89], [4, 92], [5, 85],
-          [6, 92], [7, 78], [6, 95],
-          [3, 81], [0, 64], [4, 85],
-          [2, 83], [3, 96], [4, 77],
-          [5, 89], [4, 89], [7, 84],
-          [4, 92], [9, 98]
-        ]);
+    // register our custom symbols to nvd3
+    // make sure your path is valid given any size because size scales if the chart scales.
 
-        var options = {
-          width: 900,
-          height: 500,
-          chart: {
-            title: 'Students\' Final Grades',
-            subtitle: 'based on hours studied'
-          },
-          hAxis: {title: 'Hours Studied'},
-          vAxis: {title: 'Grade'}
-        };
 
-        var chart = new google.charts.Scatter(document.getElementById('chart_div'));
+    nv.utils.symbolMap.set('thin-x', function(size) {
+        size = Math.sqrt(size);
+        return 'M' + (-size/2) + ',' + (-size/2) +
+                'l' + size + ',' + size +
+                'm0,' + -(size) +
+                'l' + (-size) + ',' + size;
+    });
+    json_data = {{ data_scatterchart_container|safe }};
 
-        chart.draw(data, google.charts.Scatter.convertOptions(options));
-      }
-    </script>
+    var chart;
+    nv.addGraph(function() {
+        chart = nv.models.scatterChart()
+            .showDistX(true)
+            .showDistY(true)
+            .useVoronoi(true)
+            .color(d3.scale.category10().range())
+            .duration(300)
+        ;
+        chart.dispatch.on('renderEnd', function(){
+            console.log('render complete');
+        });
 
-    <div id="chart_div" style="width: 900px; height: 500px;"></div>
-{% endblock %}
+        chart.xAxis.tickFormat(d3.format('.02f'));
+        chart.yAxis.tickFormat(d3.format('.02f'));
+
+        d3.select('#test1 svg')
+            .datum(json_data)
+            .call(chart);
+
+        nv.utils.windowResize(chart.update);
+
+        chart.dispatch.on('stateChange', function(e) { ('New State:', JSON.stringify(e)); });
+        return chart;
+    });
+
+
+
+{#    function randomData(groups, points) { //# groups,# points per group#}
+{#        // smiley and thin-x are our custom symbols!#}
+{#        var data = [],#}
+{#            shapes = ['thin-x', 'circle', 'cross', 'triangle-up', 'triangle-down', 'diamond', 'square'],#}
+{#            random = d3.random.normal();#}
+{##}
+{#        for (i = 0; i < groups; i++) {#}
+{#            data.push({#}
+{#                key: 'Group ' + i,#}
+{#                values: []#}
+{#            });#}
+{##}
+{#            for (j = 0; j < points; j++) {#}
+{#                data[i].values.push({#}
+{#                    x: random(),#}
+{#                    y: random(),#}
+{#                    size: Math.round(Math.random() * 100) / 100,#}
+{#                    shape: shapes[j % shapes.length]#}
+{#                });#}
+{#            }#}
+{#        }#}
+{##}
+{#        return data;#}
+{#    }#}
+
+</script>
+</body>
+</html>
+
+
+{#{% extends 'dashboard.html' %}#}
+{#{%  load static %}#}
+{#{% block title %}Probability{% endblock %}#}
+{#{% block page_head %}Probability{% endblock %}#}
+{##}
+{#{% block test %}#}
+{#    <script type="text/javascript" src="https://www.google.com/jsapi"></script>#}
+{#    <script type="text/javascript">#}
+{#            google.load('visualization', '1.1', {packages: ['scatter']});#}
+{#      google.setOnLoadCallback(drawChart);#}
+{##}
+{#      function drawChart () {#}
+{##}
+{#        var data = new google.visualization.DataTable();#}
+{#        data.addColumn('number', 'Hours Studied');#}
+{#        data.addColumn('number', 'Final');#}
+{##}
+{#        data.addRows([#}
+{#          [0, 67], [1, 88], [2, 77],#}
+{#          [3, 93], [4, 85], [5, 91],#}
+{#          [6, 71], [7, 78], [8, 93],#}
+{#          [9, 80], [10, 82],[0, 75],#}
+{#          [5, 80], [3, 90], [1, 72],#}
+{#          [5, 75], [6, 68], [7, 98],#}
+{#          [3, 82], [9, 94], [2, 79],#}
+{#          [2, 95], [2, 86], [3, 67],#}
+{#          [4, 60], [2, 80], [6, 92],#}
+{#          [2, 81], [8, 79], [9, 83],#}
+{#          [3, 75], [1, 80], [3, 71],#}
+{#          [3, 89], [4, 92], [5, 85],#}
+{#          [6, 92], [7, 78], [6, 95],#}
+{#          [3, 81], [0, 64], [4, 85],#}
+{#          [2, 83], [3, 96], [4, 77],#}
+{#          [5, 89], [4, 89], [7, 84],#}
+{#          [4, 92], [9, 98]#}
+{#        ]);#}
+{##}
+{#        var options = {#}
+{#          width: 900,#}
+{#          height: 500,#}
+{#          chart: {#}
+{#            title: 'Students\' Final Grades',#}
+{#            subtitle: 'based on hours studied'#}
+{#          },#}
+{#          hAxis: {title: 'Hours Studied'},#}
+{#          vAxis: {title: 'Grade'}#}
+{#        };#}
+{##}
+{#        var chart = new google.charts.Scatter(document.getElementById('chart_div'));#}
+{##}
+{#        chart.draw(data, google.charts.Scatter.convertOptions(options));#}
+{#      }#}
+{#    </script>#}
+
+{#    <div id="chart_div" style="width: 900px; height: 500px;"></div>#}
+{#    <link media="all" href="{% static 'nvd3/src/nv.d3.css' %}" type="text/css" rel="stylesheet" />#}
+{#    <script type="text/javascript" src='{% static 'd3/d3.min.js' %}'></script>#}
+{#    <script type="text/javascript" src='{% static 'nvd3/nv.d3.min.js' %}'></script>#}
+
+{#    {% load nvd3_tags %}#}
+
+{#    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>#}
+{#    {% include_chart_jscss %}#}
+{#    {% load_chart charttype chartdata chartcontainer %}#}
+{#    {% include_container chartcontainer %}#}
+
+{#    <script src="/static/risk_evidence.js"></script>#}
+
+{#    <style>#}
+{##}
+{#    #chart svg {#}
+{#    height: 400px;#}
+{#    }#}
+{##}
+{#    </style>#}
+
+
+{#    <div id="chart">#}
+{#    <svg></svg>#}
+{#    </div>#}
+
+{#{% endblock %}#}
