@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+    <meta charset="utf-8">
+    <link href="/static/nvd3/build/nv.d3.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+    <script src="/static/nvd3/build/nv.d3.js"></script>
+
+    <style>
+        text {
+            font: 12px sans-serif;
+        }
+        svg {
+            display: block;
+        }
+        #test1, svg {
+            margin: 0 0 0 0;
+            padding: 0px 0 0 0;
+            height: 520px;
+            width: 100%;
+        }
+
+    </style>
+
+{% extends 'dashboard.html' %}
+{%  load static %}
+{% block title %}Visual Map{% endblock %}
+{% block page_head %}Visual Map{% endblock %}
+
+{% block test %}
+<div class="row">
+<div id="test1" class='with-3d-shadow with-transitions'>
+    <svg></svg>
+</div>
+</div>
+<script type="text/javascript">
+
+    // register our custom symbols to nvd3
+    // make sure your path is valid given any size because size scales if the chart scales.
+    nv.utils.symbolMap.set('thin-x', function(size) {
+        size = Math.sqrt(size);
+        return 'M' + (-size/2) + ',' + (-size/2) +
+                'l' + size + ',' + size +
+                'm0,' + -(size) +
+                'l' + (-size) + ',' + size;
+    });
+    json_data = {{ data_scatterchart_container|safe }};
+
+    var chart;
+    nv.addGraph(function() {
+        chart = nv.models.scatterChart()
+            .showDistX(true)
+            .showDistY(true)
+            .useVoronoi(true)
+            .color(d3.scale.category10().range())
+            .duration(300)
+        ;
+        chart.margin({top:45})
+        chart.dispatch.on('renderEnd', function(){
+            console.log('render complete');
+        });
+        chart.xAxis
+            .axisLabel("Supply Chain Impact");     //Set X-axis attributes
+
+        chart.yAxis
+            .axisLabel("Probability");
+        chart.xAxis.tickFormat(d3.format('.02f'));
+        chart.yAxis.tickFormat(d3.format('.02f'));
+
+        d3.select('#test1 svg')
+            .datum(json_data)
+            .call(chart);
+
+        nv.utils.windowResize(chart.update);
+
+        chart.dispatch.on('stateChange', function(e) { ('New State:', JSON.stringify(e)); });
+
+        return chart;
+    });
+
+</script>
+{% endblock %}
