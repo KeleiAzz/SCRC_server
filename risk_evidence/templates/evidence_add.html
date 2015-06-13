@@ -6,17 +6,31 @@
 {% block page_head %}Add Evidence{% endblock %}
 
 {% block test %}
-    <form method="POST" action="/risk_evidence/supply_chain_impact/add/">
-        {% csrf_token %}
-        {{ form.as_table }}
-{#        <table>#}
-{#            <tr><th>Name:</th><td><input type="text" name="name" /></td></tr>#}
-{#            <tr><th>Note:</th><td><input type="text" name="note" /></td></tr>#}
-{#            <tr><th>Link:</th><td><input type="text" name="link" /></td></tr>#}
-{#        </table>#}
-        <br>
-        <br>
-        <input type="submit" class="btn btn-default" value="Create" />
-    </form>
+    <div class="row">
+        <div class="col-md-12 col-md-offset-0">
+                <form method="POST" action="/risk_evidence/supply_chain_impact/add/">
+                    {% csrf_token %}
+{#                    {{ form.as_p }}      #}
+                <table style="width: 100%" class="table">
+                    {% for field in form %}
+                        <tr>
+                            <td style="width: 80%">{{ field.label_tag }}{{ field }}</td>
+                            {% if form.errors %}
+                                <td>
+                                {{ field.errors }}
+                            </td>
+                            {% endif %}
+
+                        </tr>
+                    {% endfor %}
+                </table>
+                    <br>
+                    <br>
+                <input type="submit" class="btn btn-default" value="Create" />
+            </form>
+        </div>
+
+    </div>
+
 
 {% endblock %}
