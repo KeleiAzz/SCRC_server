@@ -127,6 +127,7 @@ def probability_list(request):
         return render(request, 'probability_list.html', {'hint': HINT, 'country_form': country_form})
 
 def evidence_add(request):
+
     if request.method == 'POST':
         form = EvidenceForm(request.POST)
         if form.is_valid():
@@ -135,8 +136,8 @@ def evidence_add(request):
                 return redirect('sci_list')
             else:
                 return redirect('probability_list')
-
-    form = EvidenceForm()
+    else:
+        form = EvidenceForm()
     return render(request, 'evidence_add.html', {'form': form})
 
 def overview(request):
