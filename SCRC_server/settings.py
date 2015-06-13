@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'risk_evidence',
     'djangobower',
     'django_nvd3',
+    'django_extensions',
 )
 
 MIDDLEWARE_CLASSES = (
