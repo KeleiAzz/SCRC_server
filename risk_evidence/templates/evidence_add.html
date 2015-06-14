@@ -1,36 +1,58 @@
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.js"></script>
-<script type="text/javascript" src="/static/risk_evidence.js"></script>
+
+
 
 {% extends 'dashboard.html' %}
 {% block title %}Add evidence{% endblock %}
 {% block page_head %}Add Evidence{% endblock %}
 
 {% block test %}
-    <div class="row">
-        <div class="col-md-12 col-md-offset-0">
-                <form method="POST" action="/risk_evidence/supply_chain_impact/add/">
+{#        <div class="evidence_add">#}
+        <form method="POST" action="/risk_evidence/supply_chain_impact/add/">
                     {% csrf_token %}
-{#                    {{ form.as_p }}      #}
-                <table style="width: 100%" class="table">
-                    {% for field in form %}
+            <div id="sides">
+                <div id="left">
+                    <h3>Evidence for Supply Chain Impact</h3>
+{#                    {{ form1.as_p }}#}
+                    <table class="table">
+                    {% for field in form1 %}
                         <tr>
-                            <td style="width: 80%">{{ field.label_tag }}{{ field }}</td>
-                            {% if form.errors %}
-                                <td>
-                                {{ field.errors }}
+                            <td colspan="2">
+                                <ul>
+                                    <li>{{ field.label_tag }}</li>
+                                    <li>{{ field.errors }}</li>
+                                    <li>{{ field }}</li>
+                                    {% if forloop.counter > 8 %}
+                                        <li>looooooooooooong text</li>
+                                    {% endif %}
+                                </ul>
                             </td>
-                            {% endif %}
 
                         </tr>
                     {% endfor %}
                 </table>
-                    <br>
-                    <br>
-                <input type="submit" class="btn btn-default" value="Create" />
-            </form>
-        </div>
+                </div>
+                <div id="right">
+                    <h3>Evidence for Probability</h3>
+{#                    {{ form2.as_p }}#}
+                <table class="table">
+                    {% for field in form2 %}
+                         <tr>
+                            <td>
+                                <ul>
+                                <li>{{ field.label_tag }}</li>
+                                <li>{{ field.errors }}</li>
+                                    <li>{{ field }}</li>
+                                </ul>
 
-    </div>
-
-
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                </div>
+            </div>
+            <br>
+            <div class="buttonHolder">
+                <input type="submit" class="btn btn-lg" value="Submit"/>
+            </div>
+        </form>
 {% endblock %}
