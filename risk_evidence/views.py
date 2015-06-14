@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect, render_to_resp
 from django.views.generic.edit import CreateView, UpdateView
 from models import Score, Evidence, Hypothesis
 from forms import ScoreForm, CountryChoiceForm, EvidenceForm
-from helpers import get_num_scales
+from helpers import get_num_scales, get_overview
 import random
 import json
 # Create your views here.
@@ -121,7 +121,6 @@ def overview(request):
     credibility, relevance, letter_scale = get_num_scales('SCI')
 
     country_list = [x[0] for x in Evidence.objects.values_list('country').distinct()]
-    # country_list.sort()
     hypothesis = []
     for i in range(1, 24, 1):
         hypothesis.append('h' + str(i))
@@ -216,10 +215,17 @@ def visual_map(request):
     data = []
     for country in country_list:
         v = []
+        no_overlap = {}
         for x in range(23):
             if probability_overview[country][x] > 0.01 and sci_overview[country][x] >= 0:
-                v.append({"y": probability_overview[country][x], "x": sci_overview[country][x], "shape": "circle",
-                          "size": random.random(), 'tooltip': 'h%d' % (x+1)})
+                if (probability_overview[country][x], sci_overview[country][x]) not in no_overlap.keys():
+                    no_overlap[(probability_overview[country][x], sci_overview[country][x])] = ['h%d' % (x+1)]
+                else:
+                    no_overlap[(probability_overview[country][x], sci_overview[country][x])].append('h%d' % (x+1))
+
+        for key, value in no_overlap.iteritems():
+            v.append({"y": key[0], "x": key[1], "shape": "circle", "size": random.random(), 'tooltip': ','.join(value)})
+
         data.append(
                     {
                         'yAxis': 1,
