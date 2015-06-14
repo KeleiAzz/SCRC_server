@@ -135,9 +135,14 @@ class Evidence(models.Model):
 
 class Hypothesis(models.Model):
     text = models.TextField(default='')
-    name = models.CharField(max_length=5,default='')
+    # name = models.CharField(max_length=5,default='')
+    num = models.IntegerField(default=0)
     CATEGORY_CHOICES = (
         ('SCI', 'Supply Chain Impact'),
         ('P', 'Probability'),
     )
     category = models.CharField(max_length=5, choices=CATEGORY_CHOICES)
+
+    class Meta:
+        ordering = ('num',)
+        unique_together = ('num', 'category')

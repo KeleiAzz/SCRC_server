@@ -38,7 +38,9 @@ class CountryChoiceForm(forms.Form):
 
 
 class EvidenceForm(forms.models.ModelForm):
-
+    # evidence = forms.CharField(error_messages={'required': "Can't be null"})
+    required_css_class = 'required'
+    error_css_class = 'error'
     class Meta:
         model = Evidence
         fields = (
@@ -77,6 +79,7 @@ class EvidenceForm(forms.models.ModelForm):
         widgets = {
             'evidence': forms.fields.TextInput(attrs={
                 'class': 'form-control2',
+                'placeholder': "Input the name of this evidence",
             }),
             'summary': forms.fields.TextInput(attrs={
                 'class': 'form-control2',
@@ -100,6 +103,9 @@ class EvidenceForm(forms.models.ModelForm):
                 'class': 'form-control3',
             }),
         }
+        # error_messages = {
+        #     'evidence': {'required': "Can not be null"},
+        # }
 
     def save(self):
         return forms.models.ModelForm.save(self)
