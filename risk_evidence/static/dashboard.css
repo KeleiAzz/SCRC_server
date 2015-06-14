@@ -178,6 +178,61 @@ h2 {
   border-radius: 4px;
 }
 
+.form-country {
+  display: block;
+  width: 30%;
+  height: 24px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
 .errorlist {
     color: #ac2925;
+    display: inline;
+}
+
+#sides{
+    margin:0;
+}
+#left{
+    float:left;
+    width:47%;
+    overflow:hidden;
+    margin-right: 10px;
+}
+#left ul {
+    padding: 0;
+}
+#left li {
+    display: inline;
+    list-style-type: none;
+    padding: 0;
+}
+#right{
+    float:left;
+    width:47%;
+    overflow:hidden;
+    margin-left: 10px;
+
+}
+
+#right ul {
+    padding: 0;
+}
+#right li {
+    display: inline;
+    list-style-type: none;
+    padding: 0;
+}
+
+.buttonHolder{
+    /*width: 100px;*/
+    /*margin: 0 auto 0 auto;*/
+    text-align: center;
 }
