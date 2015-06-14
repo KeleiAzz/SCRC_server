@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect, render_to_response
 from django.views.generic.edit import CreateView, UpdateView
-from models import Score, Evidence
+from models import Score, Evidence, Hypothesis
 from forms import ScoreForm, CountryChoiceForm, EvidenceForm
 from helpers import get_num_scales
 import random
@@ -246,7 +246,7 @@ def visual_map(request):
         for x in range(23):
             if probability_overview[country][x] > 0.01 and sci_overview[country][x] >= 0:
                 v.append({"y": probability_overview[country][x], "x": sci_overview[country][x], "shape": "circle",
-                                    "size": random.random(), 'tooltip': 'h%d' % (x+1)})
+                          "size": random.random(), 'tooltip': 'h%d' % (x+1)})
         data.append(
                     {
                         'yAxis': 1,
@@ -255,3 +255,8 @@ def visual_map(request):
                     }
         )
     return render_to_response('visual_map.html', {'data_scatterchart_container': json.dumps(data)})
+
+def hypothesis_list(request):
+    sci = [x.text for x in Hypothesis.objects.filter(category="SCI")]
+    p = [x.text for x in Hypothesis.objects.filter(category="P")]
+    return render(request, 'hypothesis_list.html', {'sci': sci, 'p': p})

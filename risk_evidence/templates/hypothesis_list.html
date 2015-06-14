@@ -1,0 +1,26 @@
+{% extends 'dashboard.html' %}
+
+{% block title %}Hypothesis List{% endblock %}
+{% block page_head %}Hypothesis List{% endblock %}
+
+{% block test %}
+    <h3>Hypothesis for Supply Chain Impact</h3>
+    <table class="table table-striped">
+    {% for h in sci %}
+        <tr>
+            <td>H{{ forloop.counter }}</td>
+            <td>{{ h }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+    <h3>Hypothesis for Probability</h3>
+    <table class="table table-striped">
+    {% for h in p %}
+        <tr>
+            <td>H{{ forloop.counter }}</td>
+            <td>{{ h }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+
+{% endblock %}
