@@ -7,7 +7,7 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('risk_evidence', '0013_auto_20150608_1952'),
+        ('risk_evidence', '0013_rename_evidence_fields'),
     ]
 
     operations = [

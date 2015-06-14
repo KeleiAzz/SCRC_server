@@ -7,7 +7,7 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('risk_evidence', '0014_auto_20150612_2053'),
+        ('risk_evidence', '0014_default_value_for_h'),
     ]
 
     operations = [
