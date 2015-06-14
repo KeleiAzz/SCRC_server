@@ -7,7 +7,7 @@
 
 {% block test %}
 {#        <div class="evidence_add">#}
-        <form method="POST" action="/risk_evidence/supply_chain_impact/add/">
+        <form method="POST" action="/risk_evidence/evidence/add/">
                     {% csrf_token %}
             <div id="sides">
                 <div id="left">
@@ -16,7 +16,7 @@
                     <table class="table">
                     {% for field in form1 %}
                         <tr>
-                            <td colspan="2">
+                            <td>
                                 <ul>
                                     <li>{{ field.label_tag }}</li>
                                     <li>{{ field.errors }}</li>

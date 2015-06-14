@@ -4,7 +4,7 @@
 
 
 {% block test %}
-    <form method="POST" action="/risk_evidence/supply_chain_impact/">
+    <form method="POST" action={% url 'risk_evidence.views.sci_list' %}>
         {% csrf_token %}
         <br>
 {#        <input name="country_name" class="form-control" id="id_search_country" placeholder="Search by country name" />#}

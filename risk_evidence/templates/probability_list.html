@@ -4,7 +4,7 @@
 
 {% block test %}
 
-    <form method="POST" action="/risk_evidence/probability/">
+    <form method="POST" action={% url "risk_evidence.views.probability_list" %}>
         {% csrf_token %}
         <br>
         {{ country_form.as_p }}
