@@ -129,16 +129,19 @@ def probability_list(request):
 def evidence_add(request):
 
     if request.method == 'POST':
-        form = EvidenceForm(request.POST)
-        if form.is_valid():
-            form.save()
+        form1 = EvidenceForm(request.POST, prefix='form1')
+        form2 = EvidenceForm(request.POST, prefix='form2')
+        if form1.is_valid() and form2.is_valid():
+            form1.save()
+            form2.save()
             if request.POST.get('category') == 'SCI':
                 return redirect('sci_list')
             else:
                 return redirect('probability_list')
     else:
-        form = EvidenceForm()
-    return render(request, 'evidence_add.html', {'form': form})
+        form1 = EvidenceForm(initial={'category': 'SCI'}, prefix='form1')
+        form2 = EvidenceForm(initial={'category': 'P'}, prefix='form2')
+    return render(request, 'evidence_add.html', {'form1': form1, 'form2': form2})
 
 def overview(request):
     # For supply chain impact
@@ -239,13 +242,16 @@ def visual_map(request):
 
     data = []
     for country in country_list:
+        v = []
+        for x in range(23):
+            if probability_overview[country][x] > 0.01 and sci_overview[country][x] >= 0:
+                v.append({"y": probability_overview[country][x], "x": sci_overview[country][x], "shape": "circle",
+                                    "size": random.random(), 'tooltip': 'h%d' % (x+1)})
         data.append(
-            {
-                'yAxis': 1,
-                'key': country,
-                'values': [{"y": probability_overview[country][x], "x": sci_overview[country][x], "shape": "circle",
-                            "size": random.random(), 'tooltip':'h%d' % (x+1)} for x in range(23)],
-            }
+                    {
+                        'yAxis': 1,
+                        'key': country,
+                        'values': v,
+                    }
         )
-
     return render_to_response('visual_map.html', {'data_scatterchart_container': json.dumps(data)})
