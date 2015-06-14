@@ -1,6 +1,3 @@
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.js"></script>
-{#<script type="text/javascript" src="/static/risk_evidence.js"></script>#}
-
 {% extends 'dashboard.html' %}
 {% block title %}Probability{% endblock %}
 {% block page_head %}Probability{% endblock %}
@@ -10,7 +7,6 @@
     <form method="POST" action="/risk_evidence/probability/">
         {% csrf_token %}
         <br>
-{#        <input name="country_name" class="form-control" id="id_search_country" placeholder="Search by country name" />#}
         {{ country_form.as_p }}
         <button type="submit" class="btn btn-default" name="btn1">Search</button>
         <br>
@@ -96,7 +92,4 @@
             </table>
         </div>
     </div>
-
-
-
 {% endblock %}
