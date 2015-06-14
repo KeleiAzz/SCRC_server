@@ -83,12 +83,15 @@ class EvidenceForm(forms.models.ModelForm):
             }),
             'summary': forms.fields.TextInput(attrs={
                 'class': 'form-control2',
+                'placeholder': "Input the summary of this evidence",
             }),
             'source': forms.fields.TextInput(attrs={
                 'class': 'form-control2',
+                'placeholder': "Input the URL to the source of this evidence",
             }),
             'type': forms.fields.TextInput(attrs={
                 'class': 'form-control2',
+                'placeholder': "Input the type of this evidence",
             }),
             'country': forms.fields.Select(attrs={
                 'class': 'form-control3',
