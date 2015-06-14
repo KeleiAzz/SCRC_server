@@ -7,26 +7,26 @@
 
 {% block test %}
 {#        <div class="evidence_add">#}
+
         <form method="POST" action="/risk_evidence/evidence/add/">
                     {% csrf_token %}
             <div id="sides">
                 <div id="left">
                     <h3>Evidence for Supply Chain Impact</h3>
 {#                    {{ form1.as_p }}#}
-                    <table class="table">
+                    <table class="table" id="form-table">
                     {% for field in form1 %}
-                        <tr>
+                        <tr >
                             <td>
                                 <ul>
                                     <li>{{ field.label_tag }}</li>
                                     <li>{{ field.errors }}</li>
                                     <li>{{ field }}</li>
                                     {% if forloop.counter > 8 %}
-                                        <li>looooooooooooong text</li>
+                                        <li>{{ hint1.pop }}</li>
                                     {% endif %}
                                 </ul>
                             </td>
-
                         </tr>
                     {% endfor %}
                 </table>
@@ -34,16 +34,18 @@
                 <div id="right">
                     <h3>Evidence for Probability</h3>
 {#                    {{ form2.as_p }}#}
-                <table class="table">
+                <table class="table" id="form-table">
                     {% for field in form2 %}
-                         <tr>
+                         <tr >
                             <td>
                                 <ul>
-                                <li>{{ field.label_tag }}</li>
-                                <li>{{ field.errors }}</li>
+                                    <li>{{ field.label_tag }}</li>
+                                    <li>{{ field.errors }}</li>
                                     <li>{{ field }}</li>
+                                    {% if forloop.counter > 8 %}
+                                        <li>{{ hint2.pop }}</li>
+                                    {% endif %}
                                 </ul>
-
                             </td>
                         </tr>
                     {% endfor %}
@@ -51,6 +53,8 @@
                 </div>
             </div>
             <br>
+            <br>
+
             <div class="buttonHolder">
                 <input type="submit" class="btn btn-lg" value="Submit"/>
             </div>

@@ -97,7 +97,8 @@ def probability_list(request):
         return render(request, 'probability_list.html', {'hint': hypothesis, 'country_form': country_form})
 
 def evidence_add(request):
-
+    hypothesis1 = list(reversed([x.text for x in Hypothesis.objects.filter(category='SCI')]))
+    hypothesis2 = list(reversed([x.text for x in Hypothesis.objects.filter(category='P')]))
     if request.method == 'POST':
         form1 = EvidenceForm(request.POST, prefix='form1')
         form2 = EvidenceForm(request.POST, prefix='form2')
@@ -111,7 +112,7 @@ def evidence_add(request):
     else:
         form1 = EvidenceForm(initial={'category': 'SCI'}, prefix='form1')
         form2 = EvidenceForm(initial={'category': 'P'}, prefix='form2')
-    return render(request, 'evidence_add.html', {'form1': form1, 'form2': form2})
+    return render(request, 'evidence_add.html', {'form1': form1, 'form2': form2, 'hint1': hypothesis1, 'hint2':hypothesis2})
 
 def overview(request):
     # For supply chain impact
