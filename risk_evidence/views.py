@@ -6,36 +6,6 @@ from helpers import get_num_scales
 import random
 import json
 # Create your views here.
-
-HINT = ["Enactment of local environmental compliance including water and waste disposal indicates negative "
-        "supply chain impact",
-        "Enactment of local regulation of chemical substance indicates negative supply chain impact",
-        "Enactment of international regulation of chemical substance indicates negative supply chain impact",
-        "Poor local water quality indicates negative supply chain impact",
-        "Enactment of local restrictions related to building and fire safety indicates negative supply chain "
-        "impact", "Local severance legislation issues indicates negative supply chain impact",
-        "Local unrest over social welfare and other wage-related benefits indicates negative supply chain impact",
-        "Local unrest over minimum wage issue indicates negative supply chain impact",
-        "Lack of local power grid stability indicates negative supply chain impact",
-        "Low local nutrition quality indicates negative supply chain impact",
-        "Local talent shortage indicates negative supply chain impact",
-        "Local child labor issues indicates negative supply chain impact",
-        "Local HIV positive worker discrimination indicates negative supply chain impact",
-        "Local migrant worker rights violation indicates negative supply chain impact",
-        "Contractor implementation of information systems causing delay indicates negative supply chain impact",
-        "Order variability indicates negative supply chain impact",
-        "Poor contractor's financial health indicates negative supply chain impact",
-        "Lack of product security indicates negative supply chain impact ",
-        "Lack of transparency among supply chain members indicates negative supply chain impact",
-        "Local political tension indicates negative supply chain impact",
-        "International economic slowdown indicates negative supply chain impact",
-        "Countrys geopolitical issues resulting in instability indicates negative supply chain impact",
-        "Local flooding, typhoon or other weather issues indicates negative supply chain impact"]
-
-# class ScoreCreate(UpdateView):
-#     model = Score
-#     fields = ['letter_scale']
-
 def score_create(request):
     form = Score
     return render(request, 'score_create_form.html', {'form': form})
@@ -74,7 +44,7 @@ def score_edit(request, score_id):
 
 def sci_list(request):
     credibility, relevance, letter_scale = get_num_scales('SCI')
-
+    hypothesis = [x.text for x in Hypothesis.objects.filter(category='SCI')]
     if request.method == 'POST':
         evidences = Evidence.objects.filter(country_id=request.POST['Select Country'], category='SCI')
         country = request.POST['Select Country']
@@ -93,17 +63,17 @@ def sci_list(request):
 
     if request.method == 'POST':
         country_form = CountryChoiceForm
-        return render(request, 'sci_list.html', {'evidences': evidences, 'hint': HINT, 'country': country, 'country_form': country_form})
+        return render(request, 'sci_list.html', {'evidences': evidences, 'hint': hypothesis, 'country': country, 'country_form': country_form})
     else:
         country_form = CountryChoiceForm
         return render(request, 'sci_list.html', {
             # 'evidences': evidences,
-            'hint': HINT,
+            'hint': hypothesis,
             'country_form': country_form})
 
 def probability_list(request):
     credibility, relevance, letter_scale = get_num_scales('P')
-
+    hypothesis = [x.text for x in Hypothesis.objects.filter(category='P')]
     if request.method == 'POST':
         evidences = Evidence.objects.filter(country_id=request.POST['Select Country'], category='P')
         country = request.POST['Select Country'].capitalize()
@@ -120,11 +90,11 @@ def probability_list(request):
 
     if request.method == 'POST':
         country_form = CountryChoiceForm
-        return render(request, 'probability_list.html', {'evidences': evidences, 'hint': HINT, 'country': country,
+        return render(request, 'probability_list.html', {'evidences': evidences, 'hint': hypothesis, 'country': country,
                                                          'country_form': country_form})
     else:
         country_form = CountryChoiceForm
-        return render(request, 'probability_list.html', {'hint': HINT, 'country_form': country_form})
+        return render(request, 'probability_list.html', {'hint': hypothesis, 'country_form': country_form})
 
 def evidence_add(request):
 
@@ -145,6 +115,8 @@ def evidence_add(request):
 
 def overview(request):
     # For supply chain impact
+    hypothesis1 = [x.text for x in Hypothesis.objects.filter(category='SCI')]
+    hypothesis2 = [x.text for x in Hypothesis.objects.filter(category='P')]
     credibility, relevance, letter_scale = get_num_scales('SCI')
 
     country_list = [x[0] for x in Evidence.objects.values_list('country').distinct()]
@@ -191,7 +163,7 @@ def overview(request):
 
             probability_overview[country][i] = round(probability_overview[country][i]/(evidences_count[country][i] * credibility['High'] * relevance['High'] * letter_scale['C C']), 3)
 
-    return render(request, 'overview.html', {'sci_overview': sci_overview, 'hint': HINT, 'p_overview': probability_overview})
+    return render(request, 'overview.html', {'sci_overview': sci_overview, 'hint1': hypothesis1, 'hint2':hypothesis2, 'p_overview': probability_overview})
 
 
 def visual_map(request):
