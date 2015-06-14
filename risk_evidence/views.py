@@ -118,100 +118,17 @@ def overview(request):
     # For supply chain impact
     hypothesis1 = [x.text for x in Hypothesis.objects.filter(category='SCI')]
     hypothesis2 = [x.text for x in Hypothesis.objects.filter(category='P')]
-    credibility, relevance, letter_scale = get_num_scales('SCI')
-
-    country_list = [x[0] for x in Evidence.objects.values_list('country').distinct()]
-    hypothesis = []
-    for i in range(1, 24, 1):
-        hypothesis.append('h' + str(i))
-    sci_overview = {}
-
-    for country in country_list:
-        sci_overview[country] = []
-        for h in hypothesis:
-            evidences = Evidence.objects.filter(country_id=country, category='SCI')
-            score = 0
-            for e in evidences:
-                if getattr(e, h) == 'NA':
-                    pass
-                else:
-                    score += letter_scale[getattr(e, h)] * credibility[e.credibility] * relevance[e.relevance]
-            sci_overview[country].append(round(score, 3))
-
+    sci_overview = get_overview("SCI")
     # For probability
-    credibility, relevance, letter_scale = get_num_scales('P')
-
-    probability_overview = {}
-    evidences_count = {}
-    for country in country_list:
-        probability_overview[country] = []
-        evidences_count[country] = []
-        for h in hypothesis:
-            evidences_count[country].append(0)
-            evidences = Evidence.objects.filter(country_id=country, category='P')
-            score = 0
-            for e in evidences:
-                if getattr(e, h) == 'C C' or getattr(e, h) == 'C':
-                    score += letter_scale[getattr(e, h)] * credibility[e.credibility] * relevance[e.relevance]
-                if getattr(e, h) != 'NA':
-                    evidences_count[country][-1] += 1
-            probability_overview[country].append(score)
-            if evidences_count[country][-1] == 0:
-                evidences_count[country][-1] = 1
-
-        for i in range(len(probability_overview[country])):
-
-            probability_overview[country][i] = round(probability_overview[country][i]/(evidences_count[country][i] * credibility['High'] * relevance['High'] * letter_scale['C C']), 3)
-
+    probability_overview = get_overview('P')
     return render(request, 'overview.html', {'sci_overview': sci_overview, 'hint1': hypothesis1, 'hint2':hypothesis2, 'p_overview': probability_overview})
 
 
 def visual_map(request):
-    credibility, relevance, letter_scale = get_num_scales('SCI')
-    country_list = [x[0] for x in Evidence.objects.values_list('country').distinct()]
-    # country_list.sort()
-    hypothesis = []
-    for i in range(1, 24, 1):
-        hypothesis.append('h' + str(i))
-    sci_overview = {}
-
-    for country in country_list:
-        sci_overview[country] = []
-        for h in hypothesis:
-            evidences = Evidence.objects.filter(country_id=country, category='SCI')
-            score = 0
-            for e in evidences:
-                if getattr(e, h) == 'NA':
-                    pass
-                else:
-                    score += letter_scale[getattr(e, h)] * credibility[e.credibility] * relevance[e.relevance]
-            sci_overview[country].append(round(score, 3))
-
+    sci_overview = get_overview("SCI")
     # For probability
-    credibility, relevance, letter_scale = get_num_scales('P')
-
-    probability_overview = {}
-    evidences_count = {}
-    for country in country_list:
-        probability_overview[country] = []
-        evidences_count[country] = []
-        for h in hypothesis:
-            evidences_count[country].append(0)
-            evidences = Evidence.objects.filter(country_id=country, category='P')
-            score = 0
-            for e in evidences:
-                if getattr(e, h) == 'C C' or getattr(e, h) == 'C':
-                    score += letter_scale[getattr(e, h)] * credibility[e.credibility] * relevance[e.relevance]
-                if getattr(e, h) != 'NA':
-                    evidences_count[country][-1] += 1
-            probability_overview[country].append(score)
-            if evidences_count[country][-1] == 0:
-                evidences_count[country][-1] = 1
-
-        for i in range(len(probability_overview[country])):
-
-            probability_overview[country][i] = round(probability_overview[country][i]/(evidences_count[country][i] * credibility['High'] * relevance['High'] * letter_scale['C C']), 3)
-
+    probability_overview = get_overview('P')
+    country_list = [x[0] for x in Evidence.objects.values_list('country').distinct()]
     data = []
     for country in country_list:
         v = []
