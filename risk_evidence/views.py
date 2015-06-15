@@ -12,7 +12,7 @@ def score_create(request):
 
 def home(request):
 
-    return render(request,'home_page.html')
+    return render(request, 'home_page.html')
 
 def score_list(request):
     scores = Score.objects.all()
@@ -43,42 +43,22 @@ def score_edit(request, score_id):
     return render(request, 'score_edit.html', {'scores1': scores1, 'scores2': scores2, 'form': form, "score_id": instance.id})
 
 def sci_list(request):
-    credibility, relevance, letter_scale = get_num_scales('SCI')
-    hypothesis = [x.text for x in Hypothesis.objects.filter(category='SCI')]
     if request.method == 'POST':
-        evidences = Evidence.objects.filter(country_id=request.POST['Select Country'], category='SCI')
-        country = request.POST['Select Country']
-        country = country
-    else:
-        evidences = Evidence.objects.all()
-
-    for e in evidences:
-        for field in e._meta.get_all_field_names():
-            if len(field) < 4 and getattr(e, field) == 'NA':
-                pass
-            elif 'h' in field and len(field) < 4  and getattr(e, field) != 'NA':
-                score = letter_scale[getattr(e, field)] * credibility[e.credibility] * relevance[e.relevance]
-                setattr(e, field, round(score, 3))
-
-
-    if request.method == 'POST':
+        country = request.POST.get('Select Country')
         country_form = CountryChoiceForm
-        return render(request, 'sci_list.html', {'evidences': evidences, 'hint': hypothesis, 'country': country, 'country_form': country_form})
+        return redirect('/risk_evidence/supply_chain_impact/%s/' % (country))
     else:
         country_form = CountryChoiceForm
+        hypothesis = [x.text for x in Hypothesis.objects.filter(category='SCI')]
         return render(request, 'sci_list.html', {
             # 'evidences': evidences,
             'hint': hypothesis,
             'country_form': country_form})
 
-def probability_list(request):
-    credibility, relevance, letter_scale = get_num_scales('P')
-    hypothesis = [x.text for x in Hypothesis.objects.filter(category='P')]
-    if request.method == 'POST':
-        evidences = Evidence.objects.filter(country_id=request.POST['Select Country'], category='P')
-        country = request.POST['Select Country'].capitalize()
-    else:
-        evidences = Evidence.objects.all()
+def sci_list_country(request, country):
+    credibility, relevance, letter_scale = get_num_scales('SCI')
+    hypothesis = [x.text for x in Hypothesis.objects.filter(category='SCI')]
+    evidences = Evidence.objects.filter(country_id=country, category='SCI')
 
     for e in evidences:
         for field in e._meta.get_all_field_names():
@@ -87,14 +67,38 @@ def probability_list(request):
             elif 'h' in field and len(field) < 4  and getattr(e, field) != 'NA':
                 score = letter_scale[getattr(e, field)] * credibility[e.credibility] * relevance[e.relevance]
                 setattr(e, field, round(score, 3))
+    country_form = CountryChoiceForm
+    return render(request, 'sci_list.html', {'evidences': evidences, 'hint': hypothesis, 'country': country, 'country_form': country_form})
 
+
+def probability_list(request):
     if request.method == 'POST':
+        country = request.POST.get('Select Country')
         country_form = CountryChoiceForm
-        return render(request, 'probability_list.html', {'evidences': evidences, 'hint': hypothesis, 'country': country,
-                                                         'country_form': country_form})
+        return redirect('/risk_evidence/probability/%s/' % (country))
     else:
         country_form = CountryChoiceForm
-        return render(request, 'probability_list.html', {'hint': hypothesis, 'country_form': country_form})
+        hypothesis = [x.text for x in Hypothesis.objects.filter(category='P')]
+        return render(request, 'probability_list.html', {
+            # 'evidences': evidences,
+            'hint': hypothesis,
+            'country_form': country_form})
+
+def probability_list_country(request, country):
+    credibility, relevance, letter_scale = get_num_scales('P')
+    hypothesis = [x.text for x in Hypothesis.objects.filter(category='P')]
+    evidences = Evidence.objects.filter(country_id=country, category='P')
+    for e in evidences:
+        for field in e._meta.get_all_field_names():
+            if len(field) < 4 and getattr(e, field) == 'NA':
+                pass
+            elif 'h' in field and len(field) < 4  and getattr(e, field) != 'NA':
+                score = letter_scale[getattr(e, field)] * credibility[e.credibility] * relevance[e.relevance]
+                setattr(e, field, round(score, 3))
+    country_form = CountryChoiceForm
+    return render(request, 'probability_list.html', {'evidences': evidences, 'hint': hypothesis, 'country': country, 'country_form': country_form})
+
+
 
 def evidence_add(request):
     hypothesis1 = list(reversed([x.text for x in Hypothesis.objects.filter(category='SCI')]))
@@ -113,6 +117,24 @@ def evidence_add(request):
         form1 = EvidenceForm(initial={'category': 'SCI'}, prefix='form1')
         form2 = EvidenceForm(initial={'category': 'P'}, prefix='form2')
     return render(request, 'evidence_add.html', {'form1': form1, 'form2': form2, 'hint1': hypothesis1, 'hint2':hypothesis2})
+
+
+def evidence_edit(request, e_id):
+    instance = get_object_or_404(Evidence, id=e_id)
+
+    form = EvidenceForm(request.POST or None, instance=instance)
+    if form.is_valid():
+        form.save()
+        country = instance.country
+        if instance.category == "SCI":
+            return redirect('/risk_evidence/supply_chain_impact/%s/' % country)
+        else:
+            return redirect('/risk_evidence/probability/%s/' % country)
+    category = instance.category
+    hypothesis = list(reversed([x.text for x in Hypothesis.objects.filter(category=category)]))
+    form.fields['country'].widget.attrs['disabled'] = True
+    form.fields['category'].widget.attrs['disabled'] = True
+    return render(request, 'evidence_edit.html', {'form': form, "e_id": instance.id, 'hint': hypothesis})
 
 def overview(request):
     # For supply chain impact
