@@ -127,6 +127,14 @@ def evidence_add(request):
 
 def evidence_edit(request, e_id):
     instance = get_object_or_404(Evidence, id=e_id)
+    if request.method == "POST" and 'btn2' in request.POST:
+        country = instance.country
+        category = instance.category
+        Evidence.objects.get(id=e_id).delete()
+        if category == "SCI":
+            return redirect('/risk_evidence/supply_chain_impact/%s/' % country)
+        else:
+            return redirect('/risk_evidence/probability/%s/' % country)
 
     form = EvidenceForm(request.POST or None, instance=instance)
     if form.is_valid():
