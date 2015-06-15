@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect, render_to_response
 from django.views.generic.edit import CreateView, UpdateView
-from models import Score, Evidence, Hypothesis
+from models import Score, Evidence, Hypothesis, Factory
 from forms import ScoreForm, CountryChoiceForm, EvidenceForm
-from helpers import get_num_scales, get_overview
+from helpers import get_num_scales, get_overview, get_workers_num
+from django.db.models import Sum
 import random
 import json
 # Create your views here.
@@ -151,12 +152,29 @@ def visual_map(request):
     # For probability
     probability_overview = get_overview('P')
     country_list = [x[0] for x in Evidence.objects.values_list('country').distinct()]
+    footwear_data = []
+
+    footwear_workers_by_country, footwear_workers_total = get_workers_num('FOOTWEAR')
+
+    apparel_data = []
+
+    apparel_workers_by_country, apparel_workers_total = get_workers_num('APPAREL')
     data = []
     for country in country_list:
         v = []
+        f_v = []
+        a_v = []
         no_overlap = {}
         for x in range(23):
             if probability_overview[country][x] > 0.01 and sci_overview[country][x] >= 0:
+                if footwear_workers_by_country[country] > 0:
+                    f_v.append({"y": probability_overview[country][x],
+                                "x": sci_overview[country][x] * footwear_workers_by_country[country] / footwear_workers_total,
+                                "shape": "circle", "size": random.random(), 'tooltip': 'h%d' % (x+1)})
+
+                a_v.append({"y": probability_overview[country][x],
+                            "x": sci_overview[country][x] * apparel_workers_by_country[country] / apparel_workers_total,
+                            "shape": "circle", "size": random.random(), 'tooltip': 'h%d' % (x+1)})
                 if (probability_overview[country][x], sci_overview[country][x]) not in no_overlap.keys():
                     no_overlap[(probability_overview[country][x], sci_overview[country][x])] = ['h%d' % (x+1)]
                 else:
@@ -172,7 +190,23 @@ def visual_map(request):
                         'values': v,
                     }
         )
-    return render_to_response('visual_map.html', {'data_scatterchart_container': json.dumps(data)})
+        footwear_data.append(
+                    {
+                        'yAxis': 1,
+                        'key': country,
+                        'values': f_v,
+                    }
+        )
+        apparel_data.append(
+                    {
+                        'yAxis': 1,
+                        'key': country,
+                        'values': a_v,
+                    }
+        )
+
+
+    return render_to_response('visual_map.html', {'data_scatterchart_container': json.dumps(apparel_data)})
 
 def hypothesis_list(request):
     sci = [x.text for x in Hypothesis.objects.filter(category="SCI")]

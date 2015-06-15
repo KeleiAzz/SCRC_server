@@ -1,5 +1,5 @@
-from models import Score, Evidence
-
+from models import Score, Evidence, Factory
+from django.db.models import Sum
 
 def get_num_scales(category):
     credibility = {
@@ -65,3 +65,31 @@ def get_overview(category):
             for i in range(len(overview[country])):
                 overview[country][i] = round(overview[country][i]/(evidences_count[country][i] * credibility['High'] * relevance['High'] * letter_scale['C C']), 3)
     return overview
+
+
+def get_workers_num(product_type):
+    country_list = [x[0].upper() for x in Evidence.objects.values_list('country').distinct()]
+    workers_by_country = {}
+
+    for c in country_list:
+        if c.split() > 1:
+            key = ' '.join([x.capitalize() for x in c.split()])
+            workers_by_country[key] = 0
+        else:
+            workers_by_country[c.capitalize()] = 0
+
+    workers = Factory.objects.filter(country__in=country_list, product_type=product_type)\
+        .values('country').annotate(sum_workers=Sum('total_workers'))
+
+    workers_total = Factory.objects.filter(country__in=country_list, product_type=product_type).aggregate(Sum('total_workers'))
+    total = workers_total['total_workers__sum']
+
+
+    for c in workers:
+        if c['country'].split() > 1:
+            key = ' '.join([x.capitalize() for x in c['country'].split()])
+            workers_by_country[key] = c['sum_workers']
+        else:
+            workers_by_country[c['country'].capitalize()] = c['sum_workers']
+
+    return workers_by_country, total
