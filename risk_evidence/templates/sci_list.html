@@ -21,49 +21,67 @@
     </form>
 
     <h2>{{ country }}</h2>
+
+    <div class="Table_title">
+        <table id="table1" class="table" style="width: 98.6%">
+            <tr style="background-color: #ca382b">
+                <td style="width: 7.8%"> </td>
+                {% for i in hint %}
+                    <td style="width: 4%"><span title="{{ i }}"><a style="color: white">H{{ forloop.counter }}</a></span></td>
+                {% endfor %}
+            </tr>
+        </table>
+    </div>
+
+
+
+    <div class="FixedHeightContainer1">
+        <div class="Content1">
     <div class="row">
         <div class="col-md-12 ">
         <table id="table1" class="table table-striped">
-            <tr style="background-color: #ca382b">
-                <td> </td>
-                {% for i in hint %}
-                    <td><span title="{{ i }}"><a style="color: white">H{{ forloop.counter }}</a></span></td>
-                {% endfor %}
-            </tr>
+{#            <tr style="background-color: #ca382b">#}
+{#                <td> </td>#}
+{#                {% for i in hint %}#}
+{#                    <td><span title="{{ i }}"><a style="color: white">H{{ forloop.counter }}</a></span></td>#}
+{#                {% endfor %}#}
+{#            </tr>#}
         {% for e in evidences %}
             <tr>
-                <td><a href={% url 'risk_evidence.views.evidence_edit' e.id %}>Evidence{{ forloop.counter }}</a></td>
-                <td class="y_n">{{ e.h1 }}</td>
-                <td class="y_n">{{ e.h2 }}</td>
-                <td class="y_n">{{ e.h3 }}</td>
-                <td class="y_n">{{ e.h4 }}</td>
-                <td class="y_n">{{ e.h5 }}</td>
-                <td class="y_n">{{ e.h6 }}</td>
-                <td class="y_n">{{ e.h7 }}</td>
-                <td class="y_n">{{ e.h8 }}</td>
-                <td class="y_n">{{ e.h9 }}</td>
-                <td class="y_n">{{ e.h10 }}</td>
-                <td class="y_n">{{ e.h11 }}</td>
-                <td class="y_n">{{ e.h12 }}</td>
-                <td class="y_n">{{ e.h13 }}</td>
-                <td class="y_n">{{ e.h14 }}</td>
-                <td class="y_n">{{ e.h15 }}</td>
-                <td class="y_n">{{ e.h16 }}</td>
-                <td class="y_n">{{ e.h17 }}</td>
-                <td class="y_n">{{ e.h18 }}</td>
-                <td class="y_n">{{ e.h19 }}</td>
-                <td class="y_n">{{ e.h20 }}</td>
-                <td class="y_n">{{ e.h21 }}</td>
-                <td class="y_n">{{ e.h22 }}</td>
-                <td class="y_n">{{ e.h23 }}</td>
+                <td style="width: 7.8%"><a href={% url 'risk_evidence.views.evidence_edit' e.id %}>Evidence{{ forloop.counter }}</a></td>
+                <td class="y_n" style="width: 4%">{{ e.h1 }}</td>
+                <td class="y_n" style="width: 4%">{{ e.h2 }}</td>
+                <td class="y_n" style="width: 4%">{{ e.h3 }}</td>
+                <td class="y_n" style="width: 4%">{{ e.h4 }}</td>
+                <td class="y_n" style="width: 4%">{{ e.h5 }}</td>
+                <td class="y_n" style="width: 4%">{{ e.h6 }}</td>
+                <td class="y_n" style="width: 4%">{{ e.h7 }}</td>
+                <td class="y_n" style="width: 4%">{{ e.h8 }}</td>
+                <td class="y_n" style="width: 4%">{{ e.h9 }}</td>
+                <td class="y_n" style="width: 4%">{{ e.h10 }}</td>
+                <td class="y_n" style="width: 4%">{{ e.h11 }}</td>
+                <td class="y_n" style="width: 4%">{{ e.h12 }}</td>
+                <td class="y_n" style="width: 4%">{{ e.h13 }}</td>
+                <td class="y_n" style="width: 4%">{{ e.h14 }}</td>
+                <td class="y_n" style="width: 4%">{{ e.h15 }}</td>
+                <td class="y_n" style="width: 4%">{{ e.h16 }}</td>
+                <td class="y_n" style="width: 4%">{{ e.h17 }}</td>
+                <td class="y_n" style="width: 4%">{{ e.h18 }}</td>
+                <td class="y_n" style="width: 4%">{{ e.h19 }}</td>
+                <td class="y_n" style="width: 4%">{{ e.h20 }}</td>
+                <td class="y_n" style="width: 4%">{{ e.h21 }}</td>
+                <td class="y_n" style="width: 4%">{{ e.h22 }}</td>
+                <td class="y_n" style="width: 4%">{{ e.h23 }}</td>
             </tr>
         {% endfor %}
     </table>
     </div>
     </div>
+        </div>
+    </div>
 
     <div class="Table_title">
-        <table id="table2"class="table" style="width: 100%">
+        <table id="table2" class="table" style="width: 100%">
 {#            <div class="col-md-12">#}
                 <tr style="background-color: #CA382B">
                     <th style="width: 8%"> </th>
@@ -77,11 +95,10 @@
         </table>
     </div>
 
-    <div class="FixedHeightContainer">
-        <div class="Content">
+    <div class="FixedHeightContainer2">
+        <div class="Content2">
             <table id="table3" class="table table-striped">
                     <div class="col-md-12">
-
                          {% for e in evidences %}
                             <tr>
                                 <td>Evidence{{ forloop.counter }}</td>

@@ -105,18 +105,34 @@ body {
   border-radius: 50%;
 }
 
-.FixedHeightContainer
+.FixedHeightContainer1
 {
     /*float: inherit;*/
-    height: 550px;
+    height: 350px;
     /*width:1280px;*/
     padding: 0px;
     /*background:#f00;*/
 
 }
-.Content
+.FixedHeightContainer2
 {
-    height:500px;
+    /*float: inherit;*/
+    height: 500px;
+    /*width:1280px;*/
+    padding: 0px;
+    /*background:#f00;*/
+
+}
+.Content1
+{
+    height:330px;
+    overflow:auto;
+    background:#fff;
+    font-size: xx-large;
+}
+.Content2
+{
+    height:450px;
     overflow:auto;
     background:#fff;
     font-size: xx-large;
@@ -134,11 +150,13 @@ body {
 table#table1 {
     font-size: x-small;
     padding: 0px;
+    margin: 0;
 }
 table#table2 {
     color: #f3fef3;
     font-size: small;
     height: 39px;
+    margin: 0;
 }
 
 
@@ -248,28 +266,28 @@ span:hover {
 }
 
 
-span[title]:hover:after {
-  content: attr(title);
-  padding: 4px 8px;
-  color: #333;
-  position: absolute;
-  right: -100px;
-  top: 100%;
-  white-space: nowrap;
-  /*z-index: 20px;*/
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-  -moz-box-shadow: 0px 0px 4px #222;
-  -webkit-box-shadow: 0px 0px 4px #222;
-  box-shadow: 0px 0px 4px #222;
-  background-image: -moz-linear-gradient(top, #eeeeee, #cccccc);
-  background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #eeeeee),color-stop(1, #cccccc));
-  background-image: -webkit-linear-gradient(top, #eeeeee, #cccccc);
-  background-image: -moz-linear-gradient(top, #eeeeee, #cccccc);
-  background-image: -ms-linear-gradient(top, #eeeeee, #cccccc);
-  background-image: -o-linear-gradient(top, #eeeeee, #cccccc);
-}
+/*span[title]:hover:after {*/
+  /*content: attr(title);*/
+  /*padding: 4px 8px;*/
+  /*color: #333;*/
+  /*position: absolute;*/
+  /*right: -100px;*/
+  /*top: 100%;*/
+  /*white-space: nowrap;*/
+  /*/!*z-index: 20px;*!/*/
+  /*-moz-border-radius: 5px;*/
+  /*-webkit-border-radius: 5px;*/
+  /*border-radius: 5px;*/
+  /*-moz-box-shadow: 0px 0px 4px #222;*/
+  /*-webkit-box-shadow: 0px 0px 4px #222;*/
+  /*box-shadow: 0px 0px 4px #222;*/
+  /*background-image: -moz-linear-gradient(top, #eeeeee, #cccccc);*/
+  /*background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #eeeeee),color-stop(1, #cccccc));*/
+  /*background-image: -webkit-linear-gradient(top, #eeeeee, #cccccc);*/
+  /*background-image: -moz-linear-gradient(top, #eeeeee, #cccccc);*/
+  /*background-image: -ms-linear-gradient(top, #eeeeee, #cccccc);*/
+  /*background-image: -o-linear-gradient(top, #eeeeee, #cccccc);*/
+/*}*/
 
 button#evidence_add.btn.btn-default {
     margin-left: 90%;
