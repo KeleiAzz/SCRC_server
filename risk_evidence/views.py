@@ -146,8 +146,8 @@ def evidence_edit(request, e_id):
             return redirect('/risk_evidence/probability/%s/' % country)
     category = instance.category
     hypothesis = list(reversed([x.text for x in Hypothesis.objects.filter(category=category)]))
-    form.fields['country'].widget.attrs['disabled'] = True
-    form.fields['category'].widget.attrs['disabled'] = True
+    form.fields['country'].widget.attrs['readonly'] = True
+    form.fields['category'].widget.attrs['readonly'] = True
     return render(request, 'evidence_edit.html', {'form': form, "e_id": instance.id, 'hint': hypothesis})
 
 def overview(request):

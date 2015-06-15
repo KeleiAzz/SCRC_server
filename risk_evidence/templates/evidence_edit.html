@@ -23,12 +23,13 @@
                         </tr>
                     {% endfor %}
         </table>
-    <input type="submit" value="Update" name="btn1"/>
-    <input type="submit" value="Delete" name="btn2"/>
+    <input type="submit" value="Update" name="btn1" onclick="return confirm('Are you sure to update this evidence?')"/>
+
+    <input style="margin-left: 200px" type="submit" value="Delete" name="btn2" onclick="return confirm('Are you sure to delete this evidence?')"/>
     </div>
     <br>
-
-
-
     </form>
 {% endblock %}
+<script>
+
+</script>
