@@ -1,0 +1,33 @@
+{% extends 'dashboard.html' %}
+{% block title %}Edit evidence{% endblock %}
+{% block page_head %}Edit Evidence{% endblock %}
+
+{% block test %}
+    <form method="POST">
+{#        {{ form.as_p }}#}
+        {% csrf_token %}
+    <div id="left">
+        <table class="table" id="form-table">
+                    {% for field in form %}
+                        <tr >
+                            <td>
+                                <ul>
+                                    <li>{{ field.label_tag }}</li>
+                                    <li>{{ field.errors }}</li>
+                                    <li>{{ field }}</li>
+                                    {% if forloop.counter > 8 %}
+                                        <li>{{ hint.pop }}</li>
+                                    {% endif %}
+                                </ul>
+                            </td>
+                        </tr>
+                    {% endfor %}
+        </table>
+    <input type="submit" value="Update" />
+    </div>
+    <br>
+
+
+
+    </form>
+{% endblock %}
