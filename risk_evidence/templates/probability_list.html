@@ -12,8 +12,8 @@
         <br>
     </form>
 
-    <div class="col-md-12 col-md-offset-11">
-        <a href={% url "risk_evidence.views.evidence_add" %}>Add Evidence</a>
+    <div class="col-md-12">
+{#        <a href={% url "risk_evidence.views.evidence_add" %}>Add Evidence</a>#}
     </div>
 
     <h2>{{ country }}</h2>
@@ -23,7 +23,7 @@
             <tr style="background-color: #CA382B">
                 <td> </td>
                 {% for i in hint %}
-                    <td><span title="{{ i }}"><a style="color: white">H{{ forloop.counter }}</a></span></td>
+                    <td><span title="{{ i }}">H{{ forloop.counter }}</span></td>
                 {% endfor %}
             </tr>
         {% for e in evidences %}
