@@ -142,6 +142,7 @@ class Hypothesis(models.Model):
         ('P', 'Probability'),
     )
     category = models.CharField(max_length=5, choices=CATEGORY_CHOICES)
+    brief = models.TextField(default='')
 
     class Meta:
         ordering = ('num',)
