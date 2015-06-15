@@ -146,3 +146,19 @@ class Hypothesis(models.Model):
     class Meta:
         ordering = ('num',)
         unique_together = ('num', 'category')
+
+class Factory(models.Model):
+    name = models.TextField(default='')
+    product_type = models.CharField(max_length=20, default='')
+    brand = models.CharField(max_length=25, default='')
+    event = models.TextField(default='')
+    address = models.TextField(default='')
+    city = models.CharField(max_length=50, default='')
+    state = models.CharField(max_length=50, default='')
+    postal_code = models.CharField(max_length=30, default='')
+    country = models.CharField(max_length=30, default='')
+    operating_region = models.CharField(max_length=30, default='')
+    total_workers = models.IntegerField(default=0)
+    line_workers = models.IntegerField(default=0)
+    female_percent = models.FloatField(default=0.0)
+    migrant_percent = models.FloatField(default=0.0)
