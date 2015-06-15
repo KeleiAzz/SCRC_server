@@ -213,9 +213,17 @@ def visual_map(request):
                         'values': a_v,
                     }
         )
+    if request.method == 'POST':
+        if 'btn1' in request.POST:
+            return render(request, 'visual_map.html', {'data_scatterchart_container': json.dumps(data), 'type': 'Overall'})
+        if 'btn2' in request.POST:
+            return render(request, 'visual_map.html', {'data_scatterchart_container': json.dumps(footwear_data), 'type': 'Footwear'})
+        if 'btn3' in request.POST:
+            return render(request, 'visual_map.html', {'data_scatterchart_container': json.dumps(apparel_data), 'type': 'Apparel'})
+
+    return render(request, 'visual_map.html', {'data_scatterchart_container': json.dumps(data), 'type': 'Overall'})
 
 
-    return render_to_response('visual_map.html', {'data_scatterchart_container': json.dumps(apparel_data)})
 
 def hypothesis_list(request):
     sci = [x.text for x in Hypothesis.objects.filter(category="SCI")]

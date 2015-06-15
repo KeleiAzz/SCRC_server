@@ -28,8 +28,15 @@
 
 {% block test %}
 
-<h2>Major Risk Indicators - Country Footprint in Apparel</h2>
+<h2>Major Risk Indicators - Country Footprint in {{ type }}</h2>
 
+    <form method="POST" action={% url 'risk_evidence.views.visual_map' %}>
+        {% csrf_token %}
+        <input name="selected" value="na" hidden="true"/>
+        <button type="submit" class="btn btn-default" name="btn1">Overall</button>
+        <button type="submit" class="btn btn-default" name="btn2">Footwear</button>
+        <button type="submit" class="btn btn-default" name="btn3">Apparel</button>
+    </form>
 
 <div class="row">
     <div id="test1" >
