@@ -33,9 +33,19 @@ jQuery(document).ready(function(){
     });
 });
 
-//$('#left').find(".form-country").on('change',function(){
-//    $("#id_country option:contains('China')").attr('selected', true);;
-//});
+$("#id_form1-evidence").on("keyup paste", function() {
+    $("#id_form2-evidence").val($(this).val());
+});
+$("#id_form1-summary").on("keyup paste", function() {
+    $("#id_form2-summary").val($(this).val());
+});
+$("#id_form1-source").on("keyup paste", function() {
+    $("#id_form2-source").val($(this).val());
+});
+$("#id_form1-type").on("keyup paste", function() {
+    $("#id_form2-type").val($(this).val());
+});
+
 //$('#right').find(".form-country").on('change',function(){
 //    $('#id_summary').val("hahah");
 //
