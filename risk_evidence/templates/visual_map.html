@@ -46,60 +46,82 @@
 {#        <svg></svg>#}
 {#    </div>#}
 </div>
+
 <script type="text/javascript">
     drawChart('test1', {{ data_scatterchart_container|safe }});
-{#    drawChart('test2', {{ data_scatterchart_container|safe }});#}
+    drawChart('test2', {{ data_scatterchart_container|safe }});
 
     // register our custom symbols to nvd3
     // make sure your path is valid given any size because size scales if the chart scales.
     function drawChart(div, data) {
-    nv.utils.symbolMap.set('thin-x', function(size) {
-        size = Math.sqrt(size);
-        return 'M' + (-size/2) + ',' + (-size/2) +
-                'l' + size + ',' + size +
-                'm0,' + -(size) +
-                'l' + (-size) + ',' + size;
-    });
-    json_data = data;
-
-    var chart;
-    nv.addGraph(function() {
-        chart = nv.models.scatterChart()
-            .showDistX(true)
-            .showDistY(true)
-            .useVoronoi(true)
-            .color(d3.scale.category10().range())
-            .duration(300)
-        ;
-        chart.margin({top:45})
-        chart.dispatch.on('renderEnd', function(){
-            console.log('render complete');
+        nv.utils.symbolMap.set('thin-x', function (size) {
+            size = Math.sqrt(size);
+            return 'M' + (-size / 2) + ',' + (-size / 2) +
+                    'l' + size + ',' + size +
+                    'm0,' + -(size) +
+                    'l' + (-size) + ',' + size;
         });
-        chart.xAxis
-            .axisLabel("Supply Chain Impact");     //Set X-axis attributes
+        json_data = data;
 
-        chart.yAxis
-            .axisLabel("Probability");
-        chart.xAxis.tickFormat(d3.format('.02f'));
-        chart.yAxis.tickFormat(d3.format('.02f'));
+        var chart;
+        nv.addGraph(function () {
+            chart = nv.models.scatterChart()
+                    .showDistX(true)
+                    .showDistY(true)
+                    .useVoronoi(true)
+                    .color(d3.scale.category10().range())
+                    .duration(300)
+            ;
+            chart.margin({top: 45})
+            chart.dispatch.on('renderEnd', function () {
+                console.log('render complete');
+            });
+            chart.xAxis
+                    .axisLabel("Supply Chain Impact");     //Set X-axis attributes
 
-        d3.select('#' + div + ' svg')
-            .datum(json_data)
-            .call(chart);
+            chart.yAxis
+                    .axisLabel("Probability");
+            chart.xAxis.tickFormat(d3.format('.02f'));
+            chart.yAxis.tickFormat(d3.format('.02f'));
 
-        //d3.select('#test2')
-        //        .append('svg')
-        //    .datum(json_data)
-        //    .call(chart);
+            d3.select('#' + div + ' svg')
+                    .datum(json_data)
+                    .call(chart);
 
-        nv.utils.windowResize(chart.update);
+            d3.select('#' + div + ' svg')
+                    .append('line')
+                    .attr({
+                        x1: x(6),
+                        y1: chart.yAxis.scale()(0.5) + 400,
+                        x2: x(6),
+                        y2: chart.yAxis.scale()(0.5) + 44
+                    }
+            )
+                    .style("stroke", "#000");
 
-        chart.dispatch.on('stateChange', function(e) { ('New State:', JSON.stringify(e)); });
+{#            d3.select('#' + div + ' svg')#}
+{#                    .append('line')#}
+{#                    .attr('x1',x(0))#}
+{#                    .attr('x2',x(5))#}
+{#                    .attr('y1',y(0))#}
+{#                    .attr('y2',y(0.5))#}
+{#                    .style("stroke", "#0f0");#}
 
-        return chart;
-    });
+            nv.utils.windowResize(chart.update);
 
-};
+            chart.dispatch.on('stateChange', function (e) {
+                ('New State:', JSON.stringify(e));
+            });
+            chart.append('line')
+            .attr('x1',x(0))
+            .attr('x2',x(10))
+            .attr('y1',y(0))
+            .attr('y2',y(0.5))
+
+            return chart;
+        });
+
+    };
 </script>
 
 {% endblock %}

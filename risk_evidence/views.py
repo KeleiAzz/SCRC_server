@@ -6,6 +6,7 @@ from helpers import get_num_scales, get_overview, get_workers_num
 from django.db.models import Sum
 import random
 import json
+
 # Create your views here.
 def score_create(request):
     form = Score
@@ -210,6 +211,8 @@ def visual_map(request):
                         'yAxis': 1,
                         'key': country,
                         'values': v,
+                        'slope': 0.000000001,
+                        'intercept': .5,
                     }
         )
         footwear_data.append(
@@ -217,6 +220,8 @@ def visual_map(request):
                         'yAxis': 1,
                         'key': country,
                         'values': f_v,
+                        'slope': 0.000000001,
+                        'intercept': .5,
                     }
         )
         apparel_data.append(
@@ -224,8 +229,18 @@ def visual_map(request):
                         'yAxis': 1,
                         'key': country,
                         'values': a_v,
+                        'slope': 0.000000001,
+                        'intercept': .5,
                     }
         )
+    # data.append({
+    #                     'yAxis': 1,
+    #                     'key': 'test',
+    #                     'values': [],
+    #                     'slope': 2,
+    #                     'intercept': .5,
+    #                 })
+
     if request.method == 'POST':
         if 'btn1' in request.POST:
             return render(request, 'visual_map.html', {'data_scatterchart_container': json.dumps(data), 'type': 'Overall'})
