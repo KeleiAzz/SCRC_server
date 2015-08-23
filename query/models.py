@@ -19,6 +19,14 @@ class Rating(models.Model):
     score = models.FloatField(default=0)
     expire_date = models.DateField(default=None)
 
+class Secondary(models.Model):
+    company = models.ForeignKey(Company)
+    section = models.CharField(max_length=150)
+    category = models.CharField(max_length=150)
+    link = models.TextField(default='')
+    description = models.TextField(default='')
+    date = models.DateField(default=None)
+
 class Evidence(models.Model):
     name = models.TextField(default='')
     note = models.TextField(default='')
