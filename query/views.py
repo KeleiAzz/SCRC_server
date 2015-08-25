@@ -22,13 +22,17 @@ def company_details(request, id):
 def company_secondary(request, id):
     company = Company.objects.get(name=id)
 
-    secondary = Secondary.objects.all().filter(company_id=company.id)
-
-    sections = ['SRM Evaluation', 'LHR Evaluation', 'Environmental Sustainability Evaluation']
+    SRM = Secondary.objects.all().filter(company_id=company.id, section='SRM Evaluation')
+    LHR = Secondary.objects.all().filter(company_id=company.id, section='LHR Evaluation')
+    ES = Secondary.objects.all().filter(company_id=company.id, section='Environmental Sustainability Evaluation')
+    # sections = ['SRM Evaluation', 'LHR Evaluation', 'Environmental Sustainability Evaluation']
     # for row in secondary:
+    if len(SRM) + len(LHR) + len(ES) == 0:
+        return render(request, 'secondary.html', {'no_data': 1, 'company': company.name})
+    # SRM = []
 
 
-    return render(request, 'secondary.html', {'secondary_data': secondary})
+    return render(request, 'secondary.html', {'SRM': SRM, 'LHR': LHR, 'ES': ES, 'company': company.name})
 
 def basic_search(request):
     if request.method == "POST":
