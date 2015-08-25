@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from query.models import Company, Rating, Evidence
+from query.models import Company, Rating, Evidence, Secondary
 from django.db.models import Q
 
 from django.views.generic.edit import FormView
@@ -18,6 +18,17 @@ def company_details(request, id):
     ratings = Rating.objects.all().filter(company_id=company.id).order_by('date', 'category_id')
 
     return render(request, 'company_details.html', {'company': company, 'ratings': ratings})
+
+def company_secondary(request, id):
+    company = Company.objects.get(name=id)
+
+    secondary = Secondary.objects.all().filter(company_id=company.id)
+
+    sections = ['SRM Evaluation', 'LHR Evaluation', 'Environmental Sustainability Evaluation']
+    # for row in secondary:
+
+
+    return render(request, 'secondary.html', {'secondary_data': secondary})
 
 def basic_search(request):
     if request.method == "POST":
