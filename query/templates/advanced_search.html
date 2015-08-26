@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'base2.html' %}
+{% block title %}Advanced Search{% endblock title %}
+{% block test %}
 <html>
     <head>
         <title>SCRC query system</title>
@@ -63,4 +64,4 @@
         <a href={% url "query.views.home_page" %}> Home </a>
     </footer>
 </html>
-{% endblock content %}
+{% endblock test %}
