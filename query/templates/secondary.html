@@ -1,6 +1,8 @@
-{% extends 'base.html' %}
+{% extends 'base2.html' %}
 
-{% block content %}
+{% block title %}{{ company }} - Secondary data{% endblock title %}
+
+{% block test %}
     <h1>{{ company }}</h1>
     {% if no_data == 1 %}
         <br>
@@ -8,77 +10,7 @@
     {% endif %}
 
 
-    <div class="panel-group">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" href="#collapse1">SRM Evaluation</a>
-                </h4>
-            </div>
-            <div id="collapse1" class="panel-collapse collapse">
-                <div class="panel-body">
-                    {% for line in SRM %}
-                    <b>{{ line.category }}</b>
-                    <br>
-                    {% if line.link == 'N/A' %}
-                        N/A
-                    {% else %}
-                    <a href="{{ line.link}}" >{{ line.link }}</a>
-                    {% endif %}
-                    <div class="brief">{{ line.description }}</div>
-                    <br>
-                    {% endfor %}
-                </div>
-{#                <div class="panel-footer">Panel Footer</div>#}
-            </div>
-
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" href="#collapse2">LHR Evaluation</a>
-                </h4>
-            </div>
-            <div id="collapse2" class="panel-collapse collapse">
-                <div class="panel-body">
-                    {% for line in LHR %}
-                    <b>{{ line.category }}</b>
-                    <br>
-                    {% if line.link == 'N/A' %}
-                        N/A
-                    {% else %}
-                    <a href="{{ line.link}}" >{{ line.link }}</a>
-                    {% endif %}
-                    <div class="brief">{{ line.description }}</div>
-                    <br>
-                    {% endfor %}
-                </div>
-{#                <div class="panel-footer">Panel Footer</div>#}
-            </div>
-
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" href="#collapse3">Environmental Sustainability Evaluation</a>
-                </h4>
-            </div>
-            <div id="collapse3" class="panel-collapse collapse">
-                <div class="panel-body">
-                    {% for line in ES %}
-                    <b>{{ line.category }}</b>
-                    <br>
-                    {% if line.link == 'N/A' %}
-                        N/A
-                    {% else %}
-                    <a href="{{ line.link}}" >{{ line.link }}</a>
-                    {% endif %}
-                    <div class="brief">{{ line.description }}</div>
-                    <br>
-                    {% endfor %}
-                </div>
-{#                <div class="panel-footer">Panel Footer</div>#}
-            </div>
-
-        </div>
-    </div>
-
+{% include 'secondary_data.html' %}
 
 
 {#    <h3>SRM Evaluation</h3>#}
@@ -120,5 +52,5 @@
 {#        <br>#}
 {#    {% endfor %}#}
 
-{% endblock content %}
+{% endblock test %}
 
