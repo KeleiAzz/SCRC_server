@@ -17,7 +17,7 @@
 }
 
 h1{
-    font-family: 'Lobster', cursive;
+    /*font-family: 'Lobster', cursive;*/
 }
 
 .date {
@@ -76,4 +76,12 @@ span {
 .table1 {
     table-layout: fixed;
     width: 100px;
+}
+
+.brief {
+    white-space: pre-wrap;
+}
+
+.category{
+
 }

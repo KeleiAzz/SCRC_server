@@ -58,6 +58,8 @@ def advanced_search(request):
             # selected_company = [i for i in selected]
             selected_company_name = [Company.objects.get(id=int(i)).name for i in selected_company]
             selected_details = {}
+
+
             for i in range(len(selected_company)):
                 selected_details[selected_company_name[i]] = \
                     Rating.objects.all().filter(company_id=int(selected_company[i])).order_by('date','category_id')
@@ -82,6 +84,7 @@ def advanced_search(request):
             selected_company_id = '#'.join(selected_company)
             selected_company_name = [Company.objects.get(id=int(i)).name for i in selected_company]
             selected_details = {}
+
             for i in range(len(selected_company)):
                 selected_details[selected_company_name[i]] = \
                     Rating.objects.all().filter(company_id=int(selected_company[i])).order_by('date','category_id')
@@ -92,10 +95,9 @@ def advanced_search(request):
                                                             'selected_company_id': selected_company_id,
                                                             })
 
-    # if request.method == 'POST' and request.POST.getlist('choice_field', 0) == 0 :
-    #     companies = Company.objects.filter(name__icontains=request.POST['company_name'])
-    #     return redirect('/', {'companies': companies})
     return render(request, 'advanced_search.html', {'form': form, 'choice_field': request.POST.getlist('choice_field', 0) })
+
+
 
 def evidence_list(request):
 
