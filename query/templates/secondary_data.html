@@ -9,11 +9,11 @@
                 <div class="panel-body">
                     {% for line in SRM %}
                     <b>{{ line.category }}</b>
-                    <br>
+
                     {% if line.link == 'N/A' %}
                         N/A
                     {% else %}
-                    <a href="{{ line.link}}" target="_blank">{{ line.link }}</a>
+                    <a href="{{ line.link}}" target="_blank">Link</a>
                     {% endif %}
                     <div class="brief">{{ line.description }}</div>
                     <br>
@@ -31,11 +31,11 @@
                 <div class="panel-body">
                     {% for line in LHR %}
                     <b>{{ line.category }}</b>
-                    <br>
+{#                    <br>#}
                     {% if line.link == 'N/A' %}
                         N/A
                     {% else %}
-                    <a href="{{ line.link}}" target="_blank">{{ line.link }}</a>
+                    <a href="{{ line.link}}" target="_blank">Link</a>
                     {% endif %}
                     <div class="brief">{{ line.description }}</div>
                     <br>
@@ -53,11 +53,11 @@
                 <div class="panel-body">
                     {% for line in ES %}
                     <b>{{ line.category }}</b>
-                    <br>
+{#                    <br>#}
                     {% if line.link == 'N/A' %}
                         N/A
                     {% else %}
-                    <a href="{{ line.link}}" target="_blank">{{ line.link }}</a>
+                    <a href="{{ line.link}}" target="_blank">Link</a>
                     {% endif %}
                     <div class="brief">{{ line.description }}</div>
                     <br>
