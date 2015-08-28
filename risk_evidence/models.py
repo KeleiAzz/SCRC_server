@@ -143,6 +143,7 @@ class Hypothesis(models.Model):
     )
     category = models.CharField(max_length=5, choices=CATEGORY_CHOICES)
     brief = models.TextField(default='')
+    area = models.TextField(default='')
 
     class Meta:
         ordering = ('num',)

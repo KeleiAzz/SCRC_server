@@ -254,6 +254,25 @@ def visual_map(request):
 
 
 def hypothesis_list(request):
-    sci = [x.text for x in Hypothesis.objects.filter(category="SCI")]
-    p = [x.text for x in Hypothesis.objects.filter(category="P")]
-    return render(request, 'hypothesis_list.html', {'sci': sci, 'p': p})
+    sci = [(x.num, x.area, x.text) for x in Hypothesis.objects.filter(category="SCI")]
+
+    sci_area = [(sci[0][1].strip(), [])]
+    for h in sci:
+        if h[1].strip() == sci_area[-1][0]:
+            sci_area[-1][1].append((h[0], h[2]))
+        else:
+            sci_area.append(
+                (h[1], [(h[0], h[2])])
+            )
+
+    p = [(x.num, x.area, x.text) for x in Hypothesis.objects.filter(category="P")]
+
+    p_area = [(p[0][1].strip(), [])]
+    for h in p:
+        if h[1].strip() == p_area[-1][0]:
+            p_area[-1][1].append((h[0], h[2]))
+        else:
+            p_area.append(
+                (h[1], [(h[0], h[2])])
+            )
+    return render(request, 'hypothesis_list.html', {'sci': sci_area, 'p': p_area})
