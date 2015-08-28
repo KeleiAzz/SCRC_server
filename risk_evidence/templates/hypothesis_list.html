@@ -4,23 +4,88 @@
 {% block page_head %}Hypothesis List{% endblock %}
 
 {% block test %}
-    <h3>Hypotheses for Supply Chain Impact</h3>
-    <table class="table table-striped">
-    {% for h in sci %}
-        <tr>
-            <td>H{{ forloop.counter }}</td>
-            <td>{{ h }}</td>
-        </tr>
-    {% endfor %}
-    </table>
-    <h3>Hypotheses for Probability</h3>
-    <table class="table table-striped">
-    {% for h in p %}
-        <tr>
-            <td>H{{ forloop.counter }}</td>
-            <td>{{ h }}</td>
-        </tr>
-    {% endfor %}
-    </table>
+    <h3 id="hp-list-1">   Hypotheses for Supply Chain Impact</h3>
+{#    <table class="table table-striped">#}
+{#    {% for value in sci %}#}
+{#            <tr>#}
+{#                <td> </td>#}
+{#                <td><b>{{ value.0 }}</b></td>#}
+{#            </tr>#}
+{#        {% for h in value.1 %}#}
+{#            <tr>#}
+{#                <td>H{{ h.0 }}</td>#}
+{#                <td>{{ h.1 }}</td>#}
+{#            </tr>#}
+{#        {% endfor %}#}
+{##}
+{#    {% endfor %}#}
+{#    </table>#}
+    <div class="panel-group">
+        <div class="panel panel-default">
+            {% for value in sci %}
+            <div class="panel-heading" id="panel-heading{{ forloop.counter }}">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#collapse{{ forloop.counter }}">{{ value.0 }}</a>
+                </h4>
+            </div>
+            <div id="collapse{{ forloop.counter }}" class="panel-collapse collapse">
+                <div class="panel-body">
+                <table class="table" id="collapse-table">
+                    {% for h in value.1 %}
+                        <tr>
+                            <td>H{{ h.0 }}</td>
+                            <td>{{ h.1 }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                </div>
+{#                <div class="panel-footer">Panel Footer</div>#}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <h3 id="hp-list-1">Hypotheses for Probability</h3>
+{#    <table class="table table-striped">#}
+{#    {% for value in p %}#}
+{#        <tr>#}
+{#            <td> </td>#}
+{#            <td><b>{{ value.0 }}</b></td>#}
+{#        </tr>#}
+{#        {% for h in value.1 %}#}
+{#            <tr>#}
+{#                <td>H{{ h.0 }}</td>#}
+{#                <td>{{ h.1 }}</td>#}
+{#            </tr>#}
+{#        {% endfor %}#}
+{#    {% endfor %}#}
+{#    </table>#}
+
+    <div class="panel-group">
+        <div class="panel panel-default">
+            {% for value in p %}
+            <div class="panel-heading" id="panel-heading{{ forloop.counter|add:6 }}">
+                <h4 class="panel-title" id="panel-title{{ forloop.counter|add:6 }}">
+                    <a data-toggle="collapse" href="#collapse{{ forloop.counter|add:6 }}">{{ value.0 }}</a>
+                </h4>
+            </div>
+            <div id="collapse{{ forloop.counter|add:6 }}" class="panel-collapse collapse">
+                <div class="panel-body">
+                <table class="table" id="collapse-table">
+                    {% for h in value.1 %}
+                        <tr>
+                            <td>H{{ h.0 }}</td>
+                            <td>{{ h.1 }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                </div>
+{#                <div class="panel-footer">Panel Footer</div>#}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
 
 {% endblock %}
