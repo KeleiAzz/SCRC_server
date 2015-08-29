@@ -1,0 +1,19 @@
+{% extends 'dashboard.html' %}
+
+{% block title %}Login{% endblock %}
+{% block page_head %}Login{% endblock %}
+
+{% block test %}
+        <form id="login_form" method="post" action="/login/">
+            {% csrf_token %}
+            Username: <input type="text" name="username" value="" size="50" />
+            <br>
+            <br>
+            Password: <input type="password" name="password" value="" size="50" />
+            <br>
+            <br>
+            <div class="buttonHolder">
+                <input type="submit" class="btn btn-lg" value="submit" />
+            </div>
+        </form>
+{% endblock test %}

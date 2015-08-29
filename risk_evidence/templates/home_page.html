@@ -25,9 +25,13 @@
 {% extends 'dashboard.html' %}
 {%  load static %}
 {% block title %}Risk Structure Analysis{% endblock %}
-{% block page_head %}{% endblock %}
+{% block page_head %}Introduction{% endblock %}
 
 {% block test %}
-
+{% if user.is_authenticated %}
+<h1>Hello {{ user.username }}!</h1>
+{% else %}
+<h1>Please login</h1>
+{% endif %}
 
 {% endblock %}

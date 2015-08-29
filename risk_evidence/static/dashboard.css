@@ -22,7 +22,8 @@ body {
  * Hide default border to remove 1px line.
  */
 .navbar-fixed-top {
-  border: 0;
+    border: 0;
+    background-color: #0e0e10;
 }
 
 /*
@@ -349,7 +350,7 @@ button#evidence_add.btn.btn-default {
 }
 
 .navbar-fixed-top{
-    background-color: #0e0e10;
+
 }
 
 #page-top{

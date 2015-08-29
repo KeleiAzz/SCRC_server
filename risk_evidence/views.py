@@ -4,24 +4,29 @@ from models import Score, Evidence, Hypothesis, Factory
 from forms import ScoreForm, CountryChoiceForm, EvidenceForm
 from helpers import get_num_scales, get_overview, get_workers_num
 from django.db.models import Sum
+from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.auth.decorators import login_required
 import random
 import json
 
 # Create your views here.
+@login_required
 def score_create(request):
     form = Score
     return render(request, 'score_create_form.html', {'form': form})
 
 def home(request):
-
     return render(request, 'home_page.html')
 
+# @login_required
 def score_list(request):
     scores = Score.objects.all()
     scores1 = Score.objects.all().filter(category='SCI').order_by('sub_category')
     scores2 = Score.objects.all().filter(category='P').order_by('sub_category')
     return render(request, 'score_list.html', {'scores1': scores1, 'form': ScoreForm, 'scores2': scores2})
 
+@login_required
 def score_add(request):
 
     if request.method == 'POST':
@@ -33,6 +38,7 @@ def score_add(request):
     scores2 = Score.objects.all().filter(category='P').order_by('sub_category')
     return render(request, 'score_add.html', {'scores1': scores1, 'form': ScoreForm, 'scores2': scores2})
 
+@login_required
 def score_edit(request, score_id):
     scores = Score.objects.all()
     scores1 = Score.objects.all().filter(category='SCI').order_by('sub_category')
@@ -44,6 +50,7 @@ def score_edit(request, score_id):
         return redirect('score_list')
     return render(request, 'score_edit.html', {'scores1': scores1, 'scores2': scores2, 'form': form, "score_id": instance.id})
 
+# @login_required
 def sci_list(request):
     if request.method == 'POST':
         country = request.POST.get('Select Country')
@@ -57,6 +64,7 @@ def sci_list(request):
             'hint': hypothesis,
             'country_form': country_form})
 
+# @login_required
 def sci_list_country(request, country):
     credibility, relevance, letter_scale = get_num_scales('SCI')
     hypothesis = [x.text for x in Hypothesis.objects.filter(category='SCI')]
@@ -72,7 +80,7 @@ def sci_list_country(request, country):
     country_form = CountryChoiceForm
     return render(request, 'sci_list.html', {'evidences': evidences, 'hint': hypothesis, 'country': country, 'country_form': country_form})
 
-
+# @login_required
 def probability_list(request):
     if request.method == 'POST':
         country = request.POST.get('Select Country')
@@ -86,6 +94,7 @@ def probability_list(request):
             'hint': hypothesis,
             'country_form': country_form})
 
+# @login_required
 def probability_list_country(request, country):
     credibility, relevance, letter_scale = get_num_scales('P')
     hypothesis = [x.text for x in Hypothesis.objects.filter(category='P')]
@@ -100,8 +109,7 @@ def probability_list_country(request, country):
     country_form = CountryChoiceForm
     return render(request, 'probability_list.html', {'evidences': evidences, 'hint': hypothesis, 'country': country, 'country_form': country_form})
 
-
-
+@login_required
 def evidence_add(request):
     hypothesis1 = list(reversed([x.text for x in Hypothesis.objects.filter(category='SCI')]))
     hypothesis2 = list(reversed([x.text for x in Hypothesis.objects.filter(category='P')]))
@@ -125,7 +133,7 @@ def evidence_add(request):
         form2 = EvidenceForm(initial={'category': 'P'}, prefix='form2')
     return render(request, 'evidence_add.html', {'form1': form1, 'form2': form2, 'hint1': hypothesis1, 'hint2':hypothesis2})
 
-
+@login_required
 def evidence_edit(request, e_id):
     instance = get_object_or_404(Evidence, id=e_id)
     if request.method == "POST" and 'btn2' in request.POST:
@@ -150,6 +158,7 @@ def evidence_edit(request, e_id):
     form.fields['country'].widget.attrs['readonly'] = True
     form.fields['category'].widget.attrs['readonly'] = True
     return render(request, 'evidence_edit.html', {'form': form, "e_id": instance.id, 'hint': hypothesis})
+
 
 def overview(request):
     # For supply chain impact
@@ -252,7 +261,7 @@ def visual_map(request):
     return render(request, 'visual_map.html', {'data_scatterchart_container': json.dumps(data), 'type': 'Overall'})
 
 
-
+# @login_required
 def hypothesis_list(request):
     sci = [(x.num, x.area, x.text) for x in Hypothesis.objects.filter(category="SCI")]
 
@@ -276,3 +285,39 @@ def hypothesis_list(request):
                 (h[1], [(h[0], h[2])])
             )
     return render(request, 'hypothesis_list.html', {'sci': sci_area, 'p': p_area})
+
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user:
+            # Is the account active? It could have been disabled.
+            if user.is_active:
+                # If the account is valid and active, we can log the user in.
+                # We'll send the user back to the homepage.
+                login(request, user)
+                return HttpResponseRedirect('/')
+            else:
+                # An inactive account was used - no logging in!
+                return HttpResponse("Your Rango account is disabled.")
+        else:
+            # Bad login details were provided. So we can't log the user in.
+            print "Invalid login details: {0}, {1}".format(username, password)
+            return HttpResponse("Invalid login details supplied.")
+
+    # The request is not a HTTP POST, so display the login form.
+    # This scenario would most likely be a HTTP GET.
+    else:
+        # No context variables to pass to the template system, hence the
+        # blank dictionary object...
+        return render(request, 'login.html', {})
+
+@login_required
+def user_logout(request):
+    # Since we know the user is logged in, we can now just log them out.
+    logout(request)
+
+    # Take the user back to the homepage.
+    return HttpResponseRedirect('/')
+
