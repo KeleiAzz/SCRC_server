@@ -14,10 +14,10 @@ def home_page(request):
 
 @login_required
 def company_details(request, id):
-    if len(id) > 3:
-        company = Company.objects.get(name=id)
-    else:
-        company = Company.objects.get(id=id)
+    # if len(id) > 3:
+    company = Company.objects.get(name=id)
+    # else:
+    #     company = Company.objects.get(id=id)
     ratings = Rating.objects.all().filter(company_id=company.id).order_by('date', 'category_id')
 
     return render(request, 'company_details.html', {'company': company, 'ratings': ratings})
