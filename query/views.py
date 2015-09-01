@@ -1,15 +1,18 @@
 from django.shortcuts import render, redirect
 from query.models import Company, Rating, Evidence, Secondary
 from django.db.models import Q
-
+from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import FormView
 from query.forms import MultipleChoiceForm, CountryChoiceForm
+from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponseRedirect, HttpResponse
 # Create your views here.
 
 def home_page(request):
     companies = Company.objects.all()
     return render(request, 'home.html', {'companies': companies})
 
+@login_required
 def company_details(request, id):
     if len(id) > 3:
         company = Company.objects.get(name=id)
@@ -19,6 +22,7 @@ def company_details(request, id):
 
     return render(request, 'company_details.html', {'company': company, 'ratings': ratings})
 
+@login_required
 def company_secondary(request, id):
     company = Company.objects.get(name=id)
 
@@ -34,6 +38,7 @@ def company_secondary(request, id):
 
     return render(request, 'secondary.html', {'SRM': SRM, 'LHR': LHR, 'ES': ES, 'company': company.name})
 
+@login_required
 def basic_search(request):
     if request.method == "POST":
         choice = request.POST.get('choice', 0)
@@ -48,6 +53,7 @@ def basic_search(request):
         companies = Company.objects.all()
     return render(request, 'basic_search.html', {'companies': companies})
 
+@login_required
 def advanced_search(request):
     form = MultipleChoiceForm(request)
     if 'btn1' in request.POST:
@@ -154,3 +160,37 @@ def evidence_list(request):
 #     template_name = 'advanced_search.html'
 #     form_class = MultipleChoiceForm
 #     success_url = '/advanced_search/'
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user:
+            # Is the account active? It could have been disabled.
+            if user.is_active:
+                # If the account is valid and active, we can log the user in.
+                # We'll send the user back to the homepage.
+                login(request, user)
+                return HttpResponseRedirect('/query/')
+            else:
+                # An inactive account was used - no logging in!
+                return HttpResponse("Your Rango account is disabled.")
+        else:
+            # Bad login details were provided. So we can't log the user in.
+            print "Invalid login details: {0}, {1}".format(username, password)
+            return HttpResponse("Invalid login details supplied.")
+
+    # The request is not a HTTP POST, so display the login form.
+    # This scenario would most likely be a HTTP GET.
+    else:
+        # No context variables to pass to the template system, hence the
+        # blank dictionary object...
+        return render(request, 'login.html', {})
+
+@login_required
+def user_logout(request):
+    # Since we know the user is logged in, we can now just log them out.
+    logout(request)
+
+    # Take the user back to the homepage.
+    return HttpResponseRedirect('/query/')

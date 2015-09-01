@@ -16,6 +16,7 @@
 
     <!-- Custom styles for this template -->
     <link href="/static/dashboard.css" rel="stylesheet" media="screen">
+    <link href="/static/multiple-select.css" rel="stylesheet" media="screen"/>
 
   </head>
 
@@ -35,7 +36,11 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
             <li><a href=#>Settings</a></li>
-            <li><a href="#">Login</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="/query/logout/">Logout</a></li>
+            {% else %}
+                <li><a href="/query/login/">Login</a></li>
+            {% endif %}
           </ul>
         </div>
       </div>
