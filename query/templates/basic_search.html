@@ -1,14 +1,14 @@
 {% extends 'base2.html' %}
 
 {% block title %}Basic Search{% endblock title %}
-
+{% block page_head %}Basic Search{% endblock page_head %}
 {% block test %}
 <html>
     <head>
         <title>SCRC query system</title>
     </head>
     <body>
-        <h1>Company list</h1>
+{#        <h1>Company list</h1>#}
         <form method="POST">
             {% csrf_token %}
             <input name="company_name" id="id_search_company" placeholder="Enter a company name" />

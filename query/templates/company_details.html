@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 {% extends 'base2.html' %}
 {% block title %}{{ company.name }} - details{% endblock title %}
-
+{% block page_head %}{{ company.name }}{% endblock page_head %}
 {% block test %}
 <html>
     <head>
         <title>SCRC query system</title>
     </head>
     <body>
-        <h1>{{ company.name }}</h1>
+{#        <h1>{{ company.name }}</h1>#}
         <a href={% url "query.views.company_secondary" company.name %}> Secondary data </a>
         <table id="company_info_table">
 {#                    <tr><td>{{ company.name }}</td></tr>#}
-                    <tr><td>Ticker: {{ company.ticker }}</td></tr>
+{#                    <tr><td>Ticker: {{ company.ticker }}</td></tr>#}
                     <tr><td>Bloomberg ticker: {{ company.bloomberg_ticker }}</td></tr>
                     <tr><td>Website: <a href= "http://{{ company.website }}"  target="_blank"> {{ company.website }} </a></td></tr>
                     <tr><td>Industry group: {{ company.industry_group }}</td></tr>
