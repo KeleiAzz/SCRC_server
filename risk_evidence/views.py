@@ -19,7 +19,7 @@ def score_create(request):
 def home(request):
     return render(request, 'home_page.html')
 
-# @login_required
+@login_required
 def score_list(request):
     scores = Score.objects.all()
     scores1 = Score.objects.all().filter(category='SCI').order_by('sub_category')
@@ -50,7 +50,7 @@ def score_edit(request, score_id):
         return redirect('score_list')
     return render(request, 'score_edit.html', {'scores1': scores1, 'scores2': scores2, 'form': form, "score_id": instance.id})
 
-# @login_required
+@login_required
 def sci_list(request):
     if request.method == 'POST':
         country = request.POST.get('Select Country')
@@ -64,7 +64,7 @@ def sci_list(request):
             'hint': hypothesis,
             'country_form': country_form})
 
-# @login_required
+@login_required
 def sci_list_country(request, country):
     credibility, relevance, letter_scale = get_num_scales('SCI')
     hypothesis = [x.text for x in Hypothesis.objects.filter(category='SCI')]
@@ -80,7 +80,7 @@ def sci_list_country(request, country):
     country_form = CountryChoiceForm
     return render(request, 'sci_list.html', {'evidences': evidences, 'hint': hypothesis, 'country': country, 'country_form': country_form})
 
-# @login_required
+@login_required
 def probability_list(request):
     if request.method == 'POST':
         country = request.POST.get('Select Country')
@@ -94,7 +94,7 @@ def probability_list(request):
             'hint': hypothesis,
             'country_form': country_form})
 
-# @login_required
+@login_required
 def probability_list_country(request, country):
     credibility, relevance, letter_scale = get_num_scales('P')
     hypothesis = [x.text for x in Hypothesis.objects.filter(category='P')]
@@ -159,7 +159,7 @@ def evidence_edit(request, e_id):
     form.fields['category'].widget.attrs['readonly'] = True
     return render(request, 'evidence_edit.html', {'form': form, "e_id": instance.id, 'hint': hypothesis})
 
-
+@login_required
 def overview(request):
     # For supply chain impact
     hypothesis1 = [x.text for x in Hypothesis.objects.filter(category='SCI')]
@@ -169,7 +169,7 @@ def overview(request):
     probability_overview = get_overview('P')
     return render(request, 'overview.html', {'sci_overview': sci_overview, 'hint1': hypothesis1, 'hint2':hypothesis2, 'p_overview': probability_overview})
 
-
+@login_required
 def visual_map(request):
     sci_overview = get_overview("SCI")
     # For probability
@@ -261,7 +261,7 @@ def visual_map(request):
     return render(request, 'visual_map.html', {'data_scatterchart_container': json.dumps(data), 'type': 'Overall'})
 
 
-# @login_required
+@login_required
 def hypothesis_list(request):
     sci = [(x.num, x.area, x.text) for x in Hypothesis.objects.filter(category="SCI")]
 
