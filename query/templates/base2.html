@@ -7,17 +7,18 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-{#    <link rel="icon" href="../../favicon.ico">#}
+    <script type="text/javascript" src="/static/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/static/jquery.quicksearch.js" ></script>
+    <script type="text/javascript" src="/static/jquery.multi-select.js"></script>
 
-    <title>{% block title %}{% endblock %}</title>
-
-    <!-- Bootstrap core CSS -->
     <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-
-    <!-- Custom styles for this template -->
     <link href="/static/query.css" rel="stylesheet" media="screen">
-    <link href="/static/multiple-select.css" rel="stylesheet" media="screen"/>
+    <link href="/static/multi-select.css" rel="stylesheet" type="text/css"/>
 
+
+{#    <script type="text/javascript" src="/static/jquery.multiple.select.js"></script>#}
+{#    <link href="/static/multiple-select.css" rel="stylesheet" type="text/css"/>#}
+    <title>{% block title %}{% endblock %}</title>
   </head>
 
   <body>
@@ -60,6 +61,7 @@
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <h1 class="page-header">{% block page_head %}{% endblock %}</h1>
+
             {% block test %}
             {% endblock %}
         </div>
@@ -69,8 +71,9 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
     <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
+
 {#    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.js"></script>#}
 {#    <script type="text/javascript" src="/static/risk_evidence.js"></script>#}
   </body>
