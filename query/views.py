@@ -12,7 +12,7 @@ def home_page(request):
     companies = Company.objects.all()
     return render(request, 'home.html', {'companies': companies})
 
-@login_required
+@login_required(login_url='/query/login')
 def company_details(request, id):
     # if len(id) > 3:
     company = Company.objects.get(name=id)
@@ -22,7 +22,7 @@ def company_details(request, id):
 
     return render(request, 'company_details.html', {'company': company, 'ratings': ratings})
 
-@login_required
+@login_required(login_url='/query/login')
 def company_secondary(request, id):
     company = Company.objects.get(name=id)
 
@@ -38,7 +38,7 @@ def company_secondary(request, id):
 
     return render(request, 'secondary.html', {'SRM': SRM, 'LHR': LHR, 'ES': ES, 'company': company.name})
 
-@login_required
+@login_required(login_url='/query/login')
 def basic_search(request):
     if request.method == "POST":
         choice = request.POST.get('choice', 0)
@@ -53,7 +53,7 @@ def basic_search(request):
         companies = Company.objects.all()
     return render(request, 'basic_search.html', {'companies': companies})
 
-@login_required
+@login_required(login_url='/query/login')
 def advanced_search(request):
     form = MultipleChoiceForm(request)
     if 'btn1' in request.POST:
@@ -187,7 +187,7 @@ def user_login(request):
         # blank dictionary object...
         return render(request, 'login.html', {})
 
-@login_required
+@login_required(login_url='/query/login')
 def user_logout(request):
     # Since we know the user is logged in, we can now just log them out.
     logout(request)

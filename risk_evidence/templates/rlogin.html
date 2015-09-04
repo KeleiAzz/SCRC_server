@@ -4,7 +4,7 @@
 {% block page_head %}Login{% endblock %}
 
 {% block test %}
-        <form id="login_form" method="post" action="/login/">
+        <form id="login_form" method="post" action="/risk_evidence/login/">
             {% csrf_token %}
             Username: <input type="text" name="username" value="" size="50" />
             <br>

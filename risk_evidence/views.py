@@ -11,7 +11,7 @@ import random
 import json
 
 # Create your views here.
-@login_required
+@login_required(login_url='/risk_evidence/login')
 def score_create(request):
     form = Score
     return render(request, 'score_create_form.html', {'form': form})
@@ -19,14 +19,14 @@ def score_create(request):
 def home(request):
     return render(request, 'home_page.html')
 
-@login_required
+@login_required(login_url='/risk_evidence/login')
 def score_list(request):
     scores = Score.objects.all()
     scores1 = Score.objects.all().filter(category='SCI').order_by('sub_category')
     scores2 = Score.objects.all().filter(category='P').order_by('sub_category')
     return render(request, 'score_list.html', {'scores1': scores1, 'form': ScoreForm, 'scores2': scores2})
 
-@login_required
+@login_required(login_url='/risk_evidence/login')
 def score_add(request):
 
     if request.method == 'POST':
@@ -38,7 +38,7 @@ def score_add(request):
     scores2 = Score.objects.all().filter(category='P').order_by('sub_category')
     return render(request, 'score_add.html', {'scores1': scores1, 'form': ScoreForm, 'scores2': scores2})
 
-@login_required
+@login_required(login_url='/risk_evidence/login')
 def score_edit(request, score_id):
     scores = Score.objects.all()
     scores1 = Score.objects.all().filter(category='SCI').order_by('sub_category')
@@ -50,7 +50,7 @@ def score_edit(request, score_id):
         return redirect('score_list')
     return render(request, 'score_edit.html', {'scores1': scores1, 'scores2': scores2, 'form': form, "score_id": instance.id})
 
-@login_required
+@login_required(login_url='/risk_evidence/login')
 def sci_list(request):
     if request.method == 'POST':
         country = request.POST.get('Select Country')
@@ -64,7 +64,7 @@ def sci_list(request):
             'hint': hypothesis,
             'country_form': country_form})
 
-@login_required
+@login_required(login_url='/risk_evidence/login')
 def sci_list_country(request, country):
     credibility, relevance, letter_scale = get_num_scales('SCI')
     hypothesis = [x.text for x in Hypothesis.objects.filter(category='SCI')]
@@ -80,7 +80,7 @@ def sci_list_country(request, country):
     country_form = CountryChoiceForm
     return render(request, 'sci_list.html', {'evidences': evidences, 'hint': hypothesis, 'country': country, 'country_form': country_form})
 
-@login_required
+@login_required(login_url='/risk_evidence/login')
 def probability_list(request):
     if request.method == 'POST':
         country = request.POST.get('Select Country')
@@ -94,7 +94,7 @@ def probability_list(request):
             'hint': hypothesis,
             'country_form': country_form})
 
-@login_required
+@login_required(login_url='/risk_evidence/login')
 def probability_list_country(request, country):
     credibility, relevance, letter_scale = get_num_scales('P')
     hypothesis = [x.text for x in Hypothesis.objects.filter(category='P')]
@@ -109,7 +109,7 @@ def probability_list_country(request, country):
     country_form = CountryChoiceForm
     return render(request, 'probability_list.html', {'evidences': evidences, 'hint': hypothesis, 'country': country, 'country_form': country_form})
 
-@login_required
+@login_required(login_url='/risk_evidence/login')
 def evidence_add(request):
     hypothesis1 = list(reversed([x.text for x in Hypothesis.objects.filter(category='SCI')]))
     hypothesis2 = list(reversed([x.text for x in Hypothesis.objects.filter(category='P')]))
@@ -133,7 +133,7 @@ def evidence_add(request):
         form2 = EvidenceForm(initial={'category': 'P'}, prefix='form2')
     return render(request, 'evidence_add.html', {'form1': form1, 'form2': form2, 'hint1': hypothesis1, 'hint2':hypothesis2})
 
-@login_required
+@login_required(login_url='/risk_evidence/login')
 def evidence_edit(request, e_id):
     instance = get_object_or_404(Evidence, id=e_id)
     if request.method == "POST" and 'btn2' in request.POST:
@@ -159,7 +159,7 @@ def evidence_edit(request, e_id):
     form.fields['category'].widget.attrs['readonly'] = True
     return render(request, 'evidence_edit.html', {'form': form, "e_id": instance.id, 'hint': hypothesis})
 
-@login_required
+@login_required(login_url='/risk_evidence/login')
 def overview(request):
     # For supply chain impact
     hypothesis1 = [x.text for x in Hypothesis.objects.filter(category='SCI')]
@@ -169,7 +169,7 @@ def overview(request):
     probability_overview = get_overview('P')
     return render(request, 'overview.html', {'sci_overview': sci_overview, 'hint1': hypothesis1, 'hint2':hypothesis2, 'p_overview': probability_overview})
 
-@login_required
+@login_required(login_url='/risk_evidence/login')
 def visual_map(request):
     sci_overview = get_overview("SCI")
     # For probability
@@ -261,7 +261,7 @@ def visual_map(request):
     return render(request, 'visual_map.html', {'data_scatterchart_container': json.dumps(data), 'type': 'Overall'})
 
 
-@login_required
+@login_required(login_url='/risk_evidence/login')
 def hypothesis_list(request):
     sci = [(x.num, x.area, x.text) for x in Hypothesis.objects.filter(category="SCI")]
 
@@ -300,7 +300,7 @@ def user_login(request):
                 return HttpResponseRedirect('/')
             else:
                 # An inactive account was used - no logging in!
-                return HttpResponse("Your Rango account is disabled.")
+                return HttpResponse("Your account is disabled.")
         else:
             # Bad login details were provided. So we can't log the user in.
             print "Invalid login details: {0}, {1}".format(username, password)
@@ -311,9 +311,9 @@ def user_login(request):
     else:
         # No context variables to pass to the template system, hence the
         # blank dictionary object...
-        return render(request, 'login.html', {})
+        return render(request, 'rlogin.html', {})
 
-@login_required
+@login_required(login_url='/risk_evidence/login')
 def user_logout(request):
     # Since we know the user is logged in, we can now just log them out.
     logout(request)

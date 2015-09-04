@@ -17,4 +17,6 @@ urlpatterns = patterns('',
     url(r'^visual_map', 'risk_evidence.views.visual_map', name='visual_map'),
     url(r'^hypothesis_list', 'risk_evidence.views.hypothesis_list', name='hypothesis_list'),
     url(r'^evidence/edit/(\d+)/$', 'risk_evidence.views.evidence_edit', name='evidence_edit'),
+    url(r'^logout', 'risk_evidence.views.user_logout', name='logout'),
+    url(r'^login', 'risk_evidence.views.user_login', name='login'),
 )

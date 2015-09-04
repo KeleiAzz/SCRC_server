@@ -36,9 +36,9 @@
           <ul class="nav navbar-nav navbar-right">
             <li><a href={% url 'score_list' %}>Settings</a></li>
             {% if user.is_authenticated %}
-                <li><a href="/logout/">Logout</a></li>
+                <li><a href="/risk_evidence/logout/">Logout</a></li>
             {% else %}
-                <li><a href="/login/">Login</a></li>
+                <li><a href="/risk_evidence/login/">Login</a></li>
             {% endif %}
 
           </ul>
