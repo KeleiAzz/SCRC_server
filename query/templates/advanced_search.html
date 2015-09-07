@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% extends 'base2.html' %}
+{% load sort_dict %}
 {% block title %}Advanced Search{% endblock title %}
 {% block page_head %}Advanced Search{% endblock page_head %}
 {% block test %}
@@ -7,71 +8,42 @@
 {#    <script type="text/javascript" src="/static/risk_evidence.js"></script>#}
 <html>
     <head>
+        <script type="text/javascript" src="/static/query.js"></script>
         <title>SCRC query system</title>
     </head>
     <body>
         <h1>Multiple search</h1>
         <form method="POST" action="/query/advanced_search/">
             {% csrf_token %}
-            <input name="company_name" id="id_search_company" placeholder="Enter a company name" />
+{#            <input name="company_name" id="id_search_company" placeholder="Enter a company name" />#}
 {#            <input type="radio" name="choice" id="choice_1" value="1" />#}
 {#            <label for="choice_1">By name</label>#}
 {#            <input type="radio" name="choice" id="choice_2" value="2" />#}
 {#            <label for="choice_2">By ticker</label>#}
-            <br>
-            <button type="submit" class="btn btn-default" name="btn1">Search</button>
-            <br>
+{#            <br>#}
+{#            <button type="submit" class="btn btn-default" name="btn1">Search</button>#}
+{#            <br>#}
             <select multiple="multiple" id="my-select" name="my-select" class="searchable">
-            {% for company in companies %}
-                <option value={{ company.id }}>{{ company.name }}</option>
+            {% for industry, companies in grouped_companies.items|sort %}
+                <optgroup label={{ industry }}>
+                {% for company in companies %}
+                    <option value={{ company.id }}>{{ company.name }}</option>
+                {% endfor %}
+                </optgroup>
             {% endfor %}
-            </select>>
-            <script type="text/javascript">
-                $('.searchable').multiSelect({
-                    selectableHeader: "<input type='text' class='search-input' autocomplete='off' placeholder='Company name'>",
-                    selectionHeader: "<input type='text' class='search-input' autocomplete='off' placeholder='Company name'>",
-                    afterInit: function(ms){
-                      var that = this,
-                          $selectableSearch = that.$selectableUl.prev(),
-                          $selectionSearch = that.$selectionUl.prev(),
-                          selectableSearchString = '#'+that.$container.attr('id')+' .ms-elem-selectable:not(.ms-selected)',
-                          selectionSearchString = '#'+that.$container.attr('id')+' .ms-elem-selection.ms-selected';
+            </select>
+{#            <script type="text/javascript">#}
 
-                      that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
-                      .on('keydown', function(e){
-                        if (e.which === 40){
-                          that.$selectableUl.focus();
-                          return false;
-                        }
-                      });
-
-                      that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
-                      .on('keydown', function(e){
-                        if (e.which == 40){
-                          that.$selectionUl.focus();
-                          return false;
-                        }
-                      });
-                    },
-                    afterSelect: function(){
-                      this.qs1.cache();
-                      this.qs2.cache();
-                    },
-                    afterDeselect: function(){
-                      this.qs1.cache();
-                      this.qs2.cache();
-                    }
-                });
-            </script>
-            {{ form.as_table }}
-            <script type="text/javascript">
-                $('#id_choice_field').multipleSelect({
-                    filter: true,
+{#            </script>#}
+{#            {{ form.as_table }}#}
+{#            <script type="text/javascript">#}
+{#                $('#id_choice_field').multipleSelect({#}
+{#                    filter: true,#}
 {#                    multiple: true#}
-                });
-            </script>
+{#                });#}
+{#            </script>#}
             <br>
-            <button type="submit" class="btn btn-default" name="btn2">Add</button>
+            <button type="submit" class="btn btn-default" name="btn2">Search</button>
             <br>
             <h2>{{ country }}</h2>
             <table class="table table-condensed">
