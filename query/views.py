@@ -54,21 +54,20 @@ def basic_search(request):
         if choice == '1' or choice == 0:
             companies = Company.objects.filter(Q(name__icontains=request.POST['company_name']) &
                                                Q(id__in=companies_with_rating)).order_by('industry_group')
-        industry = companies[0].industry_group
-        grouped_companies = {industry: []}
-        for company in companies:
-            if company.industry_group == industry:
-                grouped_companies[industry].append(company)
-            else:
-                grouped_companies[company.industry_group] = [company]
-                industry = company.industry_group
 
-        return render(request, 'basic_search.html', {'grouped_companyies': grouped_companies})
     else:
-        # companies = Company.objects.filter(id__in=companies_with_rating).order_by('industry_group')
-        return render(request, 'basic_search.html')
+        companies = Company.objects.filter(id__in=companies_with_rating).order_by('industry_group')
+        # return render(request, 'basic_search.html')
 
-
+    industry = companies[0].industry_group
+    grouped_companies = {industry: []}
+    for company in companies:
+        if company.industry_group == industry:
+            grouped_companies[industry].append(company)
+        else:
+            grouped_companies[company.industry_group] = [company]
+            industry = company.industry_group
+    return render(request, 'basic_search.html', {'grouped_companyies': grouped_companies})
 
 
 @login_required(login_url='/query/login')
