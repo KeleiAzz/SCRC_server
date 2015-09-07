@@ -40,68 +40,100 @@ def company_secondary(request, id):
 
 @login_required(login_url='/query/login')
 def basic_search(request):
+    companies_with_rating = Rating.objects.values_list('company_id', flat=True).distinct()
     if request.method == "POST":
         choice = request.POST.get('choice', 0)
+        if choice == '3':
+            companies = Company.objects.filter(Q(industry_group__icontains=request.POST['company_name']) &
+                                               Q(id__in=companies_with_rating)).order_by('industry_group')
         if choice == '2':
-            companies = Company.objects.filter(Q(bloomberg_ticker__icontains=request.POST['company_name']) |
-                                               Q(ticker__icontains=request.POST['company_name']))
+            companies = Company.objects.filter(Q(bloomberg_ticker__icontains=request.POST['company_name']) &
+                                               Q(id__in=companies_with_rating)).order_by('industry_group')
+
             # return render(request, 'basic_search.html', {'companies': companies})
         if choice == '1' or choice == 0:
-            companies = Company.objects.filter(name__icontains=request.POST['company_name'])
+            companies = Company.objects.filter(Q(name__icontains=request.POST['company_name']) &
+                                               Q(id__in=companies_with_rating)).order_by('industry_group')
+        industry = companies[0].industry_group
+        grouped_companies = {industry: []}
+        for company in companies:
+            if company.industry_group == industry:
+                grouped_companies[industry].append(company)
+            else:
+                grouped_companies[company.industry_group] = [company]
+                industry = company.industry_group
 
+        return render(request, 'basic_search.html', {'grouped_companyies': grouped_companies})
     else:
-        companies = Company.objects.all()
-    return render(request, 'basic_search.html', {'companies': companies})
+        # companies = Company.objects.filter(id__in=companies_with_rating).order_by('industry_group')
+        return render(request, 'basic_search.html')
+
+
+
 
 @login_required(login_url='/query/login')
 def advanced_search(request):
-    form = MultipleChoiceForm(request)
-    if 'btn1' in request.POST:
-        form = MultipleChoiceForm(request)
-        if request.POST.get('selected', 0) != 0:
-            selected_company = request.POST.get('selected').split('#')
-            selected_company = list(set(selected_company))
-            # selected_company = [i for i in selected]
-            selected_company_name = [Company.objects.get(id=int(i)).name for i in selected_company]
-            selected_details = {}
+    # form = MultipleChoiceForm(request)
+    companies_with_rating = Rating.objects.values_list('company_id', flat=True).distinct()
+    companies = Company.objects.filter(id__in=companies_with_rating).order_by('industry_group')
 
 
-            for i in range(len(selected_company)):
-                selected_details[selected_company_name[i]] = \
-                    Rating.objects.all().filter(company_id=int(selected_company[i])).order_by('date','category_id')
-        return render(request, 'advanced_search.html', {'form': form,
-                                                        'choice_field': request.POST.getlist('choice_field', 0),
-                                                        'selected_company_id': '#'.join(selected_company),
-                                                        'selected_company_name': selected_company_name,
-                                                        'selected_details': selected_details
-                                                        })
+    industry = companies[0].industry_group
+    grouped_companies = {industry: []}
+    for company in companies:
+        if company.industry_group == industry:
+            grouped_companies[industry].append(company)
+        else:
+            grouped_companies[company.industry_group] = [company]
+            industry = company.industry_group
+
+    # if 'btn1' in request.POST:
+    #     form = MultipleChoiceForm(request)
+    #     if request.POST.get('selected', 0) != 0:
+    #         selected_company = request.POST.get('selected').split('#')
+    #         selected_company = list(set(selected_company))
+    #         # selected_company = [i for i in selected]
+    #         selected_company_name = [Company.objects.get(id=int(i)).name for i in selected_company]
+    #         selected_details = {}
+    #
+    #
+    #         for i in range(len(selected_company)):
+    #             selected_details[selected_company_name[i]] = \
+    #                 Rating.objects.all().filter(company_id=int(selected_company[i])).order_by('date','category_id')
+    #     return render(request, 'advanced_search.html', {'form': form,
+    #                                                     'choice_field': request.POST.getlist('choice_field', 0),
+    #                                                     'selected_company_id': '#'.join(selected_company),
+    #                                                     'selected_company_name': selected_company_name,
+    #                                                     'selected_details': selected_details
+    #                                                     })
 
     if 'btn2' in request.POST:
-        if request.POST.get('selected', 0) != 0:
-            selected = request.POST.get('selected').split('#')
-            selected_company = selected
+        # if request.POST.get('selected', 0) != 0:
+        #     selected = request.POST.get('selected').split('#')
+        #     selected_company = selected
 
 
         if request.method == 'POST':
-            selected_company += [str(i) for i in request.POST.getlist('choice_field')]
-            selected_company = list(set(selected_company))
-            if '' in selected_company:
-                selected_company.remove('')
-            selected_company_id = '#'.join(selected_company)
-            selected_company_name = [Company.objects.get(id=int(i)).name for i in selected_company]
+            selected_company = request.POST.getlist('my-select')
+            # selected_company = list(set(selected_company))
+            # if '' in selected_company:
+            #     selected_company.remove('')
+            # selected_company_id = '#'.join(selected_company)
+            selected_company_name = [Company.objects.get(id=i).name for i in selected_company]
             selected_details = {}
 
             for i in range(len(selected_company)):
                 selected_details[selected_company_name[i]] = \
                     Rating.objects.all().filter(company_id=int(selected_company[i])).order_by('date','category_id')
 
-            return render(request, 'advanced_search.html', {'form': form,
+            return render(request, 'advanced_search.html', {
+                                                            'grouped_companies': grouped_companies,
                                                             'selected_company_name': selected_company_name,
                                                             'selected_details': selected_details,
-                                                            'selected_company_id': selected_company_id,
+                                                            # 'selected_company_id': selected_company_id,
                                                             })
 
-    return render(request, 'advanced_search.html', {'form': form, 'choice_field': request.POST.getlist('choice_field', 0) })
+    return render(request, 'advanced_search.html', {'grouped_companies': grouped_companies, 'choice_field': request.POST.getlist('choice_field', 0) })
 
 
 
