@@ -7,14 +7,19 @@
     </head>
     <body>
 {#        <h1>Company list</h1>#}
-        <h2><a href={% url "query.views.basic_search"%}>SCRC rating</a></h2>
+{#        <h2><a href={% url "query.views.basic_search"%}>SCRC rating</a></h2>#}
+    {% if user.is_authenticated %}
+<h1>Hello {{ user.username }}!</h1>
 
+{% else %}
+<h1>Please login</h1>
+{% endif %}
     </body>
     <br>
     <footer>
 {#        <a href={% url "query.views.evidence_list"%}>List</a>#}
         <br>
-        <a href={% url "query.views.home_page" %}> Home </a>
+{#        <a href={% url "query.views.home_page" %}> Home </a>#}
 
     </footer>
 </html>
