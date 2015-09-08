@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from query.models import Company, Rating, Evidence, Secondary
-from django.db.models import Q
+from django.db.models import Q, Avg
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import FormView
 from query.forms import MultipleChoiceForm, CountryChoiceForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
+
 # Create your views here.
 
 def home_page(request):
@@ -16,11 +17,41 @@ def home_page(request):
 def company_details(request, id):
     # if len(id) > 3:
     company = Company.objects.get(name=id)
+    industry = company.industry_group
     # else:
     #     company = Company.objects.get(id=id)
     ratings = Rating.objects.all().filter(company_id=company.id).order_by('date', 'category_id')
 
-    return render(request, 'company_details.html', {'company': company, 'ratings': ratings})
+    res = {}
+    p = 1
+    dates = []
+    for rating in ratings:
+        if (p + 5) % 6 == 0:
+            res[rating.date.year] = [rating.score]
+            p += 1
+            dates.append(rating.date)
+        else:
+            res[rating.date.year].append(rating.score)
+            p += 1
+            dates.append(rating.date)
+    dates = list(set(dates))
+
+    industry_companies = Company.objects.filter(industry_group=industry).values_list('id', flat=True)
+
+    industry_ratings = {}
+    for date in dates:
+        res["Industrial avg. in " + str(date.year)] = []
+        for category in range(1, 7, 1):
+            res["Industrial avg. in " + str(date.year)].append(
+                Rating.objects.filter(Q(date=date)
+                                      & Q(category_id=category)
+                                      & Q(company_id__in=industry_companies)).aggregate(Avg('score'))['score__avg']
+            )
+
+    # industry_ratings = Rating.objects.filter(Q(date__in=years) & Q(company_id__in=industry_companies)).order_by('date', 'company_id', 'category_id')
+
+
+    return render(request, 'company_details.html', {'company': company, 'ratings': ratings, 'res': res})
 
 @login_required(login_url='/query/login')
 def company_secondary(request, id):

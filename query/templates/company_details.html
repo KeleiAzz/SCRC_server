@@ -4,10 +4,16 @@
 {% block page_head %}{{ company.name }}{% endblock page_head %}
 {% block test %}
 <html>
+{#    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">#}
+{#    <link rel="stylesheet" href="/static/radar-chart.css">#}
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/highcharts-more.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
     <head>
         <title>SCRC query system</title>
     </head>
     <body>
+
 {#        <h1>{{ company.name }}</h1>#}
         <a href={% url "query.views.company_secondary" company.name %}> Secondary data </a>
         <table id="company_info_table">
@@ -20,31 +26,94 @@
         </table>
         <br>
         <div class="row">
-        <div class="col-md-5 col-md-offset-0">
-        <table id="company_ratings" class="table table-condensed">
-            <tr>Ratings:</tr>
-            <tr>
-                <td>Year</td>
-                <td>SM </td>
-                <td>SS </td>
-                <td>CM </td>
-                <td>SRM </td>
-                <td>LHR </td>
-                <td>ES </td>
-            </tr>
-            {% for rating in ratings %}
-                {% if forloop.counter|add:5|divisibleby:6 %}
-                    <tr></tr>
-                    <td>{{ rating.date.year }}</td>
-                {% endif %}
-                <td>{{ rating.score }} </td>
-            {% endfor %}
-        </table>
+            <div class="col-md-5 col-md-offset-0">
+                <table id="company_ratings" class="table table-condensed">
+                <tr>Ratings:</tr>
+                <tr>
+                    <td>Year</td>
+                    <td>SM </td>
+                    <td>SS </td>
+                    <td>CM </td>
+                    <td>SRM </td>
+                    <td>LHR </td>
+                    <td>ES </td>
+                </tr>
+                {% for rating in ratings %}
+                    {% if forloop.counter|add:5|divisibleby:6 %}
+                        <tr></tr>
+                        <td>{{ rating.date.year }}</td>
+                    {% endif %}
+                        <td>{{ rating.score }} </td>
+                {% endfor %}
+                </table>
+            </div>
         </div>
-        </div>
-        <p>
+{#    <div class="chart-container"></div>#}
+{#  <script type="text/javascript">#}
+{#    RadarChart.defaultConfig.levelTick = true;#}
+{#    RadarChart.draw(".chart-container", data);#}
+{#  </script>#}
+    <div id="container" style="min-width: 400px; max-width: 600px; height: 400px; margin: 0 auto"></div>
+    <script type="text/javascript">
+        $(function () {
 
-        </p>
+    $('#container').highcharts({
+
+        chart: {
+            polar: true,
+            type: 'line'
+        },
+
+        title: {
+            text: 'Ratings',
+            x: -80
+        },
+
+        pane: {
+            size: '80%'
+        },
+
+        xAxis: {
+            categories: ['SM', 'SS', 'CM', 'SRM',
+                    'LHR', 'ES'],
+            tickmarkPlacement: 'on',
+            lineWidth: 0
+        },
+
+        yAxis: {
+            gridLineInterpolation: 'polygon',
+            lineWidth: 0,
+            min: 0,
+            max: 5
+        },
+
+        tooltip: {
+            shared: true,
+            pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.y:,.2f}</b><br/>'
+        },
+
+        legend: {
+            align: 'right',
+            verticalAlign: 'top',
+            y: 5,
+            layout: 'vertical'
+        },
+
+
+        series: [
+            {% for year, rating in res.items %}
+            {
+            name: '{{ year }}',
+            data: {{ rating|safe }},
+            pointPlacement: 'on'
+            },
+            {% endfor %}
+
+        ]
+
+    });
+});
+    </script>
     </body>
     <br>
     <footer>
