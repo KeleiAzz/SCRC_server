@@ -4,21 +4,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
     <script src="/static/nvd3/build/nv.d3.js"></script>
 
-    <style>
-        text {
-            font: 12px sans-serif;
-        }
-        svg {
-            display: block;
-        }
-        #test1, svg {
-            margin: 0 0 0 0;
-            padding: 0px 0 0 0;
-            height: 520px;
-            width: 100%;
-        }
-
-    </style>
+{#    <style>#}
+{#        text {#}
+{#            font: 12px sans-serif;#}
+{#        }#}
+{#        svg {#}
+{#            display: block;#}
+{#        }#}
+{#        #test1, svg {#}
+{#            margin: 0 0 0 0;#}
+{#            padding: 0px 0 0 0;#}
+{#            height: 520px;#}
+{#            width: 100%;#}
+{#        }#}
+{##}
+{#    </style>#}
 
 
 
@@ -28,11 +28,9 @@
 {% block page_head %}Introduction{% endblock %}
 
 {% block test %}
-{% if user.is_authenticated %}
-<h1>Hello {{ user.username }}!</h1>
-
-{% else %}
-<h1>Please login</h1>
-{% endif %}
-
+    {% if user.is_authenticated %}
+        <h1>Hello {{ user.username }}!</h1>
+    {% else %}
+        <h1>Please login</h1>
+    {% endif %}
 {% endblock %}

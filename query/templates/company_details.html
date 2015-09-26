@@ -9,12 +9,12 @@
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="http://code.highcharts.com/highcharts-more.js"></script>
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
+
     <head>
         <title>SCRC query system</title>
     </head>
-    <body>
 
-{#        <h1>{{ company.name }}</h1>#}
+    <body>
         <a href={% url "query.views.company_secondary" company.name %}> Secondary data </a>
         <table id="company_info_table">
 {#                    <tr><td>{{ company.name }}</td></tr>#}
@@ -48,71 +48,64 @@
                 </table>
             </div>
         </div>
-{#    <div class="chart-container"></div>#}
-{#  <script type="text/javascript">#}
-{#    RadarChart.defaultConfig.levelTick = true;#}
-{#    RadarChart.draw(".chart-container", data);#}
-{#  </script>#}
-    <div id="container" style="min-width: 400px; max-width: 600px; height: 400px; margin: 0 auto"></div>
+        {#  <script type="text/javascript">#}
+        {#    <div class="chart-container"></div>#}
+        {#    RadarChart.defaultConfig.levelTick = true;#}
+        {#    RadarChart.draw(".chart-container", data);#}
+        {#  </script>#}
+        <div id="spider-chart" style="min-width: 400px; max-width: 600px; height: 400px; margin: 0 auto"></div>
     <script type="text/javascript">
         $(function () {
+            $('#spider-chart').highcharts({
 
-    $('#container').highcharts({
+                chart: {
+                    polar: true,
+                    type: 'line'
+                },
 
-        chart: {
-            polar: true,
-            type: 'line'
-        },
+                title: {
+                    text: 'Ratings',
+                    x: -80
+                },
 
-        title: {
-            text: 'Ratings',
-            x: -80
-        },
+                pane: {
+                    size: '80%'
+                },
 
-        pane: {
-            size: '80%'
-        },
+                xAxis: {
+                    categories: ['SM', 'SS', 'CM', 'SRM',
+                            'LHR', 'ES'],
+                    tickmarkPlacement: 'on',
+                    lineWidth: 0
+                },
 
-        xAxis: {
-            categories: ['SM', 'SS', 'CM', 'SRM',
-                    'LHR', 'ES'],
-            tickmarkPlacement: 'on',
-            lineWidth: 0
-        },
+                yAxis: {
+                    gridLineInterpolation: 'polygon',
+                    lineWidth: 0,
+                    min: 0,
+                    max: 5
+                },
 
-        yAxis: {
-            gridLineInterpolation: 'polygon',
-            lineWidth: 0,
-            min: 0,
-            max: 5
-        },
+                tooltip: {
+                    shared: true,
+                    pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.y:,.2f}</b><br/>'
+                },
 
-        tooltip: {
-            shared: true,
-            pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.y:,.2f}</b><br/>'
-        },
-
-        legend: {
-            align: 'right',
-            verticalAlign: 'top',
-            y: 5,
-            layout: 'vertical'
-        },
-
-
-        series: [
-            {% for year, rating in res.items %}
-            {
-            name: '{{ year }}',
-            data: {{ rating|safe }},
-            pointPlacement: 'on'
-            },
-            {% endfor %}
-
-        ]
-
-    });
-});
+                legend: {
+                    align: 'right',
+                    verticalAlign: 'top',
+                    y: 5,
+                    layout: 'vertical'
+                },
+                series: [
+                    {% for year, rating in res.items %}
+                    {name: '{{ year }}',
+                    data: {{ rating|safe }},
+                    pointPlacement: 'on'},
+                    {% endfor %}
+                ]
+            });
+        });
     </script>
     </body>
     <br>
