@@ -56,6 +56,8 @@
                     </tr>
                 {% endfor %}
                 </table>
+
+            {{ score_list }}
             </div>
         </div>
         {#  <script type="text/javascript">#}
@@ -109,9 +111,11 @@
                 },
                 series: [
                     {% for year, rating in res.items|sort %}
-                    {name: '{{ year }}',
-                    data: {{ rating|safe }},
-                    pointPlacement: 'on'},
+                        {% if 'Rank' not in year %}
+                            {name: '{{ year }}',
+                            data: {{ rating|safe }},
+                            pointPlacement: 'on'},
+                        {% endif %}
                     {% endfor %}
                 ]
             });

@@ -39,6 +39,8 @@ def company_details(request, id):
     industry_companies = Company.objects.filter(industry_group=industry).values_list('id', flat=True)
 
     industry_ratings = {}
+    score_list = {}
+    ranking = []
     for date in dates:
         res[str(date.year) + " Industrial avg."] = []
         res[str(date.year) + " Industrial best"] = []
@@ -53,9 +55,26 @@ def company_details(request, id):
                                       & Q(category_id=category)
                                       & Q(company_id__in=industry_companies)).aggregate(Max('score'))['score__max']
             )
+            score_list[category] = Rating.objects.filter(Q(date=date)
+                            & Q(category_id=category)
+                            & Q(company_id=industry_companies)).order_by('-score').values_list('score', flat=True).distinct()
+        ranking = []
+        for category in range(1, 7, 1):
+            ranking.append(list(score_list[category]).index(res[str(date.year)][category - 1]) + 1)
+        res[str(date.year) + " Rank"] = ranking
+
+
+    # for i in score_list.keys():
+
 
     # industry_ratings = Rating.objects.filter(Q(date__in=years) & Q(company_id__in=industry_companies)).order_by('date', 'company_id', 'category_id')
 
+    # ranking = []
+
+    # for category in range(1, 7, 1):
+    #     Rating.objects.filter(Q(date=date)
+    #                         & Q(category_id=category)
+    #                         & Q(company_id=company.id)).order_by('score').values_list('score', flat=True).distinct()
 
     return render(request, 'company_details.html', {'company': company, 'ratings': ratings, 'res': res})
 
