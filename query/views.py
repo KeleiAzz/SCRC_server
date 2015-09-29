@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from query.models import Company, Rating, Evidence, Secondary
-from django.db.models import Q, Avg
+from django.db.models import Q, Avg, Max
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import FormView
 from query.forms import MultipleChoiceForm, CountryChoiceForm
@@ -27,11 +27,11 @@ def company_details(request, id):
     dates = []
     for rating in ratings:
         if (p + 5) % 6 == 0:
-            res[rating.date.year] = [rating.score]
+            res[str(rating.date.year)] = [rating.score]
             p += 1
             dates.append(rating.date)
         else:
-            res[rating.date.year].append(rating.score)
+            res[str(rating.date.year)].append(rating.score)
             p += 1
             dates.append(rating.date)
     dates = list(set(dates))
@@ -40,12 +40,18 @@ def company_details(request, id):
 
     industry_ratings = {}
     for date in dates:
-        res["Industrial avg. in " + str(date.year)] = []
+        res[str(date.year) + " Industrial avg."] = []
+        res[str(date.year) + " Industrial best"] = []
         for category in range(1, 7, 1):
-            res["Industrial avg. in " + str(date.year)].append(
+            res[str(date.year) + " Industrial avg."].append(round(
                 Rating.objects.filter(Q(date=date)
                                       & Q(category_id=category)
                                       & Q(company_id__in=industry_companies)).aggregate(Avg('score'))['score__avg']
+            , 2))
+            res[str(date.year) + " Industrial best"].append(
+                Rating.objects.filter(Q(date=date)
+                                      & Q(category_id=category)
+                                      & Q(company_id__in=industry_companies)).aggregate(Max('score'))['score__max']
             )
 
     # industry_ratings = Rating.objects.filter(Q(date__in=years) & Q(company_id__in=industry_companies)).order_by('date', 'company_id', 'category_id')

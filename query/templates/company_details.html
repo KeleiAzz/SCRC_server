@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% extends 'base2.html' %}
+{% load sort_dict %}
 {% block title %}{{ company.name }} - details{% endblock title %}
 {% block page_head %}{{ company.name }}{% endblock page_head %}
 {% block test %}
@@ -38,12 +39,21 @@
                     <td>LHR </td>
                     <td>ES </td>
                 </tr>
-                {% for rating in ratings %}
-                    {% if forloop.counter|add:5|divisibleby:6 %}
-                        <tr></tr>
-                        <td>{{ rating.date.year }}</td>
-                    {% endif %}
-                        <td>{{ rating.score }} </td>
+{#                {% for rating in ratings %}#}
+{#                    {% if forloop.counter|add:5|divisibleby:6 %}#}
+{#                        <tr></tr>#}
+{#                        <td>{{ rating.date.year }}</td>#}
+{#                    {% endif %}#}
+{#                        <td>{{ rating.score }} </td>#}
+{#                {% endfor %}#}
+
+                {% for year, ratings in res.items|sort %}
+                    <tr>
+                        <td>{{ year }}</td>
+                        {% for rating in ratings %}
+                            <td>{{ rating|safe }}</td>
+                        {% endfor %}
+                    </tr>
                 {% endfor %}
                 </table>
             </div>
@@ -98,7 +108,7 @@
                     layout: 'vertical'
                 },
                 series: [
-                    {% for year, rating in res.items %}
+                    {% for year, rating in res.items|sort %}
                     {name: '{{ year }}',
                     data: {{ rating|safe }},
                     pointPlacement: 'on'},
