@@ -15,6 +15,7 @@ def deploy():
     _update_virtualenv(source_folder)
     _update_static_files(source_folder)
     _update_database(source_folder)
+    _restart_gunicorn()
 
 def _create_directory_structure_if_necessary(site_folder):
     for subfolder in ('static', 'virtualenv', 'source'):
@@ -53,4 +54,7 @@ def _update_static_files(source_folder):
 
 def _update_database(source_folder):
     run('cd %s && ../virtualenv/bin/python manage.py migrate --noinput' % (source_folder,))
+
+def _restart_gunicorn():
+    run('sudo restart gunicorn-scrc-query.noip.me')
 
