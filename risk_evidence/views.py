@@ -75,7 +75,7 @@ def sci_list_country(request, country):
             if len(field) < 4 and getattr(e, field) == 'NA':
                 pass
             elif 'h' in field and len(field) < 4  and getattr(e, field) != 'NA':
-                score = letter_scale[getattr(e, field)] * credibility[e.credibility] * relevance[e.relevance]
+                score = letter_scale[getattr(e, field)] * credibility[e.credibility.capitalize()] * relevance[e.relevance.capitalize()]
                 setattr(e, field, round(score, 3))
     country_form = CountryChoiceForm
     return render(request, 'sci_list.html', {'evidences': evidences, 'hint': hypothesis, 'country': country, 'country_form': country_form})
@@ -104,7 +104,7 @@ def probability_list_country(request, country):
             if len(field) < 4 and getattr(e, field) == 'NA':
                 pass
             elif 'h' in field and len(field) < 4  and getattr(e, field) != 'NA':
-                score = letter_scale[getattr(e, field)] * credibility[e.credibility] * relevance[e.relevance]
+                score = letter_scale[getattr(e, field)] * credibility[e.credibility.capitalize()] * relevance[e.relevance.capitalize()]
                 setattr(e, field, round(score, 3))
     country_form = CountryChoiceForm
     return render(request, 'probability_list.html', {'evidences': evidences, 'hint': hypothesis, 'country': country, 'country_form': country_form})
