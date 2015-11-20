@@ -41,7 +41,7 @@ def get_overview(category):
                     if getattr(e, h) == 'NA':
                         pass
                     else:
-                        score += letter_scale[getattr(e, h)] * credibility[e.credibility] * relevance[e.relevance]
+                        score += letter_scale[getattr(e, h)] * credibility[e.credibility.capitalize()] * relevance[e.relevance.capitalize()]
                 overview[country].append(round(score, 3))
     else:
         credibility, relevance, letter_scale = get_num_scales('P')
@@ -55,7 +55,7 @@ def get_overview(category):
                 score = 0
                 for e in evidences:
                     if getattr(e, h) == 'C C' or getattr(e, h) == 'C':
-                        score += letter_scale[getattr(e, h)] * credibility[e.credibility] * relevance[e.relevance]
+                        score += letter_scale[getattr(e, h)] * credibility[e.credibility.capitalize()] * relevance[e.relevance.capitalize()]
                     if getattr(e, h) != 'NA':
                         evidences_count[country][-1] += 1
                 overview[country].append(score)
