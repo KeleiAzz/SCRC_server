@@ -105,8 +105,8 @@
                                 <td>{{ e.evidence }}</td>
                                 <td>{{ e.summary }} <a target="_blank" href="{{ e.source }}">source</a></td>
                                 <td>{{ e.type }}</td>
-                                <td class="y_n">{{ e.credibility }}</td>
-                                <td class="y_n">{{ e.relevance }}</td>
+                                <td class="y_n">{{ e.credibility.capitalize }}</td>
+                                <td class="y_n">{{ e.relevance.capitalize }}</td>
                             </tr>
                         {% endfor %}
                     </div>
