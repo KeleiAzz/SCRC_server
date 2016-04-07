@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+    <meta charset="utf-8">
+    <link href="/static/nvd3/build/nv.d3.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+    <script src="/static/nvd3/build/nv.d3.js"></script>
+{#    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>#}
+{#    <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>#}
+    <style>
+        text {
+            font: 12px sans-serif;
+        }
+{#        svg {#}
+{#            display: block;#}
+{#        }#}
+        svg {
+{#            margin: 0 0 0 0;#}
+{#            padding: 0px 0 0 0;#}
+            height: 520px;
+{#            width: 100%;#}
+        }
+
+    </style>
+
+{% extends 'dashboard.html' %}
+{#{%  load static %}#}
+{% block title %}Visual Map original{% endblock %}
+{% block page_head %}Visual Map original{% endblock %}
+
+{% block test %}
+
+<h2>Major Risk Indicators - Country Footprint in {{ type }}</h2>
+
+    <form method="POST" action={% url 'risk_evidence.views.visual_map_original' %}>
+        {% csrf_token %}
+        <input name="selected" value="na" hidden="true"/>
+        <button type="submit" class="btn btn-default" name="btn1">Overall</button>
+        <button type="submit" class="btn btn-default" name="btn2">Footwear</button>
+        <button type="submit" class="btn btn-default" name="btn3">Apparel</button>
+    </form>
+
+<div class="row">
+    <div id="test2" >
+        <svg></svg>
+    </div>
+{#    <div id="test2">#}
+{#        <svg></svg>#}
+{#    </div>#}
+</div>
+
+<script type="text/javascript">
+    drawChart('test2', {{ data_scatterchart_container_2|safe }});
+{#    drawChart('test2', {{ data_scatterchart_container|safe }});#}
+
+    // register our custom symbols to nvd3
+    // make sure your path is valid given any size because size scales if the chart scales.
+    function drawChart(div, data) {
+        nv.utils.symbolMap.set('thin-x', function (size) {
+            size = Math.sqrt(size);
+            return 'M' + (-size / 2) + ',' + (-size / 2) +
+                    'l' + size + ',' + size +
+                    'm0,' + -(size) +
+                    'l' + (-size) + ',' + size;
+        });
+        json_data = data;
+
+        var chart;
+        nv.addGraph(function () {
+            chart = nv.models.scatterChart()
+                    .showDistX(true)
+                    .showDistY(true)
+                    .useVoronoi(true)
+                    .color(d3.scale.category10().range())
+                    .duration(300)
+            ;
+            chart.margin({top: 45})
+            chart.dispatch.on('renderEnd', function () {
+                console.log('render complete');
+            });
+            chart.xAxis
+                    .axisLabel("Supply Chain Impact");     //Set X-axis attributes
+
+            chart.yAxis
+                    .axisLabel("Probability");
+            chart.xAxis.tickFormat(d3.format('.02f'));
+            chart.yAxis.tickFormat(d3.format('.02f'));
+
+            d3.select('#' + div + ' svg')
+                    .datum(json_data)
+                    .call(chart);
+
+            d3.select('#' + div + ' svg')
+                    .append('line')
+                    .attr({
+                        x1: x(6),
+                        y1: chart.yAxis.scale()(0.5) + 400,
+                        x2: x(6),
+                        y2: chart.yAxis.scale()(0.5) + 44
+                    }
+            )
+                    .style("stroke", "#000");
+
+{#            d3.select('#' + div + ' svg')#}
+{#                    .append('line')#}
+{#                    .attr('x1',x(0))#}
+{#                    .attr('x2',x(5))#}
+{#                    .attr('y1',y(0))#}
+{#                    .attr('y2',y(0.5))#}
+{#                    .style("stroke", "#0f0");#}
+
+            nv.utils.windowResize(chart.update);
+
+            chart.dispatch.on('stateChange', function (e) {
+                ('New State:', JSON.stringify(e));
+            });
+            chart.append('line')
+            .attr('x1',x(0))
+            .attr('x2',x(10))
+            .attr('y1',y(0))
+            .attr('y2',y(0.5))
+
+            return chart;
+        });
+
+    }
+{#    function drawVerticalLines(opts) {#}
+{##}
+{#  // CAREFUL HERE !!! the css pasth ".nvd3 .nv-focus .nv-linesWrap" depends on the type of chart you are using, lineChart would use only ".nvd3 .nv-linesWrap" ... !#}
+{#  if (!(d3.select('#' + opts.id + ' the css pasth ".nvd3 .nv-focus .nv" depends on the type of chart you are using, lineChart would use only -linesWrap').select('.vertical-lines')[0][0])) {#}
+{#    // Adds new g element with .vertical-lines class; use a css debugger to verify#}
+{#    d3.select('#' + opts.id + ' .nvd3 .nv-focus .nv-linesWrap').append('g')#}
+{#      .attr('class', 'vertical-lines')#}
+{#  }#}
+{##}
+{#  vertLines = d3.select('#' + opts.id + ' .nvd3 .nv-focus .nv-linesWrap').select('.vertical-lines').selectAll('.vertical-line')#}
+{#    .data(#}
+{#      [{#}
+{#        'date': new Date('1967-11-30'),#}
+{#        'label': 'something to highlight 1967'#}
+{#      }, {#}
+{#        'date': new Date('2001-11-30'),#}
+{#        'label': 'something to highlight 2001'#}
+{#      }])#}
+{##}
+{#  var vertG = vertLines.enter()#}
+{#    .append('g')#}
+{#    .attr('class', 'vertical-line')#}
+{##}
+{#  vertG.append('svg:line')#}
+{#  vertG.append('text')#}
+{##}
+{#  vertLines.exit().remove()#}
+{##}
+{#  // CAREFUL 2 : chart.xAxis.scale() scale depends how you are defining your x Axis in nvd3 chart ... if your are using timestamps, (d.date / 60 / 60 / 24 / 1000) becomes (d.date)#}
+{##}
+{#  vertLines.selectAll('line')#}
+{#    .attr('x1', function(d) {#}
+{#      return chart.xAxis.scale()(d.date / 60 / 60 / 24 / 1000)#}
+{#    })#}
+{#    .attr('x2', function(d) {#}
+{#      return chart.xAxis.scale()(d.date / 60 / 60 / 24 / 1000)#}
+{#    })#}
+{#    .attr('y1', chart.yAxis.scale().range()[0])#}
+{#    .attr('y2', chart.yAxis.scale().range()[1])#}
+{#    .style('stroke', 'red')#}
+{##}
+{#  vertLines.selectAll('text')#}
+{#    .text(function(d) {#}
+{#      return d.label#}
+{#    })#}
+{#    .attr('dy', '1em')#}
+{#    //x placement ; change dy above for minor adjustments but mainly#}
+{#    //    change the d.date/60/60/24/1000#}
+{#    //y placement ; change 2 to where you want vertical placement#}
+{#    //rotate -90 but feel free to change to what you would like#}
+{#    .attr('transform', function(d) {#}
+{#      return 'translate(' +#}
+{#        chart.xAxis.scale()(d.date / 60 / 60 / 24 / 1000) +#}
+{#        ',' +#}
+{#        chart.yAxis.scale()(2) +#}
+{#        ') rotate(-90)'#}
+{#    })#}
+{#    //also you can style however you would like#}
+{#    //here is an example changing the font size#}
+{#    .style('font-size', '80%')}#}
+
+</script>
+
+{% endblock %}

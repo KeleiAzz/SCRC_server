@@ -172,9 +172,7 @@ def overview(request):
 @login_required(login_url='/risk_evidence/login')
 def visual_map(request):
     sci_overview = get_overview("SCI")
-    # For probability
     probability_overview = get_overview('P')
-
     brief = Hypothesis.objects.filter(category="SCI").values("brief").order_by('num')
 
     hypothesis_brief = {}
@@ -182,14 +180,13 @@ def visual_map(request):
         hypothesis_brief['h%d' % (i+1)] = brief[i]
 
     country_list = [x[0] for x in Evidence.objects.values_list('country').distinct()]
-    footwear_data = []
 
     footwear_workers_by_country, footwear_workers_total = get_workers_num('FOOTWEAR')
-
-    apparel_data = []
-
     apparel_workers_by_country, apparel_workers_total = get_workers_num('APPAREL')
+
     data = []
+    footwear_data = []
+    apparel_data = []
     for country in country_list:
         v = []
         f_v = []
@@ -198,33 +195,22 @@ def visual_map(request):
         for x in range(23):
             h = 'h%d' % (x+1)
             # if probability_overview[country][x] > 0.01 and sci_overview[country][x] >= 0:
-            if footwear_workers_by_country[country] > 0:
+            if footwear_workers_by_country[country] > 0 and request.method == 'POST' and 'btn2' in request.POST:
                 f_v.append({"y": probability_overview[country][x],
                             "x": sci_overview[country][x] * footwear_workers_by_country[country] / footwear_workers_total,
                             "shape": "circle", "size": random.random(), 'tooltip': h + ' - ' + hypothesis_brief[h]['brief']})
-
-            a_v.append({"y": probability_overview[country][x],
-                        "x": sci_overview[country][x] * apparel_workers_by_country[country] / apparel_workers_total,
-                        "shape": "circle", "size": random.random(), 'tooltip': h + ' - ' + hypothesis_brief[h]['brief']})
-
-            if (probability_overview[country][x], sci_overview[country][x]) not in no_overlap.keys():
-                no_overlap[(probability_overview[country][x], sci_overview[country][x])] = [h + ' - ' + hypothesis_brief[h]['brief']]
+            elif request.method == 'POST' and 'btn3' in request.POST:
+                a_v.append({"y": probability_overview[country][x],
+                            "x": sci_overview[country][x] * apparel_workers_by_country[country] / apparel_workers_total,
+                            "shape": "circle", "size": random.random(), 'tooltip': h + ' - ' + hypothesis_brief[h]['brief']})
             else:
-                no_overlap[(probability_overview[country][x], sci_overview[country][x])].append(h + ' - ' + hypothesis_brief[h]['brief'])
+                if (probability_overview[country][x], sci_overview[country][x]) not in no_overlap.keys():
+                    no_overlap[(probability_overview[country][x], sci_overview[country][x])] = [h + ' - ' + hypothesis_brief[h]['brief']]
+                else:
+                    no_overlap[(probability_overview[country][x], sci_overview[country][x])].append(h + ' - ' + hypothesis_brief[h]['brief'])
 
-        for key, value in no_overlap.iteritems():
-            v.append({"y": key[0], "x": key[1], "shape": "circle", "size": random.random(), 'tooltip': ','.join(value)})
-
-        data.append(
-                    {
-                        'yAxis': 1,
-                        'key': country,
-                        'values': v,
-                        'slope': 0.000000001,
-                        'intercept': .5,
-                    }
-        )
-        footwear_data.append(
+        if request.method == 'POST' and 'btn2' in request.POST:
+            footwear_data.append(
                     {
                         'yAxis': 1,
                         'key': country,
@@ -232,33 +218,122 @@ def visual_map(request):
                         'slope': 0.000000001,
                         'intercept': .5,
                     }
-        )
-        apparel_data.append(
-                    {
+            )
+
+        elif request.method == 'POST' and 'btn3' in request.POST:
+            apparel_data.append({
                         'yAxis': 1,
                         'key': country,
                         'values': a_v,
                         'slope': 0.000000001,
                         'intercept': .5,
-                    }
-        )
-    # data.append({
-    #                     'yAxis': 1,
-    #                     'key': 'test',
-    #                     'values': [],
-    #                     'slope': 2,
-    #                     'intercept': .5,
-    #                 })
+                    })
+
+        else:
+            for key, value in no_overlap.iteritems():
+                v.append({"y": key[0], "x": key[1], "shape": "circle", "size": random.random(), 'tooltip': ','.join(value)})
+
+            data.append({
+                            'yAxis': 1,
+                            'key': country,
+                            'values': v,
+                            'slope': 0.000000001,
+                            'intercept': .5,
+            })
 
     if request.method == 'POST':
         if 'btn1' in request.POST:
             return render(request, 'visual_map.html', {'data_scatterchart_container': json.dumps(data), 'type': 'Overall'})
-        if 'btn2' in request.POST:
+        elif 'btn2' in request.POST:
             return render(request, 'visual_map.html', {'data_scatterchart_container': json.dumps(footwear_data), 'type': 'Footwear'})
-        if 'btn3' in request.POST:
+        elif 'btn3' in request.POST:
             return render(request, 'visual_map.html', {'data_scatterchart_container': json.dumps(apparel_data), 'type': 'Apparel'})
 
     return render(request, 'visual_map.html', {'data_scatterchart_container': json.dumps(data), 'type': 'Overall'})
+
+
+@login_required(login_url='/risk_evidence/login')
+def visual_map_original(request):
+    sci_overview = get_overview("SCI", original=True)
+    probability_overview = get_overview('P', original=True)
+    brief = Hypothesis.objects.filter(category="SCI").values("brief").order_by('num')
+
+    hypothesis_brief = {}
+    for i in range(23):
+        hypothesis_brief['h%d' % (i+1)] = brief[i]
+
+    country_list = [x[0] for x in Evidence.objects.values_list('country').distinct()]
+
+    footwear_workers_by_country, footwear_workers_total = get_workers_num('FOOTWEAR')
+    apparel_workers_by_country, apparel_workers_total = get_workers_num('APPAREL')
+
+    data = []
+    footwear_data = []
+    apparel_data = []
+    for country in country_list:
+        v = []
+        f_v = []
+        a_v = []
+        no_overlap = {}
+        for x in range(23):
+            h = 'h%d' % (x+1)
+            # if probability_overview[country][x] > 0.01 and sci_overview[country][x] >= 0:
+            if footwear_workers_by_country[country] > 0 and request.method == 'POST' and 'btn2' in request.POST:
+                f_v.append({"y": probability_overview[country][x],
+                            "x": sci_overview[country][x] * footwear_workers_by_country[country] / footwear_workers_total,
+                            "shape": "circle", "size": random.random(), 'tooltip': h + ' - ' + hypothesis_brief[h]['brief']})
+            elif request.method == 'POST' and 'btn3' in request.POST:
+                a_v.append({"y": probability_overview[country][x],
+                            "x": sci_overview[country][x] * apparel_workers_by_country[country] / apparel_workers_total,
+                            "shape": "circle", "size": random.random(), 'tooltip': h + ' - ' + hypothesis_brief[h]['brief']})
+            else:
+                if (probability_overview[country][x], sci_overview[country][x]) not in no_overlap.keys():
+                    no_overlap[(probability_overview[country][x], sci_overview[country][x])] = [h + ' - ' + hypothesis_brief[h]['brief']]
+                else:
+                    no_overlap[(probability_overview[country][x], sci_overview[country][x])].append(h + ' - ' + hypothesis_brief[h]['brief'])
+
+        if request.method == 'POST' and 'btn2' in request.POST:
+            footwear_data.append(
+                    {
+                        'yAxis': 1,
+                        'key': country,
+                        'values': f_v,
+                        'slope': 0.000000001,
+                        'intercept': .5,
+                    }
+            )
+
+        elif request.method == 'POST' and 'btn3' in request.POST:
+            apparel_data.append({
+                        'yAxis': 1,
+                        'key': country,
+                        'values': a_v,
+                        'slope': 0.000000001,
+                        'intercept': .5,
+                    })
+
+        else:
+            for key, value in no_overlap.iteritems():
+                v.append({"y": key[0], "x": key[1], "shape": "circle", "size": random.random(), 'tooltip': ','.join(value)})
+
+            data.append({
+                            'yAxis': 1,
+                            'key': country,
+                            'values': v,
+                            'slope': 0.000000001,
+                            'intercept': .5,
+            })
+
+    if request.method == 'POST':
+        if 'btn1' in request.POST:
+            return render(request, 'visual_map_original.html', {'data_scatterchart_container_2': json.dumps(data), 'type': 'Overall'})
+        elif 'btn2' in request.POST:
+            return render(request, 'visual_map_original.html', {'data_scatterchart_container_2': json.dumps(footwear_data), 'type': 'Footwear'})
+        elif 'btn3' in request.POST:
+            return render(request, 'visual_map_original.html', {'data_scatterchart_container_2': json.dumps(apparel_data), 'type': 'Apparel'})
+
+    return render(request, 'visual_map_original.html', {'data_scatterchart_container_2': json.dumps(data), 'type': 'Overall'})
+
 
 
 @login_required(login_url='/risk_evidence/login')
