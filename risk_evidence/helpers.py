@@ -21,7 +21,8 @@ def get_num_scales(category):
 
     return credibility, relevance, letter_scale
 
-def get_overview(category):
+
+def get_overview(category, original=False):
     country_list = [x[0] for x in Evidence.objects.values_list('country').distinct()]
     hypothesis = []
     overview = {}
@@ -44,8 +45,11 @@ def get_overview(category):
                     else:
                         score += letter_scale[getattr(e, h)] * credibility[e.credibility.capitalize()] * relevance[e.relevance.capitalize()]
                         denominator += credibility[e.credibility.capitalize()] * relevance[e.relevance.capitalize()]
-                if denominator:
-                    overview[country].append(round(score / denominator, 3))
+                if not original:
+                    if denominator == 0:
+                        overview[country].append(round(score, 3))
+                    else:
+                        overview[country].append(round(score / denominator, 3))
                 else:
                     overview[country].append(round(score, 3))
     else:
