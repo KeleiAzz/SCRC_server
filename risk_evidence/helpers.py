@@ -37,12 +37,17 @@ def get_overview(category):
             for h in hypothesis:
                 evidences = Evidence.objects.filter(country_id=country, category=category)
                 score = 0
+                denominator = 0
                 for e in evidences:
                     if getattr(e, h) == 'NA':
                         pass
                     else:
                         score += letter_scale[getattr(e, h)] * credibility[e.credibility.capitalize()] * relevance[e.relevance.capitalize()]
-                overview[country].append(round(score, 3))
+                        denominator += credibility[e.credibility.capitalize()] * relevance[e.relevance.capitalize()]
+                if denominator:
+                    overview[country].append(round(score / denominator, 3))
+                else:
+                    overview[country].append(round(score, 3))
     else:
         credibility, relevance, letter_scale = get_num_scales('P')
         evidences_count = {}
@@ -53,9 +58,11 @@ def get_overview(category):
                 evidences_count[country].append(0)
                 evidences = Evidence.objects.filter(country_id=country, category='P')
                 score = 0
+                denominator = 0
                 for e in evidences:
                     if getattr(e, h) == 'C C' or getattr(e, h) == 'C':
                         score += letter_scale[getattr(e, h)] * credibility[e.credibility.capitalize()] * relevance[e.relevance.capitalize()]
+                        # denominator += credibility[e.credibility.capitalize()] * relevance[e.relevance.capitalize()]
                     if getattr(e, h) != 'NA':
                         evidences_count[country][-1] += 1
                 overview[country].append(score)
