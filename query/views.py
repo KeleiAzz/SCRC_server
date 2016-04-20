@@ -84,7 +84,7 @@ def company_secondary(request, id):
         data.append(secondary_data(year, SRM, LHR, ES))
     # sections = ['SRM Evaluation', 'LHR Evaluation', 'Environmental Sustainability Evaluation']
     # for row in secondary:
-    if years == 0:
+    if len(years) == 0:
         return render(request, 'secondary.html', {'no_data': 1, 'company': company.name})
     # SRM = []
     return render(request, 'secondary.html', {"data": data, 'company': company.name})
