@@ -4,52 +4,56 @@
 {% block page_head %}Basic Search{% endblock page_head %}
 {% block test %}
 
-<html>
+    <html>
     <head>
         <title>SCRC query system</title>
     </head>
     <body>
-        <form method="POST">
-            {% csrf_token %}
-            <input name="company_name" id="id_search_company" placeholder="Enter a company name" />
-            <input type="radio" name="choice" id="choice_1" value="1" checked="checked"/>
-            <label for="choice_1">By name</label>
-            <input type="radio" name="choice" id="choice_2" value="2" />
-            <label for="choice_2">By ticker</label>
-            <input type="radio" name="choice" id="choice_3" value="3" />
-            <label for="choice_3">By industry</label>
-            <br><br>
-            <button type="submit" class="btn btn-default">Search</button>
-        </form>
-        <br>
-    <div class="panel-group">
-        <div class="panel panel-default">
-            {% for industry, companies in grouped_companyies.items|sort %}
-            <div class="panel-heading" id="panel-heading{{ forloop.counter|add:100 }}">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" href="#collapse{{ forloop.counter|add:100 }}">{{ industry }}</a>
-                </h4>
+    <form method="POST">
+        {% csrf_token %}
+        <input name="company_name" id="id_search_company" placeholder="Enter a company name" />
+        <input type="radio" name="choice" id="choice_1" value="1" checked="checked"/>
+        <label for="choice_1">By name</label>
+        <input type="radio" name="choice" id="choice_2" value="2" />
+        <label for="choice_2">By ticker</label>
+        <input type="radio" name="choice" id="choice_3" value="3" />
+        <label for="choice_3">By industry</label>
+        <br><br>
+        <button type="submit" class="btn btn-default">Search</button>
+    </form>
+    <br>
+    {% if not_found == 1 %}
+        <h3>Company not found</h3>
+    {% else %}
+        <div class="panel-group">
+            <div class="panel panel-default">
+                {% for industry, companies in grouped_companyies.items|sort %}
+                    <div class="panel-heading" id="panel-heading{{ forloop.counter|add:100 }}">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" href="#collapse{{ forloop.counter|add:100 }}">{{ industry }}</a>
+                        </h4>
+                    </div>
+                    <div id="collapse{{ forloop.counter|add:100 }}" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <table class="table" id="collapse-table">
+                                {% for company in companies %}
+                                    <tr>
+                                        <td><a href={% url 'query.views.company_details' company.name %}>{{ company.name }}</a></td>
+                                        {#                            <td>{{ h.1 }}</td>#}
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                        {#                <div class="panel-footer">Panel Footer</div>#}
+                    </div>
+                {% endfor %}
             </div>
-            <div id="collapse{{ forloop.counter|add:100 }}" class="panel-collapse collapse">
-                <div class="panel-body">
-                <table class="table" id="collapse-table">
-                    {% for company in companies %}
-                        <tr>
-                            <td><a href={% url 'query.views.company_details' company.name %}>{{ company.name }}</a></td>
-{#                            <td>{{ h.1 }}</td>#}
-                        </tr>
-                    {% endfor %}
-                </table>
-                </div>
-{#                <div class="panel-footer">Panel Footer</div>#}
-            </div>
-            {% endfor %}
         </div>
-    </div>
+    {% endif %}
     </body>
     <br>
     <footer>
         <a href={% url "query.views.home_page" %}> Home </a>
     </footer>
-</html>
+    </html>
 {% endblock test %}
