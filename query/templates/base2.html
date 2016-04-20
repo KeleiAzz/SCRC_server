@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
-{#    <meta http-equiv="X-UA-Compatible" content="IE=edge">#}
+    {#    <meta http-equiv="X-UA-Compatible" content="IE=edge">#}
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
@@ -20,62 +20,70 @@
     <script type="text/javascript" src="/static/jquery.multiple.select.js"></script>
     <link href="/static/multiple-select.css" rel="stylesheet" type="text/css"/>
     <title>{% block title %}{% endblock %}</title>
-  </head>
+</head>
 
-  <body>
+<body>
 
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid">
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="/query" style="font-size: 30pt">SCRC query system</a>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/query" style="font-size: 30pt">SCRC query system</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href=#>Settings</a></li>
-            {% if user.is_authenticated %}
-                <li><a href="/query/logout/">Logout</a></li>
-            {% else %}
-                <li><a href="/query/login/">Login</a></li>
-            {% endif %}
-          </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href=#>Settings</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="/query/logout/">Logout</a></li>
+                {% else %}
+                    <li><a href="/query/login/">Login</a></li>
+                {% endif %}
+            </ul>
         </div>
-      </div>
-    </nav>
+    </div>
+</nav>
 
-    <div class="container-fluid">
-      <div class="row">
+<div class="container-fluid">
+    <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
-          <ul class="nav nav-sidebar">
-            <li><a href={% url 'query.views.home_page' %}>Home<span class="sr-only">(current)</span></a></li>
-            <li><a href={% url 'query.views.basic_search' %}>Basic Search</a></li>
-            <li><a href={% url 'query.views.advanced_search' %}>Advanced Search</a></li>
-{#              <li><a href=#>Visual Maps</a></li>#}
-{#              <li><a href=#>Hypothesis List</a></li>#}
-{#              <li><a href=#>Add Evidence</a></li>#}
-          </ul>
+            <ul class="nav nav-sidebar">
+                <li><a href={% url 'query.views.home_page' %}>Home<span class="sr-only">(current)</span></a></li>
+                <li><a href={% url 'query.views.basic_search' %}>Basic Search</a></li>
+                <li><a href={% url 'query.views.advanced_search' %}>Advanced Search</a></li>
+                {#              <li><a href=#>Visual Maps</a></li>#}
+                {#              <li><a href=#>Hypothesis List</a></li>#}
+                {#              <li><a href=#>Add Evidence</a></li>#}
+            </ul>
+            <ul id="bottom_sidebar_button" class="nav nav-sidebar">
+                <li><a href="/risk_evidence">Risk Analysis site</a></li>
+            </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">{% block page_head %}{% endblock %}</h1>
+            <h1 class="page-header">{% block page_head %}{% endblock %}</h1>
 
             {% block test %}
             {% endblock %}
         </div>
-      </div>
     </div>
+</div>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
 
-    <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
 
 {#    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.js"></script>#}
 {#    <script type="text/javascript" src="/static/risk_evidence.js"></script>#}
-  </body>
+</body>
+<footer>
+    <a  href="/query">SCRC query system</a>
+    <br>
+    <a  href="/risk_evidence">Risk Analysis page</a>
+</footer>
 </html>

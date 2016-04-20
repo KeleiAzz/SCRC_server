@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% extends 'base2.html' %}
+{% block test %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SCRC Home</title>
+</head>
+<body>
+    {% if user.is_authenticated %}
+        <h1>Hello {{ user.username }}!</h1>
+    {% endif %}
+{#    <h3>Choose where to go</h3>#}
+        <a  href="/query" style="font-size: 30pt">SCRC query system</a>
+        <br>
+        <a  href="/risk_evidence" style="font-size: 30pt">Risk Analysis page</a>
+</body>
+</html>
+{% endblock test %}

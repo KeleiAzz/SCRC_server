@@ -6,6 +6,7 @@ urlpatterns = patterns('',
                        # Examples:
                        # url(r'^$', 'SCRC_server.views.home', name='home'),
                        url(r'^$', 'risk_evidence.views.home', name='home'),
+                       url(r'home/', 'query.views.directory', name='directory'),
                        url(r'query/', include('query.urls')),
                        url(r'risk_evidence/', include('risk_evidence.urls')),
                        url(r'^admin/', include(admin.site.urls)),
