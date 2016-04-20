@@ -6,6 +6,7 @@ from django.views.generic.edit import FormView
 from query.forms import MultipleChoiceForm, CountryChoiceForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
+from collections import namedtuple
 
 # Create your views here.
 
@@ -71,18 +72,22 @@ def company_details(request, id):
 @login_required(login_url='/query/login')
 def company_secondary(request, id):
     company = Company.objects.get(name=id)
+    date = Secondary.objects.all().filter(company_id=company.id).values_list("date", flat=True).distinct()
+    years = sorted(list(map(lambda x: x.year, date)), reverse=True)
 
-    SRM = Secondary.objects.all().filter(company_id=company.id, section='SRM Evaluation')
-    LHR = Secondary.objects.all().filter(company_id=company.id, section='LHR Evaluation')
-    ES = Secondary.objects.all().filter(company_id=company.id, section='Environmental Sustainability Evaluation')
+    secondary_data = namedtuple("secondery", ["year","SRM", "LHR", "ES"])
+    data = []
+    for year in years:
+        SRM = Secondary.objects.all().filter(company_id=company.id, section='SRM Evaluation', date__year=year)
+        LHR = Secondary.objects.all().filter(company_id=company.id, section='LHR Evaluation', date__year=year)
+        ES = Secondary.objects.all().filter(company_id=company.id, section='Environmental Sustainability Evaluation', date__year=year)
+        data.append(secondary_data(year, SRM, LHR, ES))
     # sections = ['SRM Evaluation', 'LHR Evaluation', 'Environmental Sustainability Evaluation']
     # for row in secondary:
-    if len(SRM) + len(LHR) + len(ES) == 0:
+    if years == 0:
         return render(request, 'secondary.html', {'no_data': 1, 'company': company.name})
     # SRM = []
-
-
-    return render(request, 'secondary.html', {'SRM': SRM, 'LHR': LHR, 'ES': ES, 'company': company.name})
+    return render(request, 'secondary.html', {"data": data, 'company': company.name})
 
 @login_required(login_url='/query/login')
 def basic_search(request):
@@ -104,7 +109,8 @@ def basic_search(request):
     else:
         companies = Company.objects.filter(id__in=companies_with_rating).order_by('industry_group')
         # return render(request, 'basic_search.html')
-
+    if len(companies) == 0:
+        return render(request, 'basic_search.html', {'not_found': 1})
     industry = companies[0].industry_group
     grouped_companies = {industry: []}
     for company in companies:

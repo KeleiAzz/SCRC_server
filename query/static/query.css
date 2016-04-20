@@ -309,15 +309,15 @@ button#evidence_add.btn.btn-default {
 }
 
 
-#collapse1, #collapse3, #collapse5, #collapse7, #collapse9, #collapse11{
-    background-color: rgba(120, 178, 225, 0.71);
+/*#collapse1, #collapse3, #collapse5, #collapse7, #collapse9, #collapse11{*/
+    /*background-color: rgba(120, 178, 225, 0.71);*/
 
-}
+/*}*/
 
-#collapse2, #collapse4, #collapse6, #collapse8, #collapse10, #collapse12{
-    background-color: rgba(176, 228, 255, 0.71);
+/*#collapse2, #collapse4, #collapse6, #collapse8, #collapse10, #collapse12{*/
+    /*background-color: rgba(176, 228, 255, 0.71);*/
 
-}
+/*}*/
 
 #main-background{
     padding: 0px 0px 20px 0px;

@@ -1,3 +1,5 @@
+{% for secondary_data in data %}
+    <h3>{{ secondary_data.year }}</h3>
     <div class="panel-group">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -7,7 +9,7 @@
             </div>
             <div id="collapse1" class="panel-collapse collapse">
                 <div class="panel-body">
-                    {% for line in SRM %}
+                    {% for line in secondary_data.SRM %}
                     <b>{{ line.category }}</b>
 
                     {% if line.link == 'N/A' %}
@@ -29,7 +31,7 @@
             </div>
             <div id="collapse2" class="panel-collapse collapse">
                 <div class="panel-body">
-                    {% for line in LHR %}
+                    {% for line in secondary_data.LHR %}
                     <b>{{ line.category }}</b>
 {#                    <br>#}
                     {% if line.link == 'N/A' %}
@@ -51,7 +53,7 @@
             </div>
             <div id="collapse3" class="panel-collapse collapse">
                 <div class="panel-body">
-                    {% for line in ES %}
+                    {% for line in secondary_data.ES %}
                     <b>{{ line.category }}</b>
 {#                    <br>#}
                     {% if line.link == 'N/A' %}
@@ -68,3 +70,4 @@
 
         </div>
     </div>
+{% endfor %}
