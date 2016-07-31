@@ -67,7 +67,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'SCRCserver',
         'USER': 'root',
-        'PASSWORD': '1423',
+        'PASSWORD': 'scrc2016',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
     }
