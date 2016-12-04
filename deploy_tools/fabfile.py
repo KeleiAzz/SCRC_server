@@ -56,5 +56,5 @@ def _update_database(source_folder):
     run('cd %s && ../virtualenv/bin/python manage.py migrate --noinput' % (source_folder,))
 
 def _restart_gunicorn():
-    run('sudo restart gunicorn-scrc-query.noip.me')
+    run('sudo restart gunicorn-%s' % (env.host,))
 

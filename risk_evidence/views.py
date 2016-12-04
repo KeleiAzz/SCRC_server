@@ -194,20 +194,20 @@ def visual_map(request):
         no_overlap = {}
         for x in range(23):
             h = 'h%d' % (x+1)
-            # if probability_overview[country][x] > 0.01 and sci_overview[country][x] >= 0:
-            if footwear_workers_by_country[country] > 0 and request.method == 'POST' and 'btn2' in request.POST:
-                f_v.append({"y": probability_overview[country][x],
-                            "x": sci_overview[country][x] * footwear_workers_by_country[country] / footwear_workers_total,
-                            "shape": "circle", "size": random.random(), 'tooltip': h + ' - ' + hypothesis_brief[h]['brief']})
-            elif request.method == 'POST' and 'btn3' in request.POST:
-                a_v.append({"y": probability_overview[country][x],
-                            "x": sci_overview[country][x] * apparel_workers_by_country[country] / apparel_workers_total,
-                            "shape": "circle", "size": random.random(), 'tooltip': h + ' - ' + hypothesis_brief[h]['brief']})
-            else:
-                if (probability_overview[country][x], sci_overview[country][x]) not in no_overlap.keys():
-                    no_overlap[(probability_overview[country][x], sci_overview[country][x])] = [h + ' - ' + hypothesis_brief[h]['brief']]
+            if probability_overview[country][x] > 0.01 and sci_overview[country][x] >= 0:
+                if footwear_workers_by_country[country] > 0 and request.method == 'POST' and 'btn2' in request.POST:
+                    f_v.append({"y": probability_overview[country][x],
+                                "x": sci_overview[country][x] * footwear_workers_by_country[country] / footwear_workers_total,
+                                "shape": "circle", "size": random.random(), 'tooltip': h + ' - ' + hypothesis_brief[h]['brief']})
+                elif request.method == 'POST' and 'btn3' in request.POST:
+                    a_v.append({"y": probability_overview[country][x],
+                                "x": sci_overview[country][x] * apparel_workers_by_country[country] / apparel_workers_total,
+                                "shape": "circle", "size": random.random(), 'tooltip': h + ' - ' + hypothesis_brief[h]['brief']})
                 else:
-                    no_overlap[(probability_overview[country][x], sci_overview[country][x])].append(h + ' - ' + hypothesis_brief[h]['brief'])
+                    if (probability_overview[country][x], sci_overview[country][x]) not in no_overlap.keys():
+                        no_overlap[(probability_overview[country][x], sci_overview[country][x])] = [h + ' - ' + hypothesis_brief[h]['brief']]
+                    else:
+                        no_overlap[(probability_overview[country][x], sci_overview[country][x])].append(h + ' - ' + hypothesis_brief[h]['brief'])
 
         if request.method == 'POST' and 'btn2' in request.POST:
             footwear_data.append(
@@ -277,20 +277,20 @@ def visual_map_original(request):
         no_overlap = {}
         for x in range(23):
             h = 'h%d' % (x+1)
-            # if probability_overview[country][x] > 0.01 and sci_overview[country][x] >= 0:
-            if footwear_workers_by_country[country] > 0 and request.method == 'POST' and 'btn2' in request.POST:
-                f_v.append({"y": probability_overview[country][x],
-                            "x": sci_overview[country][x] * footwear_workers_by_country[country] / footwear_workers_total,
-                            "shape": "circle", "size": random.random(), 'tooltip': h + ' - ' + hypothesis_brief[h]['brief']})
-            elif request.method == 'POST' and 'btn3' in request.POST:
-                a_v.append({"y": probability_overview[country][x],
-                            "x": sci_overview[country][x] * apparel_workers_by_country[country] / apparel_workers_total,
-                            "shape": "circle", "size": random.random(), 'tooltip': h + ' - ' + hypothesis_brief[h]['brief']})
-            else:
-                if (probability_overview[country][x], sci_overview[country][x]) not in no_overlap.keys():
-                    no_overlap[(probability_overview[country][x], sci_overview[country][x])] = [h + ' - ' + hypothesis_brief[h]['brief']]
+            if probability_overview[country][x] > 0 and sci_overview[country][x] >= 0:
+                if footwear_workers_by_country[country] > 0 and request.method == 'POST' and 'btn2' in request.POST:
+                    f_v.append({"y": probability_overview[country][x],
+                                "x": sci_overview[country][x] * footwear_workers_by_country[country] / footwear_workers_total,
+                                "shape": "circle", "size": random.random(), 'tooltip': h + ' - ' + hypothesis_brief[h]['brief']})
+                elif request.method == 'POST' and 'btn3' in request.POST:
+                    a_v.append({"y": probability_overview[country][x],
+                                "x": sci_overview[country][x] * apparel_workers_by_country[country] / apparel_workers_total,
+                                "shape": "circle", "size": random.random(), 'tooltip': h + ' - ' + hypothesis_brief[h]['brief']})
                 else:
-                    no_overlap[(probability_overview[country][x], sci_overview[country][x])].append(h + ' - ' + hypothesis_brief[h]['brief'])
+                    if (probability_overview[country][x], sci_overview[country][x]) not in no_overlap.keys():
+                        no_overlap[(probability_overview[country][x], sci_overview[country][x])] = [h + ' - ' + hypothesis_brief[h]['brief']]
+                    else:
+                        no_overlap[(probability_overview[country][x], sci_overview[country][x])].append(h + ' - ' + hypothesis_brief[h]['brief'])
 
         if request.method == 'POST' and 'btn2' in request.POST:
             footwear_data.append(
